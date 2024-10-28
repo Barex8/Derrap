@@ -80,7 +80,7 @@ FOREIGN KEY (dni_cliente_vehiculo) REFERENCES cliente (dni_cliente)
 );
 
 CREATE TABLE cita (
-id_cita INT NOT NULL PRIMARY KEY,
+id_cita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 fecha_cita DATE NOT NULL,
 hora_cita TIME NOT NULL,
 matricula_vehiculo_cita VARCHAR(7) NOT NULL,
@@ -88,7 +88,7 @@ FOREIGN KEY (matricula_vehiculo_cita) REFERENCES vehiculo (matricula_vehiculo)
 );
 
 CREATE TABLE orden_trabajo (
-id_orden_trabajo INT NOT NULL PRIMARY KEY,
+id_orden_trabajo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 fecha_entrada_orden_trabajo DATE NOT NULL,
 fecha_salida_orden_trabajo DATE,
 descripcion_orden_trabajo VARCHAR(200),
@@ -106,7 +106,7 @@ FOREIGN KEY (dni_usuario_orden_trabajo) REFERENCES usuario (dni_usuario)
 );
 
 CREATE TABLE factura (
-id_factura INT NOT NULL PRIMARY KEY,
+id_factura INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 importe INT NOT NULL,
 mensualidad INT,
 id_tipo_pago_factura INT NOT NULL,
@@ -118,7 +118,7 @@ FOREIGN KEY (id_orden_trabajo) REFERENCES orden_trabajo (id_orden_trabajo)
 );
 
 CREATE TABLE orden_pieza (
-id_orden_pieza INT NOT NULL PRIMARY KEY,
+id_orden_pieza INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cantidad_orden_pieza INT NOT NULL,
 id_orden_trabajo_orden_pieza INT NOT NULL,
 oem_pieza_stock_orden_pieza INT NOT NULL,
@@ -127,7 +127,7 @@ FOREIGN KEY (oem_pieza_stock_orden_pieza) REFERENCES stock (oem_pieza_stock)
 );
 
 CREATE TABLE stock_proveedor (
-id_stock_proveedor INT NOT NULL PRIMARY KEY,
+id_stock_proveedor INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cantidad_stock_proveedor INT NOT NULL,
 cif_proveedor_stock_proveedor INT NOT NULL,
 oem_pieza_stock_stock_proveedor INT NOT NULL,
