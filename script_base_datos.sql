@@ -1,3 +1,23 @@
+/*
+DROP TABLE stock_proveedor;
+DROP TABLE orden_pieza;
+DROP TABLE cita;
+DROP TABLE factura;
+DROP TABLE metodo_pago;
+DROP TABLE tipo_pago;
+DROP TABLE factura;
+DROP TABLE proveedor;
+DROP TABLE stock;
+DROP TABLE orden_trabajo;
+DROP TABLE estado_asignacion;
+DROP TABLE estado_reparacion;
+DROP TABLE vehiculo;
+DROP TABLE servicio;
+DROP TABLE cliente;
+DROP TABLE usuario;
+DROP TABLE rol;
+*/
+
 CREATE TABLE cliente (
 dni_cliente VARCHAR(9) NOT NULL PRIMARY KEY,
 nombre_cliente VARCHAR(50) NOT NULL,
@@ -30,10 +50,10 @@ nombre_estado_asignacion VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE servicio (
-id_servicio INT NOT NULL PRIMARY KEY,
+id_servicio INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 nombre_servicio VARCHAR(50) NOT NULL,
 precio_servicio INT NOT NULL,
-estado_servicio VARCHAR(50) NOT NULL
+estado_alta_servicio VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE proveedor (
@@ -134,3 +154,52 @@ oem_pieza_stock_stock_proveedor INT NOT NULL,
 FOREIGN KEY (cif_proveedor_stock_proveedor) REFERENCES proveedor (cif_proveedor),
 FOREIGN KEY (oem_pieza_stock_stock_proveedor) REFERENCES stock (oem_pieza_stock)
 );
+
+INSERT INTO tipo_pago VALUES
+(1, 'PAGO ÚNICO'),
+(2, 'PAGO FRACCIONADO'),
+(3, 'PAGO MIXTO');
+
+INSERT INTO metodo_pago VALUES
+(1, 'EFECTIVO'),
+(2, 'TARJETA');
+
+INSERT INTO estado_reparacion VALUES
+(1, 'SIN COMENZAR'),
+(2, 'EN DIAGNÓSTICO'),
+(3, 'EN REPARACIÓN'),
+(4, 'FINALIZADA');
+
+INSERT INTO estado_asignacion VALUES
+(1, 'PENDIENTE'),
+(2, 'ASIGNADA');
+
+INSERT INTO servicio (nombre_servicio, precio_servicio, estado_alta_servicio) VALUES
+('MECÁNICA', 1, 'ALTA'),
+('DIAGNÓSTICO', 1, 'ALTA'),
+('PRE-ITV', 1, 'ALTA'),
+('FRENOS Y ABS', 1, 'ALTA'),
+('ACEITE Y FILTROS', 1, 'ALTA'),
+('NEUMÁTICOS', 1, 'ALTA'),
+('REVISIÓN OFICIAL', 1, 'ALTA'),
+('MATRÍCULAS', 1, 'ALTA'),
+('CHAPA Y PINTURA', 1, 'ALTA'),
+('EQUILIBRADO Y ALINEACIÓN', 1, 'ALTA'),
+('CLIMATIZACIÓN / AIRE ACONDICIONADO', 1, 'ALTA'),
+('ELECTRICIDAD / ELECTRÓNICA', 1, 'ALTA');
+
+INSERT INTO rol VALUES
+(1, 'ADMINISTRADOR'),
+(2, 'MECÁNICO');
+
+INSERT INTO usuario VALUES
+(90217112A
+dni_usuario VARCHAR(9) NOT NULL PRIMARY KEY,
+contraseña_usuario VARCHAR(50) NOT NULL,
+nombre_usuario VARCHAR(50) NOT NULL,
+correo_electronico_usuario VARCHAR(50) NOT NULL,
+telefono_usuario VARCHAR(9) NOT NULL,
+especialidad_usuario VARCHAR(50),
+estado_alta_usuario VARCHAR(50) NOT NULL,
+id_rol_usuario INT NOT NULL,
+FOREIGN KEY (id_rol_usuario) REFERENCES rol (id_rol)
