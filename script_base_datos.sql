@@ -19,11 +19,6 @@ id_metodo_pago INT NOT NULL PRIMARY KEY,
 nombre_metodoPago VARCHAR(50) NOT NULL
 );
 
-/*CREATE TABLE mensualidad (
-id_mensualidad INT NOT NULL PRIMARY KEY,
-cantidad_mensualidad INT NOT NULL
-); */
-
 CREATE TABLE estado_reparacion (
 id_estado_reparacion INT NOT NULL PRIMARY KEY,
 nombre_estado_reparacion VARCHAR(50) NOT NULL
