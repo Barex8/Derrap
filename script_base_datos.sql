@@ -50,7 +50,7 @@ nombre_estado_asignacion VARCHAR(50) NOT NULL
 
 CREATE TABLE servicio (
 id_servicio INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-nombre_servicio VARCHAR(50) NOT NULL,
+nombre_servicio VARCHAR(50) UNIQUE NOT NULL,
 precio_servicio INT NOT NULL,
 estado_alta_servicio VARCHAR(50) NOT NULL
 );
@@ -64,8 +64,8 @@ estado_proveedor VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE stock (
-oem_pieza_stock INT NOT NULL PRIMARY KEY,
-nombre_pieza_stock VARCHAR(50) NOT NULL,
+oem_pieza_stock VARCHAR(5) NOT NULL PRIMARY KEY,
+nombre_pieza_stock VARCHAR(50) UNIQUE NOT NULL,
 marca_pieza_stock VARCHAR(50) NOT NULL,
 cantidad_pieza_stock INT,
 precio_pieza_stock INT NOT NULL,
@@ -80,7 +80,7 @@ nombre_rol VARCHAR(50) NOT NULL
 CREATE TABLE usuario ( 
 dni_usuario VARCHAR(9) NOT NULL PRIMARY KEY,
 contraseña_usuario VARCHAR(50) NOT NULL,
-nombre_usuario VARCHAR(50) NOT NULL,
+nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
 correo_electronico_usuario VARCHAR(50) NOT NULL,
 telefono_usuario VARCHAR(9) NOT NULL,
 especialidad_usuario VARCHAR(50),
@@ -141,7 +141,7 @@ CREATE TABLE orden_pieza (
 id_orden_pieza INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cantidad_orden_pieza INT NOT NULL,
 id_orden_trabajo_orden_pieza INT NOT NULL,
-oem_pieza_stock_orden_pieza INT NOT NULL,
+oem_pieza_stock_orden_pieza VARCHAR(5) NOT NULL,
 FOREIGN KEY (id_orden_trabajo_orden_pieza) REFERENCES orden_trabajo (id_orden_trabajo),
 FOREIGN KEY (oem_pieza_stock_orden_pieza) REFERENCES stock (oem_pieza_stock)
 );
@@ -150,7 +150,7 @@ CREATE TABLE stock_proveedor (
 id_stock_proveedor INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cantidad_stock_proveedor INT NOT NULL,
 cif_proveedor_stock_proveedor VARCHAR(50) NOT NULL,
-oem_pieza_stock_stock_proveedor INT NOT NULL,
+oem_pieza_stock_stock_proveedor VARCHAR(5) NOT NULL,
 FOREIGN KEY (cif_proveedor_stock_proveedor) REFERENCES proveedor (cif_proveedor),
 FOREIGN KEY (oem_pieza_stock_stock_proveedor) REFERENCES stock (oem_pieza_stock)
 );
@@ -179,18 +179,18 @@ INSERT INTO estado_asignacion VALUES
 /* DELETE FROM estado_asignacion; */
 
 INSERT INTO servicio (nombre_servicio, precio_servicio, estado_alta_servicio) VALUES
-('MECÁNICA', 1, 'ALTA'),
-('DIAGNÓSTICO', 1, 'ALTA'),
-('PRE-ITV', 1, 'ALTA'),
-('FRENOS Y ABS', 1, 'ALTA'),
-('ACEITE Y FILTROS', 1, 'ALTA'),
-('NEUMÁTICOS', 1, 'ALTA'),
-('REVISIÓN OFICIAL', 1, 'ALTA'),
-('MATRÍCULAS', 1, 'ALTA'),
-('CHAPA Y PINTURA', 1, 'ALTA'),
-('EQUILIBRADO Y ALINEACIÓN', 1, 'ALTA'),
-('CLIMATIZACIÓN / AIRE ACONDICIONADO', 1, 'ALTA'),
-('ELECTRICIDAD / ELECTRÓNICA', 1, 'ALTA');
+('MECÁNICA', 200, 'ALTA'),
+('DIAGNÓSTICO', 70, 'ALTA'),
+('PRE-ITV', 50, 'ALTA'),
+('FRENOS Y ABS', 200, 'ALTA'),
+('ACEITE Y FILTROS', 80, 'ALTA'),
+('NEUMÁTICOS', 50, 'ALTA'),
+('REVISIÓN OFICIAL', 120, 'ALTA'),
+('MATRÍCULAS', 50, 'ALTA'),
+('CHAPA Y PINTURA', 200, 'ALTA'),
+('EQUILIBRADO Y ALINEACIÓN', 120, 'ALTA'),
+('CLIMATIZACIÓN / AIRE ACONDICIONADO', 120, 'ALTA'),
+('ELECTRICIDAD / ELECTRÓNICA', 250, 'ALTA');
 /* DELETE FROM servicio; */
 
 INSERT INTO rol VALUES
@@ -201,11 +201,11 @@ INSERT INTO rol VALUES
 INSERT INTO usuario VALUES
 /*hay que añadir especialidades a los 5 mecánicos, pero no sé aún qué poner*/
 ('90217112A', 'Admin1', 'ADMIN', 'admin@gmail.com', '609090909', null, 'ALTA', 1), 
-('47604707C', 'Contraseña1', 'MARCOS', 'marcos@gmail.com', '601010101', null, 'ALTA', 2),
-('11494234F', 'Contraseña2', 'JUAN', 'juan@gmail.com', '602020202', null, 'ALTA', 2),
-('19367406A', 'Contraseña3', 'PAULA', 'paula@gmail.com', '603030303', null, 'ALTA', 2),
-('82959165M', 'Contraseña4', 'CARMEN', 'carmen@gmail.com', '604040404', null, 'ALTA', 2),
-('31858579Z', 'Contraseña5', 'ALBERTO', 'alberto@gmail.com', '605050505', null, 'ALTA', 2);
+('47604707C', 'Contraseña1', 'MARCOS1', 'marcos1@gmail.com', '601010101', null, 'ALTA', 2),
+('11494234F', 'Contraseña2', 'JUAN1', 'juan1@gmail.com', '602020202', null, 'ALTA', 2),
+('19367406A', 'Contraseña3', 'PAULA1', 'paula1@gmail.com', '603030303', null, 'ALTA', 2),
+('82959165M', 'Contraseña4', 'CARMEN1', 'carmen1@gmail.com', '604040404', null, 'ALTA', 2),
+('31858579Z', 'Contraseña5', 'ALBERTO1', 'alberto1@gmail.com', '605050505', null, 'ALTA', 2);
 /* DELETE FROM usuario; */
 
 INSERT INTO cliente VALUES
@@ -225,6 +225,28 @@ INSERT INTO vehiculo VALUES
 
 INSERT INTO proveedor VALUES
 ('A82563289', 'RECAMBIOS MALAGA', 'recambiosmalaga@gmail.com', 'direccion1', 'ALTA'),
-('A84395136', 'AUTO-PINTURAS', 'auto-pinturas@gmail.com', 'direccion2', 'ALTA'),
-('A17766650', 'ELEC-AUTO', 'elec-auto@gmail.com', 'direccion2', 'ALTA');
+('A89233428', 'PIEZAS ANTEQUERAS', 'piezasantequera@gmail.com', 'direccion2', 'ALTA'),
+('A84395136', 'AUTO-PINTURAS', 'auto-pinturas@gmail.com', 'direccion3', 'ALTA'),
+('A17766650', 'ELEC-AUTO', 'elec-auto@gmail.com', 'direccion4', 'ALTA');
 
+/* NO ESTÁ INSERTADO */
+INSERT INTO stock VALUES
+('84857', 'TORNILLO 1', 'ATE', 200, 1, 'ALTA'),
+('47771', 'TORNILLO 2', 'ATE', 200, 2, 'ALTA'),
+('86450', 'TORNILLO 3', 'BOSCH', 50, 4, 'ALTA'),
+('72754', 'BOMBILLA 1', 'PHILIPS', 20, 10, 'ALTA'),
+('15976', 'EMBRAGUE 1', 'BOSCH', 1, 800, 'ALTA'),
+('70841', 'NEUMÁTICO 1', 'MICHELIN', 3, 100, 'ALTA'),
+('66900', 'NEUMÁTICO 2', 'MICHELIN', 0, 100, 'ALTA'),
+('45090', 'BUJÍA 1', 'ATE', 1, 15, 'ALTA'),
+('00207', 'CORREA DE DISTRIBUCIÓN 1', 'BOSCH', 0, 1000, 'ALTA'),
+('67110', 'EJE DE RUEDA 1', 'MICHELIN', 0, 120, 'ALTA'),
+('05912', 'FILTRO DE AIRE 1', 'HELLA', 5, 100, 'ALTA'),
+('28059', 'FILTRO DE ACEITE 1', 'HELLA', 10, 35, 'ALTA'),
+('39758', 'FILTRO DE ACEITE 2', 'HELLA', 0, 70, 'ALTA'),
+
+
+
+
+
+/* DELETE FROM proveedor; */
