@@ -5,7 +5,6 @@ DROP TABLE cita;
 DROP TABLE factura;
 DROP TABLE metodo_pago;
 DROP TABLE tipo_pago;
-DROP TABLE factura;
 DROP TABLE proveedor;
 DROP TABLE stock;
 DROP TABLE orden_trabajo;
@@ -57,7 +56,7 @@ estado_alta_servicio VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE proveedor (
-cif_proveedor INT NOT NULL PRIMARY KEY,
+cif_proveedor VARCHAR(9) NOT NULL PRIMARY KEY,
 nombre_proveedor VARCHAR(50) NOT NULL,
 correo_electronico_proveedor VARCHAR(50) NOT NULL,
 direccion_proveedor VARCHAR(50) NOT NULL,
@@ -93,6 +92,7 @@ FOREIGN KEY (id_rol_usuario) REFERENCES rol (id_rol)
 CREATE TABLE vehiculo (
 matricula_vehiculo VARCHAR(7) NOT NULL PRIMARY KEY,
 marca_vehiculo VARCHAR(50) NOT NULL,
+modelo_vehiculo VARCHAR(50) NOT NULL,
 año_vehiculo YEAR NOT NULL,
 color_vehiculo VARCHAR(50) NOT NULL,
 dni_cliente_vehiculo VARCHAR(9) NOT NULL,
@@ -149,7 +149,7 @@ FOREIGN KEY (oem_pieza_stock_orden_pieza) REFERENCES stock (oem_pieza_stock)
 CREATE TABLE stock_proveedor (
 id_stock_proveedor INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cantidad_stock_proveedor INT NOT NULL,
-cif_proveedor_stock_proveedor INT NOT NULL,
+cif_proveedor_stock_proveedor VARCHAR(50) NOT NULL,
 oem_pieza_stock_stock_proveedor INT NOT NULL,
 FOREIGN KEY (cif_proveedor_stock_proveedor) REFERENCES proveedor (cif_proveedor),
 FOREIGN KEY (oem_pieza_stock_stock_proveedor) REFERENCES stock (oem_pieza_stock)
@@ -159,20 +159,24 @@ INSERT INTO tipo_pago VALUES
 (1, 'PAGO ÚNICO'),
 (2, 'PAGO FRACCIONADO'),
 (3, 'PAGO MIXTO');
+/* DELETE FROM tipo_pago; */
 
 INSERT INTO metodo_pago VALUES
 (1, 'EFECTIVO'),
 (2, 'TARJETA');
+/* DELETE FROM metodo_pago; */
 
 INSERT INTO estado_reparacion VALUES
 (1, 'SIN COMENZAR'),
 (2, 'EN DIAGNÓSTICO'),
 (3, 'EN REPARACIÓN'),
 (4, 'FINALIZADA');
+/* DELETE FROM estado_reparacion; */
 
 INSERT INTO estado_asignacion VALUES
 (1, 'PENDIENTE'),
 (2, 'ASIGNADA');
+/* DELETE FROM estado_asignacion; */
 
 INSERT INTO servicio (nombre_servicio, precio_servicio, estado_alta_servicio) VALUES
 ('MECÁNICA', 1, 'ALTA'),
@@ -187,19 +191,40 @@ INSERT INTO servicio (nombre_servicio, precio_servicio, estado_alta_servicio) VA
 ('EQUILIBRADO Y ALINEACIÓN', 1, 'ALTA'),
 ('CLIMATIZACIÓN / AIRE ACONDICIONADO', 1, 'ALTA'),
 ('ELECTRICIDAD / ELECTRÓNICA', 1, 'ALTA');
+/* DELETE FROM servicio; */
 
 INSERT INTO rol VALUES
 (1, 'ADMINISTRADOR'),
 (2, 'MECÁNICO');
+/* DELETE FROM rol; */
 
 INSERT INTO usuario VALUES
-(90217112A
-dni_usuario VARCHAR(9) NOT NULL PRIMARY KEY,
-contraseña_usuario VARCHAR(50) NOT NULL,
-nombre_usuario VARCHAR(50) NOT NULL,
-correo_electronico_usuario VARCHAR(50) NOT NULL,
-telefono_usuario VARCHAR(9) NOT NULL,
-especialidad_usuario VARCHAR(50),
-estado_alta_usuario VARCHAR(50) NOT NULL,
-id_rol_usuario INT NOT NULL,
-FOREIGN KEY (id_rol_usuario) REFERENCES rol (id_rol)
+/*hay que añadir especialidades a los 5 mecánicos, pero no sé aún qué poner*/
+('90217112A', 'Admin1', 'ADMIN', 'admin@gmail.com', '609090909', null, 'ALTA', 1), 
+('47604707C', 'Contraseña1', 'MARCOS', 'marcos@gmail.com', '601010101', null, 'ALTA', 2),
+('11494234F', 'Contraseña2', 'JUAN', 'juan@gmail.com', '602020202', null, 'ALTA', 2),
+('19367406A', 'Contraseña3', 'PAULA', 'paula@gmail.com', '603030303', null, 'ALTA', 2),
+('82959165M', 'Contraseña4', 'CARMEN', 'carmen@gmail.com', '604040404', null, 'ALTA', 2),
+('31858579Z', 'Contraseña5', 'ALBERTO', 'alberto@gmail.com', '605050505', null, 'ALTA', 2);
+/* DELETE FROM usuario; */
+
+INSERT INTO cliente VALUES
+('03140345V', 'MIGUEL', 'PARIENTE', 'LÓPEZ', 'miguelpariente@gmail.com', '611111111', 'MÁLAGA', '29006'),
+('74444976W', 'MANUEL', 'FERNÁNDEZ', 'GARCÍA', 'manuelfernandez@gmail.com', '612121212', 'MÁLAGA', '29006'),
+('90493940A', 'CLARA', 'BALSAS', 'GÓMEZ', 'clarabalsas@gmail.com', '613131313', 'GRANADA', '18004'),
+('30163944L', 'SEBAS', 'RUÍZ', 'ROMERO', 'sebasruiz@gmail.com', '614141414', 'MÁLAGA', '29003');
+/* DELETE FROM cliente; */
+
+INSERT INTO vehiculo VALUES
+('1234GHI','SEAT','ALTEA', 2010, 'BLANCO', '03140345V'),
+('1234JNL','HYUNDAI','I10', 2015, 'VERDE', '74444976W'),
+('1234LLS','AUDI','Q5', 2019, 'NEGRO', '90493940A'),
+('1234KAB','HYUNDAI','I30', 2018, 'NEGRO', '90493940A'),
+('1234DLZ','OPEL','ZAFIRA', 2003, 'GRIS', '30163944L');
+/* DELETE FROM vehiculo; */
+
+INSERT INTO proveedor VALUES
+('A82563289', 'RECAMBIOS MALAGA', 'recambiosmalaga@gmail.com', 'direccion1', 'ALTA'),
+('A84395136', 'AUTO-PINTURAS', 'auto-pinturas@gmail.com', 'direccion2', 'ALTA'),
+('A17766650', 'ELEC-AUTO', 'elec-auto@gmail.com', 'direccion2', 'ALTA');
+
