@@ -75,7 +75,7 @@ public class login extends JFrame {
 					break;
 					//abre ventana mecanico
 					case 2:
-						System.out.println("Ventana mecanico");
+						System.out.println("Ventana mecanico Lo ha modificado Ale");
 					break;
 				}
 			}
