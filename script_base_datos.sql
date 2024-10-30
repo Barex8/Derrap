@@ -16,6 +16,24 @@ DROP TABLE cliente;
 DROP TABLE usuario;
 DROP TABLE rol;
 */
+/*
+SELECT* FROM stock_proveedor;
+SELECT* FROM orden_pieza;
+SELECT* FROM cita;
+SELECT* FROM factura;
+SELECT* FROM metodo_pago;
+SELECT* FROM tipo_pago;
+SELECT* FROM proveedor;
+SELECT* FROM stock;
+SELECT* FROM orden_trabajo;
+SELECT* FROM estado_asignacion;
+SELECT* FROM estado_reparacion;
+SELECT* FROM vehiculo;
+SELECT* FROM servicio;
+SELECT* FROM cliente;
+SELECT* FROM usuario;
+SELECT* FROM rol;
+*/
 
 CREATE TABLE cliente (
 dni_cliente VARCHAR(9) NOT NULL PRIMARY KEY,
@@ -201,11 +219,11 @@ INSERT INTO rol VALUES
 INSERT INTO usuario VALUES
 /*hay que añadir especialidades a los 5 mecánicos, pero no sé aún qué poner*/
 ('90217112A', 'Admin1', 'ADMIN', 'admin@gmail.com', '609090909', null, 'ALTA', 1), 
-('47604707C', 'Contraseña1', 'MARCOS1', 'marcos1@gmail.com', '601010101', null, 'ALTA', 2),
-('11494234F', 'Contraseña2', 'JUAN1', 'juan1@gmail.com', '602020202', null, 'ALTA', 2),
-('19367406A', 'Contraseña3', 'PAULA1', 'paula1@gmail.com', '603030303', null, 'ALTA', 2),
-('82959165M', 'Contraseña4', 'CARMEN1', 'carmen1@gmail.com', '604040404', null, 'ALTA', 2),
-('31858579Z', 'Contraseña5', 'ALBERTO1', 'alberto1@gmail.com', '605050505', null, 'ALTA', 2);
+('47604707C', 'Contraseña1', 'MARCOS1', 'marcos1@gmail.com', '601010101', 'MECÁNICA', 'ALTA', 2),
+('11494234F', 'Contraseña2', 'JUAN1', 'juan1@gmail.com', '602020202', 'MECÁNICA', 'ALTA', 2),
+('19367406A', 'Contraseña3', 'PAULA1', 'paula1@gmail.com', '603030303', 'ELECTRÓNICA', 'ALTA', 2),
+('82959165M', 'Contraseña4', 'CARMEN1', 'carmen1@gmail.com', '604040404', 'CHAPA Y PINTURA', 'ALTA', 2),
+('31858579Z', 'Contraseña5', 'ALBERTO1', 'alberto1@gmail.com', '605050505', 'NEUMÁTICA', 'ALTA', 2);
 /* DELETE FROM usuario; */
 
 INSERT INTO cliente VALUES
@@ -228,8 +246,8 @@ INSERT INTO proveedor VALUES
 ('A89233428', 'PIEZAS ANTEQUERAS', 'piezasantequera@gmail.com', 'direccion2', 'ALTA'),
 ('A84395136', 'AUTO-PINTURAS', 'auto-pinturas@gmail.com', 'direccion3', 'ALTA'),
 ('A17766650', 'ELEC-AUTO', 'elec-auto@gmail.com', 'direccion4', 'ALTA');
+/* DELETE FROM proveedor; */
 
-/* NO ESTÁ INSERTADO */
 INSERT INTO stock VALUES
 ('84857', 'TORNILLO 1', 'ATE', 200, 1, 'ALTA'),
 ('47771', 'TORNILLO 2', 'ATE', 200, 2, 'ALTA'),
@@ -249,15 +267,40 @@ INSERT INTO stock VALUES
 ('85373', 'LITROS ACEITE 2', 'HELLA', 50, 10, 'ALTA'),
 ('74410', 'LITROS ACEITE 3', 'HELLA', 0, 16, 'BAJA'),
 ('03732', 'AMORTIGUADOR 1', 'ATE', 0, 400, 'ALTA'),
-('03732', 'MOTOR 1', 'ATE', 0, 1500, 'ALTA'),
-('03732', 'MOTOR 2', 'ATE', 0, 1500, 'ALTA'),
-('03732', 'MOTOR 3', 'ATE', 0, 1500, 'ALTA'),
-('03732', 'MOTOR 4', 'ATE', 0, 1500, 'ALTA'),
+('12297', 'MOTOR 1', 'ATE', 0, 1500, 'ALTA'),
+('48158', 'MOTOR 2', 'ATE', 0, 1600, 'ALTA'),
+('25644', 'MOTOR 3', 'ATE', 0, 1650, 'BAJA'),
+('18579', 'MOTOR 4', 'ATE', 0, 2000, 'ALTA'),
+('44222', 'RODAMIENTOS 1', 'BOSCH', 3, 200, 'ALTA'),
+('30357', 'BATERIA 1', 'PHILIPS', 4, 300, 'ALTA'),
+('47616', 'BATERIA 2', 'PHILIPS', 4, 300, 'ALTA'),
+('34251', 'FUSIBLE 1', 'PHILIPS', 6, 50, 'ALTA'),
+('86863', 'FUSIBLE 2', 'PHILIPS', 7, 65, 'ALTA'),
+('98625', 'RADIADOR 1', 'PHILIPS', 2, 250, 'ALTA'),
+('86400', 'PARAGOLPES 1', 'HELLA', 0, 650, 'ALTA'),
+('59824', 'PARAGOLPES 2', 'HELLA', 0, 700, 'ALTA');
+/* DELETE FROM stock; */
 
+INSERT INTO cita (fecha_cita, hora_cita, matricula_vehiculo_cita) VALUES
+("2024-10-20", "10:00:00", '1234GHI'),
+("2024-10-22", "16:00:00", '1234JNL'),
+("2024-10-23", "10:00:00", '1234LLS'),
+("2024-10-23", "10:00:00", '1234KAB'),
+("2024-10-25", "16:00:00", '1234DLZ');
+/* DELETE FROM cita; */
 
+INSERT INTO orden_trabajo VALUES
+(1, "2024-10-20", "2024-10-20", 'HACER UN REPASO PRE-ITV', 'NO', 3, 2, 4, '1234GHI','47604707C'),
+(2, "2024-10-23", "2024-10-25", 'RUIDO EN DOS RUEDAS', 'NO', 10, 2, 4, '1234JNL','31858579Z'),
+(3, "2024-10-23", "2024-10-23", 'DIAGNÓSTICO BREVE', 'NO', 2, 2, 4, '1234LLS','11494234F'),
+(4, "2024-10-23", "2024-10-23", 'DIAGNÓSTICO BREVE', 'NO', 2, 2, 4, '1234KAB','11494234F'),
+(5, "2024-10-25", "2024-10-25", 'CAMBIO DE ACEITE, EL CLIENTE LO APORTA', 'NO', 5, 2, 4, '1234DLZ','82959165M');
+/* DELETE FROM orden_trabajo; */
 
-
-
-
-
-/* DELETE FROM proveedor; */
+INSERT INTO factura VALUES
+(1, 80, null, 1, 1, 1),
+(2, 180, null, 1, 1, 2),
+(3, 100, null, 1, 2, 3),
+(4, 100, null, 1, 2, 4),
+(5, 110, null, 1, 1, 5);
+/* DELETE FROM factura; */
