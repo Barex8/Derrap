@@ -72,15 +72,20 @@ public class login extends JFrame {
 					//abre ventana admin
 					case 1:
 						System.out.println("Ventana admin");
+						JF_home_admin frame_admin = new JF_home_admin();
+						frame_admin.setVisible(true);
 					break;
 					//abre ventana mecanico
 					case 2:
 						System.out.println("Ventana mecanico Lo ha modificado Ale");
+						frame.dispose();
+						JF_home_mecanico frame_mecanico = new JF_home_mecanico();
+						frame_mecanico.setVisible(true);
 					break;
 				}
 			}
 		});
-		btn_login_entrar.setBounds(415, 274, 63, 23);
+		btn_login_entrar.setBounds(392, 274, 86, 23);
 		contentPane.add(btn_login_entrar);
 		
 		JButton btnNewButton = new JButton("Cancelar");
