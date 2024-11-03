@@ -41,11 +41,11 @@ public class JF_home_mecanico extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mecanico");
-		lblNewLabel.setBounds(10, 11, 46, 14);
+		lblNewLabel.setBounds(10, 11, 110, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Ordenes asignadas");
-		lblNewLabel_1.setBounds(10, 36, 110, 14);
+		lblNewLabel_1.setBounds(10, 36, 147, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JPanel panel = new JPanel();

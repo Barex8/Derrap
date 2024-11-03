@@ -8,15 +8,16 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tf_login_user;
-	private JTextField tf_login_password;
 	ConectorDB_mysql conexion = new ConectorDB_mysql();
 	static login frame;
+	private JPasswordField tf_login_password;
 	/**
 	 * Launch the application.
 	 */
@@ -54,11 +55,6 @@ public class login extends JFrame {
 		lblNewLabel.setBounds(199, 41, 73, 14);
 		contentPane.add(lblNewLabel);
 		
-		tf_login_password = new JTextField();
-		tf_login_password.setBounds(199, 116, 86, 20);
-		contentPane.add(tf_login_password);
-		tf_login_password.setColumns(10);
-		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
 		lblNewLabel_1.setBounds(199, 91, 73, 14);
 		contentPane.add(lblNewLabel_1);
@@ -72,6 +68,7 @@ public class login extends JFrame {
 					//abre ventana admin
 					case 1:
 						System.out.println("Ventana admin");
+						frame.dispose();
 						JF_home_admin frame_admin = new JF_home_admin();
 						frame_admin.setVisible(true);
 					break;
@@ -96,5 +93,9 @@ public class login extends JFrame {
 		});
 		btnNewButton.setBounds(10, 274, 93, 23);
 		contentPane.add(btnNewButton);
+		
+		tf_login_password = new JPasswordField();
+		tf_login_password.setBounds(199, 116, 86, 23);
+		contentPane.add(tf_login_password);
 	}
 }
