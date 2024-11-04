@@ -66,6 +66,7 @@ public class login extends JFrame {
 				int rol = Integer.parseInt(rol1);
 				switch(rol) {
 					//abre ventana admin
+				//palo
 					case 1:
 						System.out.println("Ventana admin");
 						frame.dispose();
@@ -73,6 +74,7 @@ public class login extends JFrame {
 						frame_admin.setVisible(true);
 					break;
 					//abre ventana mecanico 2222
+					
 					case 2:
 						System.out.println("Ventana mecanico Lo ha modificado Ale");
 						frame.dispose();
