@@ -72,7 +72,8 @@ public class login extends JFrame {
 						JF_home_admin frame_admin = new JF_home_admin();
 						frame_admin.setVisible(true);
 					break;
-					//abre ventana mecanico
+					//abre ventana mecanico 1111
+					//Ale11111
 					case 2:
 						System.out.println("Ventana mecanico Lo ha modificado Ale");
 						frame.dispose();
