@@ -1,14 +1,21 @@
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class login extends JFrame {
 
@@ -18,6 +25,9 @@ public class login extends JFrame {
 	ConectorDB_mysql conexion = new ConectorDB_mysql();
 	static login frame;
 	private JPasswordField tf_login_password;
+	private Color azulFondo = Color.decode("#dff3f8");
+	private ImageIcon logoOriginal = new ImageIcon("//C:/Users/carlo/OneDrive/Documentos/GitHub/Prueba-Github/Derrap/src/logoGrandeAzul.png");
+	private ImageIcon logoBarra = new ImageIcon("/C:/Users/carlo/OneDrive/Documentos/GitHub/Prueba-Github/Derrap/src/logoDblanco.png");
 	/**
 	 * Launch the application.
 	 */
@@ -41,22 +51,60 @@ public class login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 347);
 		contentPane = new JPanel();
+		contentPane.setBackground(azulFondo);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		//con lo siguiente no permitimos modificar el tamaño de la ventana
+		setResizable(false);
+		//con lo siguiente hacemos que aparezca en el centro de la pantalla
+		setLocationRelativeTo(null);
+		//con lo siguiente añadimos el logo a la barra superior y a la aplicacion
+		setIconImage(logoBarra.getImage());
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//panel para contener el label con el logo
+		JPanel panel = new JPanel();
+		panel.setLocation(165, 32);
+		panel.setSize(150, 150);
+        panel.setLayout(new BorderLayout());
+        contentPane.add(panel);
+        
+        //este label es el que contendrá la imagen del logo. Lo coloco en el centro del borderlayout
+        JLabel labelLogo = new JLabel(logoOriginal);
+        panel.add(labelLogo, BorderLayout.CENTER);
+        
+        //listener que se activa cuando hay cambios de tamaño de componentes del panel
+        //asi conseguimos que la imagen se adapte al tamaño del label
+        contentPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                //cojo las medidas del label
+                int width = labelLogo.getWidth();
+                int height = labelLogo.getHeight();
+
+                //creo una imagen a partir del logo, y le cambio el tamaño
+                Image imagenLogo = logoOriginal.getImage();
+                Image imagenRedimensionada = imagenLogo.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+                // Meto la nueva imagen redimensionada en el label de nuevo
+                labelLogo.setIcon(new ImageIcon(imagenRedimensionada));
+            }
+        });
+		
 		tf_login_user = new JTextField();
-		tf_login_user.setBounds(199, 66, 86, 20);
+		tf_login_user.setBounds(120, 210, 86, 20);
 		contentPane.add(tf_login_user);
-		tf_login_user.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(199, 41, 73, 14);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(120, 193, 86, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setBounds(199, 91, 73, 14);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(272, 193, 86, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JButton btn_login_entrar = new JButton("Entrar");
@@ -96,7 +144,7 @@ public class login extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		tf_login_password = new JPasswordField();
-		tf_login_password.setBounds(199, 116, 86, 23);
+		tf_login_password.setBounds(272, 210, 86, 20);
 		contentPane.add(tf_login_password);
 	}
 }
