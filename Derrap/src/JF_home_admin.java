@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import java.awt.Color;
+import java.awt.Font;
 
 public class JF_home_admin extends JFrame {
 
@@ -41,7 +42,8 @@ public class JF_home_admin extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Admin");
-		lblNewLabel.setBounds(10, 11, 46, 14);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setBounds(10, 11, 138, 14);
 		contentPane.add(lblNewLabel);
 	}
 }
