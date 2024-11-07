@@ -27,7 +27,7 @@ public class login extends JFrame {
 	private JPasswordField tf_login_password;
 	private Color azulFondo = Color.decode("#dff3f8");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
-	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");a
+	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	/**
 	 * Launch the application.
 	 */
@@ -107,28 +107,44 @@ public class login extends JFrame {
 		lblNewLabel_1.setBounds(272, 193, 86, 14);
 		contentPane.add(lblNewLabel_1);
 		
+		JLabel lbl_error = new JLabel("New label");
+		lbl_error.setForeground(new Color(255, 0, 0));
+		lbl_error.setVisible(false);
+		lbl_error.setBounds(120, 244, 238, 14);
+		contentPane.add(lbl_error);
+		
 		JButton btn_login_entrar = new JButton("Entrar");
 		btn_login_entrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String rol1 = conexion.InicioSesion(tf_login_user.getText(), tf_login_password.getText());
-				int rol = Integer.parseInt(rol1);
-				switch(rol) {
-					//abre ventana admin
-					case 1:
-						System.out.println("Ventana admin");
-						frame.dispose();
-						JF_home_admin frame_admin = new JF_home_admin();
-						frame_admin.setVisible(true);
-					break;
-					//abre ventana mecanico 1111
-					//Ale11111
-					case 2:
-						System.out.println("Ventana mecanico Lo ha modificado Ale");
-						frame.dispose();
-						JF_home_mecanico frame_mecanico = new JF_home_mecanico();
-						frame_mecanico.setVisible(true);
-					break;
+				
+				String rol1 = conexion.InicioSesion(tf_login_user.getText(), tf_login_password.getText(),lbl_error);
+				if(rol1.equals("")) {
+					lbl_error.setText("Usuario y contraseña equivocados");
+					lbl_error.setVisible(true);
+				}else {
+					int rol = Integer.parseInt(rol1);
+					switch(rol) {
+						//abre ventana admin
+						case 1:
+							System.out.println("Ventana admin");
+							frame.dispose();
+							JF_home_admin frame_admin = new JF_home_admin();
+							frame_admin.setVisible(true);
+						break;
+						//abre ventana mecanico 1111
+						//Ale11111
+						case 2:
+							System.out.println("Ventana mecanico Lo ha modificado Ale");
+							frame.dispose();
+							JF_home_mecanico frame_mecanico = new JF_home_mecanico();
+							frame_mecanico.setVisible(true);
+						break;
+						default:
+							lbl_error.setText("Usuario y contraseña no válidos");
+							lbl_error.setVisible(true);
+					}
 				}
+				
 			}
 		});
 		btn_login_entrar.setBounds(392, 274, 86, 23);
@@ -146,5 +162,7 @@ public class login extends JFrame {
 		tf_login_password = new JPasswordField();
 		tf_login_password.setBounds(272, 210, 86, 20);
 		contentPane.add(tf_login_password);
+		
+		
 	}
 }

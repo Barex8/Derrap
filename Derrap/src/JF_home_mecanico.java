@@ -9,12 +9,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class JF_home_mecanico extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 
 	/**
 	 * Launch the application.
@@ -33,6 +35,7 @@ public class JF_home_mecanico extends JFrame {
 	}
 
 	public JF_home_mecanico() {
+		setIconImage(logoBarra.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1001, 949);
 		contentPane = new JPanel();

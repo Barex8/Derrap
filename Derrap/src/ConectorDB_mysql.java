@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+
 public class ConectorDB_mysql {
 	
 	private static final String CONTROLADOR ="com.mysql.jdbc.Driver";
@@ -33,16 +35,27 @@ public class ConectorDB_mysql {
 		return cn;
 	}
 	
-	public String InicioSesion(String user, String password) {
+	public String InicioSesion(String user, String password, JLabel lbl_error) {
 		String dato="";
 		this.conectar();
 		try {
+			/*if(user.equals("") && password.equals("")) {
+				lbl_error.setText("Introduzca usuario y contraseña");
+				lbl_error.setVisible(true);
+			}else{
+				if(user.equals("")) {
+					lbl_error.setText("Introduzca usuario");
+					lbl_error.setVisible(true);
+				}else
+				if(password.equals("")) {
+					lbl_error.setText("Introduzca contraseña");
+					lbl_error.setVisible(true);
+				}else{*/
 			stm=cn.createStatement();
 			resultado = stm.executeQuery("SELECT id_rol_usuario FROM usuario WHERE dni_usuario='"+user+"' AND contraseña_usuario='"+password+"';");
 			while(resultado.next()) {
 				dato = resultado.getString("id_rol_usuario");
 			}
-			
 			stm.close();
 			cn.close();
 		} catch (SQLException e) {
