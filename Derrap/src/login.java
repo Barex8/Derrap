@@ -27,7 +27,7 @@ public class login extends JFrame {
 	private JPasswordField tf_login_password;
 	private Color azulFondo = Color.decode("#dff3f8");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
-	private ImageIcon logoBarra = new ImageIcon("/C:/Users/carlo/OneDrive/Documentos/GitHub/Prueba-Github/Derrap/src/logoDblanco.png");
+	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");a
 	/**
 	 * Launch the application.
 	 */
