@@ -22,12 +22,13 @@ public class login extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tf_login_user;
-	ConectorDB_mysql conexion = new ConectorDB_mysql();
+	public static ConectorDB_mysql conexion = new ConectorDB_mysql();
 	static login frame;
 	private JPasswordField tf_login_password;
 	private Color azulFondo = Color.decode("#dff3f8");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
+	private static String dniusuario;
 	/**
 	 * Launch the application.
 	 */
@@ -122,6 +123,7 @@ public class login extends JFrame {
 					lbl_error.setText("Usuario y contraseña equivocados");
 					lbl_error.setVisible(true);
 				}else {
+					
 					int rol = Integer.parseInt(rol1);
 					switch(rol) {
 						//abre ventana admin
@@ -130,6 +132,7 @@ public class login extends JFrame {
 							frame.dispose();
 							JF_home_admin frame_admin = new JF_home_admin();
 							frame_admin.setVisible(true);
+							dniusuario=tf_login_user.getText();
 						break;
 						//abre ventana mecanico 1111
 						//Ale11111
@@ -138,6 +141,7 @@ public class login extends JFrame {
 							frame.dispose();
 							JF_home_mecanico frame_mecanico = new JF_home_mecanico();
 							frame_mecanico.setVisible(true);
+							dniusuario=tf_login_user.getText();
 						break;
 						default:
 							lbl_error.setText("Usuario y contraseña no válidos");
