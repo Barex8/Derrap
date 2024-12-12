@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JF_home_admin extends JFrame {
 
@@ -29,9 +32,7 @@ public class JF_home_admin extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public JF_home_admin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 691, 571);
@@ -43,7 +44,16 @@ public class JF_home_admin extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Admin");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel.setBounds(10, 11, 138, 14);
+		lblNewLabel.setBounds(10, 72, 138, 14);
 		contentPane.add(lblNewLabel);
+		
+		JButton Btn_AdministrarUsuarios = new JButton("Administrar usuarios");
+		Btn_AdministrarUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		Btn_AdministrarUsuarios.setBounds(10, 11, 212, 23);
+		contentPane.add(Btn_AdministrarUsuarios);
 	}
 }
