@@ -35,7 +35,7 @@ public class JF_home_mecanico extends JFrame {
 	}
 
 	public JF_home_mecanico() {
-		login.conexion.consulta(, getWarningString(), getName())
+		//login.conexion.consulta(, getWarningString(), getName())			/////Revisar esta linea
 		setIconImage(logoBarra.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1001, 949);

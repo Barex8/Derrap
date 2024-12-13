@@ -24,15 +24,21 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Clientes_Admin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -95,34 +101,36 @@ public class Clientes_Admin extends JFrame {
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
 		textField.setColumns(10);
-				
-		JPanel panel = new JPanel();
-		contentPane.add(panel, "8, 4, fill, fill");
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("300px"),
-				ColumnSpec.decode("100px"),},
-			new RowSpec[] {
-				RowSpec.decode("50px"),
-				RowSpec.decode("50px"),
-				RowSpec.decode("50px"),
-				RowSpec.decode("50px"),}));
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		panel.add(lblNewLabel, "1, 1, left, fill");
+		JScrollPane scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, "2, 4, 6, 2, fill, fill");
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			JPanel[] values = new JPanel[] {new JPanel(),null};
+		table = new JTable();
+		int numClientes = 2;
+		
+		Object[][] clientes = new Object[numClientes][5];
+		
+		//Foreach que rellene los clientes
+		
+		for(int i = 0; i <numClientes;i++) {
+			ResultSet consulta = login.conexion.consulta("*","cliente","");
+			int col = 1;
+			try {
+				while(consulta.next()) {
+					clientes[i][0]= consulta.getString("nombre_cliente");
+					col++;
+				}
+			}catch(Exception e) {  System.out.println(e.getLocalizedMessage());}
 			
-			public int getSize() {
-				
-				return values.length;
+		}
+		
+		
+		table.setModel(new DefaultTableModel(clientes,
+			new String[] {
+				"Nombre", "DNI", "Correo", "Teléfono", "Editar"
 			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		contentPane.add(list, "2, 4, 6, 2, fill, fill");
+		));
+		scrollPane.setViewportView(table);
 	
 	}
 	

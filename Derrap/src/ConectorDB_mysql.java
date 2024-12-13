@@ -65,13 +65,13 @@ public class ConectorDB_mysql {
 		return dato;
 	}
 	
-	public String consulta(String campo, String tabla, String where) {
+	public String consultaCampo(String campo, String tabla, String where) {
 		this.conectar();
 		String consulta="";
 		try {
 			stm=cn.createStatement();
 			;
-			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where);
+			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where+";");
 			while(resultado.next()) {
 				consulta = resultado.getString("id_rol_usuario");
 			}
@@ -82,4 +82,16 @@ public class ConectorDB_mysql {
 		return consulta;
 	}
 
+	public ResultSet consulta(String campo, String tabla, String where) {
+		this.conectar();
+		try {
+			stm=cn.createStatement();
+			;
+			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where+";");
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultado;
+	}
 }

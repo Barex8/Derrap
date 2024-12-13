@@ -1,3 +1,6 @@
+create database derrap;
+use derrap;
+
 /*
 DROP TABLE stock_proveedor;
 DROP TABLE orden_pieza;

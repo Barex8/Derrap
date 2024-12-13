@@ -134,8 +134,7 @@ public class login extends JFrame {
 							frame_admin.setVisible(true);
 							dniusuario=tf_login_user.getText();
 						break;
-						//abre ventana mecanico 1111
-						//Ale11111
+						//abre ventana mecanico 
 						case 2:
 							System.out.println("Ventana mecanico Lo ha modificado Ale");
 							frame.dispose();
