@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Font;
 
 public class login extends JFrame {
 
@@ -27,6 +29,7 @@ public class login extends JFrame {
 	private Color azulFondo = Color.decode("#dff3f8");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
+	private Image fondoLogin;
 	private static String dniusuario;
 	/**
 	 * Launch the application.
@@ -48,9 +51,17 @@ public class login extends JFrame {
 	 * Create the frame.
 	 */
 	public login() {
+		//imagen del fondo
+		fondoLogin = new ImageIcon("../imagenes/fondo.png").getImage();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 504, 347);
-		contentPane = new JPanel();
+		setBounds(100, 100, 640, 360);
+		contentPane = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(fondoLogin, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		contentPane.setBackground(azulFondo);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -63,7 +74,9 @@ public class login extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		/* esto es para poner el logo que teniamos en grande. No lo utilizo, pero lo guardo por si hace falta en otra pantalla
+		 
+		 
 		//panel para contener el label con el logo
 		JPanel panel = new JPanel();
 		panel.setLocation(165, 32);
@@ -92,25 +105,29 @@ public class login extends JFrame {
                 labelLogo.setIcon(new ImageIcon(imagenRedimensionada));
             }
         });
-		
+        
+        
+		*/
 		tf_login_user = new JTextField();
-		tf_login_user.setBounds(120, 210, 86, 20);
+		tf_login_user.setBounds(272, 77, 130, 20);
 		contentPane.add(tf_login_user);
 		
-		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(120, 193, 86, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lbl_usuario = new JLabel("USUARIO");
+		lbl_usuario.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbl_usuario.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_usuario.setBounds(114, 77, 93, 14);
+		contentPane.add(lbl_usuario);
 		
-		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(272, 193, 86, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lbl_contraseña = new JLabel("CONTRASEÑA");
+		lbl_contraseña.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbl_contraseña.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_contraseña.setBounds(114, 145, 124, 20);
+		contentPane.add(lbl_contraseña);
 		
 		JLabel lbl_error = new JLabel("New label");
 		lbl_error.setForeground(new Color(255, 0, 0));
 		lbl_error.setVisible(false);
-		lbl_error.setBounds(120, 244, 238, 14);
+		lbl_error.setBounds(154, 244, 238, 14);
 		contentPane.add(lbl_error);
 		
 		JButton btn_login_entrar = new JButton("Entrar");
@@ -149,7 +166,7 @@ public class login extends JFrame {
 				
 			}
 		});
-		btn_login_entrar.setBounds(392, 274, 86, 23);
+		btn_login_entrar.setBounds(477, 274, 86, 23);
 		contentPane.add(btn_login_entrar);
 		
 		JButton btnNewButton = new JButton("Cancelar");
@@ -158,11 +175,11 @@ public class login extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(10, 274, 93, 23);
+		btnNewButton.setBounds(43, 274, 93, 23);
 		contentPane.add(btnNewButton);
 		
 		tf_login_password = new JPasswordField();
-		tf_login_password.setBounds(272, 210, 86, 20);
+		tf_login_password.setBounds(272, 148, 130, 20);
 		contentPane.add(tf_login_password);
 		
 		
