@@ -39,6 +39,8 @@ public class Clientes_Admin extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
+	
+	private static Clientes_Admin frame;
 
 	/**
 	 * Launch the application.
@@ -47,7 +49,7 @@ public class Clientes_Admin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Clientes_Admin frame = new Clientes_Admin();
+					frame = new Clientes_Admin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +57,6 @@ public class Clientes_Admin extends JFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -87,12 +88,14 @@ public class Clientes_Admin extends JFrame {
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
 		
-		JButton Btn_AñadirCliente = new JButton("AñadirCliente");
+		JButton Btn_AñadirCliente = new JButton("AñadirCliente");		//Boton de añadir clientes
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		contentPane.add(Btn_AñadirCliente, "2, 3");
+		
 		
 		JComboBox CB_TipoUsuario = new JComboBox();
 		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Proveedor", "Mecanico"}));
@@ -106,33 +109,31 @@ public class Clientes_Admin extends JFrame {
 		contentPane.add(scrollPane, "2, 4, 6, 2, fill, fill");
 		
 		table = new JTable();
-		int numClientes = 2;
+		int numClientes = 10;
 		
 		Object[][] clientes = new Object[numClientes][5];
+		ResultSet consulta = login.conexion.consulta("*","cliente","");
+		int row = 0; //Para que se inserte en cada fila
+		try {
+			while(consulta.next()) {
+				clientes[row][0]= consulta.getString("nombre_cliente")+" "+consulta.getString("primer_apellido_cliente")+" "+consulta.getString("segundo_apellido_cliente");//nombre con apellidos
+				clientes[row][1] = consulta.getString("dni_cliente");
+				clientes[row][2] = consulta.getString("correo_electronico_cliente");
+				clientes[row][3] = consulta.getString("telefono_cliente");
+				//clientes[row][4] = Añadir boton para editar;
+				row++;					
+			}
+		}catch(Exception e) {  System.out.println(e.getLocalizedMessage());}
 		
-		//Foreach que rellene los clientes
-		
-		for(int i = 0; i <numClientes;i++) {
-			ResultSet consulta = login.conexion.consulta("*","cliente","");
-			int col = 1;
-			try {
-				while(consulta.next()) {
-					clientes[i][0]= consulta.getString("nombre_cliente");
-					col++;
-				}
-			}catch(Exception e) {  System.out.println(e.getLocalizedMessage());}
-			
-		}
-		
-		
-		table.setModel(new DefaultTableModel(clientes,
+	
+	
+		table.setModel(new DefaultTableModel(
+			clientes, //Al pasarle clientes automáticamente guarda los datos en la tabla
 			new String[] {
-				"Nombre", "DNI", "Correo", "Teléfono", "Editar"
+				"Nombre", "DNI", "Correo", "Telefono", "Editar"
 			}
 		));
 		scrollPane.setViewportView(table);
-	
-	}
-	
+	}	
 
 }

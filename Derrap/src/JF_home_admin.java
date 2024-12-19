@@ -15,18 +15,20 @@ public class JF_home_admin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					JF_home_admin frame = new JF_home_admin();
+			
 					frame.setVisible(true);
+				
+					
 				} catch (Exception e) {
 					e.printStackTrace();
+					System.out.println(e.getLocalizedMessage());
 				}
 			}
 		});
@@ -34,6 +36,7 @@ public class JF_home_admin extends JFrame {
 
 	
 	public JF_home_admin() {
+		System.out.println(this +"  Construct");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 691, 571);
 		contentPane = new JPanel();
@@ -51,6 +54,10 @@ public class JF_home_admin extends JFrame {
 		Btn_AdministrarUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Clientes_Admin frame_clientes = new Clientes_Admin();
+				frame_clientes.setVisible(true);
+				System.out.println(this+"  Action");
+				dispose();
 			}
 		});
 		Btn_AdministrarUsuarios.setBounds(10, 11, 212, 23);

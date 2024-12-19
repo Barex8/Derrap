@@ -23,7 +23,6 @@ public class login extends JFrame {
 	private JPanel contentPane;
 	private JTextField tf_login_user;
 	public static ConectorDB_mysql conexion = new ConectorDB_mysql();
-	static login frame;
 	private JPasswordField tf_login_password;
 	private Color azulFondo = Color.decode("#dff3f8");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
@@ -36,7 +35,7 @@ public class login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new login();
+					login frame = new login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -129,7 +128,7 @@ public class login extends JFrame {
 						//abre ventana admin
 						case 1:
 							System.out.println("Ventana admin");
-							frame.dispose();
+							dispose();
 							JF_home_admin frame_admin = new JF_home_admin();
 							frame_admin.setVisible(true);
 							dniusuario=tf_login_user.getText();
@@ -137,7 +136,7 @@ public class login extends JFrame {
 						//abre ventana mecanico 
 						case 2:
 							System.out.println("Ventana mecanico Lo ha modificado Ale");
-							frame.dispose();
+							dispose();
 							JF_home_mecanico frame_mecanico = new JF_home_mecanico();
 							frame_mecanico.setVisible(true);
 							dniusuario=tf_login_user.getText();
@@ -156,7 +155,7 @@ public class login extends JFrame {
 		JButton btnNewButton = new JButton("Cancelar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(10, 274, 93, 23);
