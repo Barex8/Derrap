@@ -56,7 +56,6 @@ public class JF_home_admin extends JFrame {
 				
 				Clientes_Admin frame_clientes = new Clientes_Admin();
 				frame_clientes.setVisible(true);
-				System.out.println(this+"  Action");
 				dispose();
 			}
 		});
