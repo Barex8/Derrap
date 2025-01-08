@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.border.MatteBorder;
 
 public class login extends JFrame {
 
@@ -131,6 +132,8 @@ public class login extends JFrame {
 		contentPane.add(lbl_error);
 		
 		JButton btn_login_entrar = new JButton("Entrar");
+		btn_login_entrar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_login_entrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btn_login_entrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -170,6 +173,8 @@ public class login extends JFrame {
 		contentPane.add(btn_login_entrar);
 		
 		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
