@@ -66,6 +66,7 @@ public class ConectorDB_mysql {
 		return dato;
 	}
 	
+<<<<<<< Updated upstream
 	public String consultaCampo(String campo, String tabla, String where) {
 		this.conectar();
 		String consulta="";
@@ -80,6 +81,24 @@ public class ConectorDB_mysql {
 			e.printStackTrace();
 		}
 		return consulta;
+=======
+	public String InfoCliente() {
+		String dato="";
+		this.conectar();
+		try {
+			stm=cn.createStatement();
+			resultado = stm.executeQuery("SELECT id_rol_usuario FROM usuario WHERE dni_usuario='"+user+"' AND contraseña_usuario='"+password+"';");
+			while(resultado.next()) {
+				dato = resultado.getString("id_rol_usuario");
+			}
+			stm.close();
+			cn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dato;
+>>>>>>> Stashed changes
 	}
 
 	public ResultSet consulta(String sentencia) {
