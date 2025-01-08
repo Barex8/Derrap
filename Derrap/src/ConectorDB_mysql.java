@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -70,7 +71,6 @@ public class ConectorDB_mysql {
 		String consulta="";
 		try {
 			stm=cn.createStatement();
-			;
 			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where+";");
 			while(resultado.next()) {
 				consulta = resultado.getString("id_rol_usuario");
@@ -82,16 +82,46 @@ public class ConectorDB_mysql {
 		return consulta;
 	}
 
-	public ResultSet consulta(String campo, String tabla, String where) {
+	public ResultSet consulta(String sentencia) {
 		this.conectar();
 		try {
 			stm=cn.createStatement();
-			;
-			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where+";");
+			resultado = stm.executeQuery(sentencia);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return resultado;
+	}
+	
+	public int consulta_Numero_Registros(String sentencia) {		//Pensado para hacer selects con Count()
+		this.conectar();
+		try {
+			stm=cn.createStatement();
+			resultado = stm.executeQuery(sentencia);			
+			resultado.next();
+			return Integer.parseInt(resultado.getObject(1).toString());
+			//return Integer.parseInt(resultado.getString("Count(*)"));
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 10;
+	}
+	
+	public void DML(String sentencia) {
+		this.conectar();
+		PreparedStatement stm;
+		try {
+			stm = cn.prepareStatement(sentencia);
+			stm.executeUpdate();
+			stm.close();
+			cn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 }
