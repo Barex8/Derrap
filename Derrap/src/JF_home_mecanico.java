@@ -11,12 +11,16 @@ import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class JF_home_mecanico extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
+	private Color azulFondo = Color.decode("#dff3f8");
 
 	/**
 	 * Launch the application.
@@ -41,6 +45,7 @@ public class JF_home_mecanico extends JFrame {
 		setBounds(100, 100, 1001, 949);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setResizable(false);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -56,8 +61,9 @@ public class JF_home_mecanico extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(222,239,231));
-		panel.setBounds(10, 61, 550, 269);
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBackground(azulFondo);
+		panel.setBounds(10, 61, 580, 269);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -109,21 +115,28 @@ public class JF_home_mecanico extends JFrame {
 		panel.add(lbPiezasOrden1);
 		
 		JButton btnEditarOrden1 = new JButton("Editar");
-		btnEditarOrden1.setBounds(460, 235, 80, 23);
+		btnEditarOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnEditarOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEditarOrden1.setBounds(490, 235, 80, 23);
 		panel.add(btnEditarOrden1);
 		
 		JButton btnFacturaOrden1 = new JButton("Factura");
-		btnFacturaOrden1.setBounds(370, 235, 80, 23);
+		btnFacturaOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnFacturaOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnFacturaOrden1.setBounds(400, 235, 80, 23);
 		panel.add(btnFacturaOrden1);
 		
 		JButton btnHistorialOrden1 = new JButton("Historial del vehículo");
-		btnHistorialOrden1.setBounds(218, 235, 140, 23);
+		btnHistorialOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnHistorialOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnHistorialOrden1.setBounds(230, 235, 160, 23);
 		panel.add(btnHistorialOrden1);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(222,239,231));
-		panel_1.setBounds(10, 341, 550, 269);
+		panel_1.setBackground(azulFondo);
+		panel_1.setBounds(10, 341, 580, 269);
 		contentPane.add(panel_1);
 		
 		JLabel lbTítuloOrden2 = new JLabel("Orden 2: Citroën c3, 1234 AAA");
@@ -174,21 +187,28 @@ public class JF_home_mecanico extends JFrame {
 		panel_1.add(lbPiezasOrden2);
 		
 		JButton btnEditarOrden1_1 = new JButton("Editar");
-		btnEditarOrden1_1.setBounds(460, 235, 80, 23);
+		btnEditarOrden1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnEditarOrden1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEditarOrden1_1.setBounds(490, 235, 80, 23);
 		panel_1.add(btnEditarOrden1_1);
 		
 		JButton btnFacturaOrden1_1 = new JButton("Factura");
-		btnFacturaOrden1_1.setBounds(370, 235, 80, 23);
+		btnFacturaOrden1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnFacturaOrden1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnFacturaOrden1_1.setBounds(400, 235, 80, 23);
 		panel_1.add(btnFacturaOrden1_1);
 		
 		JButton btnHistorialOrden1_1 = new JButton("Historial del vehículo");
-		btnHistorialOrden1_1.setBounds(218, 235, 140, 23);
+		btnHistorialOrden1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnHistorialOrden1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnHistorialOrden1_1.setBounds(230, 235, 160, 23);
 		panel_1.add(btnHistorialOrden1_1);
 		
 		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel_1_1.setLayout(null);
-		panel_1_1.setBackground(new Color(222,239,231));
-		panel_1_1.setBounds(10, 621, 550, 269);
+		panel_1_1.setBackground(azulFondo);
+		panel_1_1.setBounds(10, 621, 580, 269);
 		contentPane.add(panel_1_1);
 		
 		JLabel lbTítuloOrden3 = new JLabel("Orden 3: Citroën c3, 1234 AAA");
@@ -239,15 +259,21 @@ public class JF_home_mecanico extends JFrame {
 		panel_1_1.add(lbPiezasOrden1_1_1);
 		
 		JButton btnEditarOrden1_1_1 = new JButton("Editar");
-		btnEditarOrden1_1_1.setBounds(460, 235, 80, 23);
+		btnEditarOrden1_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnEditarOrden1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEditarOrden1_1_1.setBounds(490, 235, 80, 23);
 		panel_1_1.add(btnEditarOrden1_1_1);
 		
 		JButton btnFacturaOrden1_1_1 = new JButton("Factura");
-		btnFacturaOrden1_1_1.setBounds(370, 235, 80, 23);
+		btnFacturaOrden1_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnFacturaOrden1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnFacturaOrden1_1_1.setBounds(400, 235, 80, 23);
 		panel_1_1.add(btnFacturaOrden1_1_1);
 		
 		JButton btnHistorialOrden1_1_1 = new JButton("Historial del vehículo");
-		btnHistorialOrden1_1_1.setBounds(218, 235, 140, 23);
+		btnHistorialOrden1_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnHistorialOrden1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnHistorialOrden1_1_1.setBounds(230, 235, 160, 23);
 		panel_1_1.add(btnHistorialOrden1_1_1);
 	}
 }
