@@ -21,6 +21,7 @@ public class JF_home_mecanico extends JFrame {
 	private JPanel contentPane;
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	private Color azulFondo = Color.decode("#dff3f8");
+	private Color azulPane = Color.decode("#ebf5fb");
 
 	/**
 	 * Launch the application.
@@ -44,6 +45,7 @@ public class JF_home_mecanico extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1001, 949);
 		contentPane = new JPanel();
+		contentPane.setBackground(azulPane);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setResizable(false);
 

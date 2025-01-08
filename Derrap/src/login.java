@@ -27,7 +27,8 @@ public class login extends JFrame {
 	private JTextField tf_login_user;
 	public static ConectorDB_mysql conexion = new ConectorDB_mysql();
 	private JPasswordField tf_login_password;
-	private Color azulFondo = Color.decode("#dff3f8");
+	private Color azulPrincipal= Color.decode("#96C2CD");
+	private Color azulCancelar= Color.decode("#5C94A2");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logoGrandeAzul.png");
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	private Image fondoLogin;
@@ -53,7 +54,7 @@ public class login extends JFrame {
 	 */
 	public login() {
 		//imagen del fondo
-		fondoLogin = new ImageIcon("../imagenes/fondo.png").getImage();
+		fondoLogin = new ImageIcon("../imagenes/fondo2.png").getImage();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 360);
 		contentPane = new JPanel() {
@@ -63,7 +64,7 @@ public class login extends JFrame {
 				g.drawImage(fondoLogin, 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		contentPane.setBackground(azulFondo);
+		contentPane.setBackground(azulPrincipal);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		//con lo siguiente no permitimos modificar el tamaño de la ventana
@@ -109,21 +110,6 @@ public class login extends JFrame {
         
         
 		*/
-		tf_login_user = new JTextField();
-		tf_login_user.setBounds(272, 77, 130, 20);
-		contentPane.add(tf_login_user);
-		
-		JLabel lbl_usuario = new JLabel("USUARIO");
-		lbl_usuario.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lbl_usuario.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_usuario.setBounds(114, 77, 93, 14);
-		contentPane.add(lbl_usuario);
-		
-		JLabel lbl_contraseña = new JLabel("CONTRASEÑA");
-		lbl_contraseña.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lbl_contraseña.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_contraseña.setBounds(114, 145, 124, 20);
-		contentPane.add(lbl_contraseña);
 		
 		JLabel lbl_error = new JLabel("New label");
 		lbl_error.setForeground(new Color(255, 0, 0));
@@ -131,7 +117,43 @@ public class login extends JFrame {
 		lbl_error.setBounds(154, 244, 238, 14);
 		contentPane.add(lbl_error);
 		
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		panel.setBounds(54, 28, 367, 193);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		panel.setBackground(azulPrincipal);
+		
+		JLabel lbl_usuario = new JLabel("USUARIO");
+		lbl_usuario.setForeground(azulCancelar);
+		lbl_usuario.setBounds(10, 11, 85, 22);
+		panel.add(lbl_usuario);
+		lbl_usuario.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbl_usuario.setHorizontalAlignment(SwingConstants.CENTER);
+		tf_login_user = new JTextField();
+		tf_login_user.setBounds(148, 11, 130, 20);
+		panel.add(tf_login_user);
+		
+		tf_login_password = new JPasswordField();
+		tf_login_password.setBounds(148, 59, 130, 20);
+		panel.add(tf_login_password);
+		
+		JLabel lbl_contraseña = new JLabel("CONTRASEÑA");
+		lbl_contraseña.setForeground(new Color(123, 121, 121));
+		lbl_contraseña.setBounds(10, 59, 124, 20);
+		panel.add(lbl_contraseña);
+		lbl_contraseña.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbl_contraseña.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.setBounds(10, 159, 93, 23);
+		panel.add(btnNewButton);
+		btnNewButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
 		JButton btn_login_entrar = new JButton("Entrar");
+		btn_login_entrar.setBounds(271, 159, 86, 23);
+		panel.add(btn_login_entrar);
 		btn_login_entrar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_login_entrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btn_login_entrar.addActionListener(new ActionListener() {
@@ -169,23 +191,11 @@ public class login extends JFrame {
 				
 			}
 		});
-		btn_login_entrar.setBounds(477, 274, 86, 23);
-		contentPane.add(btn_login_entrar);
-		
-		JButton btnNewButton = new JButton("Cancelar");
-		btnNewButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(43, 274, 93, 23);
-		contentPane.add(btnNewButton);
-		
-		tf_login_password = new JPasswordField();
-		tf_login_password.setBounds(272, 148, 130, 20);
-		contentPane.add(tf_login_password);
 		
 		
 	}
