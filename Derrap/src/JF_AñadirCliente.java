@@ -32,6 +32,8 @@ public class JF_AñadirCliente extends JFrame {
 	private String[] datos = new String[8];
 	
 	private ArrayList<JTextField> info = new ArrayList<JTextField>();
+	
+	private String tipoUsuario;
 
 
 	/**
@@ -51,12 +53,14 @@ public class JF_AñadirCliente extends JFrame {
 	}
 	public JF_AñadirCliente(Clientes_Admin frame,String DNI,String tabla) {										//Para modificar o eliminar
 		String campo1 = "", campo2= "", campo3= "", campo4= "", campo5= "", campo6= "", campo7= "", campo8="";
-		ResultSet result = login.conexion.consulta("Select * From "+tabla+" WHERE dni_"+tabla+" = " + "'"+DNI+"'");
-		System.out.println("Select * From "+tabla+" WHERE dni_"+tabla+" = " + "'"+DNI+"'");
+		ResultSet result = null;
+		if(!tabla.equals("Proveedor")) result = login.conexion.consulta("Select * From "+tabla+" WHERE dni_"+tabla+" = " + "'"+DNI+"'");
+		else result = login.conexion.consulta("Select * From "+tabla+" WHERE cif_"+tabla+" = " + "'"+DNI+"'");
 		
 		try {
 			result.next();
 			if(tabla.equals("Cliente")) {
+				tipoUsuario = "Cliente";
 				campo1 = result.getString("nombre_"+tabla.toLowerCase());
 				campo2 = result.getString("primer_apellido_"+tabla.toLowerCase());
 				campo3 = result.getString("segundo_apellido_"+tabla.toLowerCase());
@@ -64,18 +68,23 @@ public class JF_AñadirCliente extends JFrame {
 				campo5 = result.getString("telefono_"+tabla.toLowerCase());
 				campo6 = result.getString("ciudad_"+tabla.toLowerCase());
 				campo7 = result.getString("codigo_postal_"+tabla.toLowerCase());
-			}
-			if(tabla.equals("Usuario")) {
-				System.out.println("Ha entrado en usuario");
-				campo1 = result.getString("dni_"+tabla.toLowerCase());
-				System.out.println("contraseña_"+tabla.toLowerCase());
-				campo2 = result.getString("contraseña_"+tabla.toLowerCase());
-				campo3 = result.getString("nombre_"+tabla.toLowerCase());
+			} else if(tabla.equals("Usuario")) {
+				tipoUsuario = "Usuario";
+
+				campo1 = result.getString("nombre_"+tabla.toLowerCase());
+				campo2 = result.getString("id_rol_"+tabla.toLowerCase());
+				campo3 = result.getString("estado_alta_"+tabla.toLowerCase());
 				campo4 = result.getString("correo_electronico_"+tabla.toLowerCase());
 				campo5 = result.getString("telefono_"+tabla.toLowerCase());
 				campo6 = result.getString("especialidad_"+tabla.toLowerCase());
-				campo7 = result.getString("estado_alta_"+tabla.toLowerCase());
+			}else if(tabla.equals("Proveedor")) {
+				tipoUsuario = "Proveedor";
+				campo1 = result.getString("nombre_"+tabla.toLowerCase());
+				campo2 = result.getString("direccion_"+tabla.toLowerCase());
+				campo3 = result.getString("estado_"+tabla.toLowerCase());
+				campo4 = result.getString("correo_electronico_"+tabla.toLowerCase());
 			}
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Fallo al leer los datos");
@@ -144,6 +153,8 @@ public class JF_AñadirCliente extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
+		
+		
 		JLabel lb_DNI = new JLabel("DNI");
 		contentPane.add(lb_DNI, "2, 4");
 		
@@ -162,7 +173,15 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_Nombre);
 		contentPane.add(TF_Nombre, "2, 12, fill, default");
 		
-		JLabel lb_Primer_Apellido = new JLabel("Primer apellido");
+		JLabel lb_Primer_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Primer_Apellido = new JLabel("Primer apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Primer_Apellido = new JLabel("Rol");
+		}else if(tipoUsuario.equals("Proveedor")) {
+			lb_Primer_Apellido = new JLabel("Direccion");
+		}
+		
 		contentPane.add(lb_Primer_Apellido, "2, 16");
 		
 		TF_Primer_Apellido = new JTextField();
@@ -171,7 +190,15 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_Primer_Apellido);
 		contentPane.add(TF_Primer_Apellido, "2, 18, fill, default");
 		
-		JLabel lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		JLabel lb_Segundo_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Segundo_Apellido = new JLabel("Estado alta");
+		}else if (tipoUsuario.equals("Proveedor")) {
+			lb_Segundo_Apellido = new JLabel("Estado");
+		}
+
 		contentPane.add(lb_Segundo_Apellido, "2, 22");
 		
 		TF_Segundo_Apellido = new JTextField();
@@ -190,24 +217,36 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_Correo);
 		contentPane.add(TF_Correo, "2, 36, fill, default");
 		
-		JLabel lb_Telefono = new JLabel("Telefono");
-		contentPane.add(lb_Telefono, "2, 28");
+		JLabel lb_Telefono = null;
+		if(!tipoUsuario.equals("Proveedor")) {
+			lb_Telefono = new JLabel("Telefono");
+			contentPane.add(lb_Telefono, "2, 28");
+			
+			TF_Telefono = new JTextField();
+			TF_Telefono.setColumns(10);
+			TF_Telefono.setText(campo5);
+			info.add(TF_Telefono);
+			contentPane.add(TF_Telefono, "2, 30, fill, default");
+		}
 		
-		TF_Telefono = new JTextField();
-		TF_Telefono.setColumns(10);
-		TF_Telefono.setText(campo5);
-		info.add(TF_Telefono);
-		contentPane.add(TF_Telefono, "2, 30, fill, default");
+		JLabel lb_Ciudad = null;
 		
-		JLabel lb_Ciudad = new JLabel("Ciudad");
-		contentPane.add(lb_Ciudad, "2, 40");
+		if(!tipoUsuario.equals("Proveedor")) {
+			if(tipoUsuario.equals("Cliente")) {
+				lb_Ciudad = new JLabel("Segundo apellido");
+			}else if (tipoUsuario.equals("Usuario")) {
+				lb_Ciudad = new JLabel("Especialidad");
+			}
+			contentPane.add(lb_Ciudad, "2, 40");
+			
+			TF_Ciudad = new JTextField();
+			TF_Ciudad.setColumns(10);
+			TF_Ciudad.setText(campo6);
+			info.add(TF_Ciudad);
+			contentPane.add(TF_Ciudad, "2, 42, fill, default");
+		}
 		
-		TF_Ciudad = new JTextField();
-		TF_Ciudad.setColumns(10);
-		TF_Ciudad.setText(campo6);
-		info.add(TF_Ciudad);
-		contentPane.add(TF_Ciudad, "2, 42, fill, default");
-		
+		if(tipoUsuario.equals("Cliente")) {
 		JLabel lb_Codigo = new JLabel("Código postal");
 		contentPane.add(lb_Codigo, "2, 46");
 		
@@ -216,8 +255,10 @@ public class JF_AñadirCliente extends JFrame {
 		TF_codigo.setText(campo7);
 		info.add(TF_codigo);
 		contentPane.add(TF_codigo, "2, 48, fill, default");
+		}
 		
-		JButton EliminarCliente = new JButton("Eliminar");
+		
+		JButton EliminarCliente = new JButton("Eliminar");			//ELIMINAR
 		EliminarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean success = true;				
@@ -228,8 +269,8 @@ public class JF_AñadirCliente extends JFrame {
 				//Si todo sale bien, borrar datos en la base de datos y actualizar la tabla de Clientes_Admin
 				
 				if(success) {
-					login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".dni_"+tabla+" = "+"'"+info.get(0).getText()+"'");
-					System.out.println("DELETE From derrap."+tabla+" where dni_"+tabla+" = "+"'"+info.get(0).getText()+"'");
+					if(!tipoUsuario.equals("Proveedor"))login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".dni_"+tabla+" = "+"'"+info.get(0).getText()+"'");//Hay que mirar que los usuarios tienen coches asociados y por eso no se pueden borrar
+					else login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".cif_"+tabla+" = "+"'"+info.get(0).getText()+"'");
 					frame.ActualizarTabla(tabla);
 					dispose();
 				}
@@ -248,7 +289,7 @@ public class JF_AñadirCliente extends JFrame {
 		contentPane.add(Cancelar, "3, 42");
 		JButton Guardar = new JButton("Guardar");
 		Guardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {   //Codigo modficiar Update
+			public void actionPerformed(ActionEvent e) {   //Codigo MODIFICAR Update
 				boolean success = true;
 				int index = 0;
 				for(JTextField dato:info) {
@@ -269,8 +310,11 @@ public class JF_AñadirCliente extends JFrame {
 								"', telefono_cliente = '"+datos[5]+"',ciudad_cliente = '"+datos[6]+"',codigo_postal_cliente = '"+datos[7]+"' WHERE dni_cliente = '"+datos[0]+"'");
 						
 					}else if(tabla.equals("Usuario")) {
-						login.conexion.DML("UPDATE "+tabla+" SET contraseña_usuario = '"+datos[1]+"', nombre_usuario = '"+datos[2]+"' , correo_electronico_usuario = '"+datos[3]+"', telefono_usuario = '"+datos[4]+
-								"', especialidad_usuario = '"+datos[5]+"',estado_alta_usuario = '"+datos[6]+"' WHERE dni_usuario = '"+datos[0]+"'");
+						login.conexion.DML("UPDATE "+tabla+" SET nombre_usuario = '"+datos[1]+"', id_rol_usuario = '"+datos[2]+"' , estado_alta_usuario = '"+datos[3]+"', correo_electronico_usuario = '"+datos[4]+
+								"', telefono_usuario = '"+datos[5]+"',especialidad_usuario = '"+datos[6]+"' WHERE dni_usuario = '"+datos[0]+"'");
+					}else if(tabla.equals("Proveedor")) {
+						System.out.println("UPDATE "+tabla+" SET nombre_proveedor = '"+datos[1]+"', direccion_proveedor = '"+datos[2]+"' , estado_proveedor = '"+datos[3]+"', correo_electronico_proveedor = '"+datos[4]+ "'  WHERE cif_proveedor = '"+datos[0]+"'");
+						login.conexion.DML("UPDATE "+tabla+" SET nombre_proveedor = '"+datos[1]+"', direccion_proveedor = '"+datos[2]+"' , estado_proveedor = '"+datos[3]+"', correo_electronico_proveedor = '"+datos[4]+ "' WHERE cif_proveedor = '"+datos[0]+"'");
 					}
 					dispose();
 					frame.ActualizarTabla(tabla);
@@ -473,6 +517,7 @@ public class JF_AñadirCliente extends JFrame {
 	
 	
 	public JF_AñadirCliente(Clientes_Admin frame,String tabla) {			//Se usa solo para Añadir
+		tipoUsuario = tabla;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 667);
 		contentPane = new JPanel();
@@ -535,12 +580,12 @@ public class JF_AñadirCliente extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
-		JLabel lb_DNI = new JLabel("DNI");
+		JLabel lb_DNI = new JLabel("DNI");		
 		contentPane.add(lb_DNI, "2, 4");
 		
 		TF_DNI = new JTextField();
 		TF_DNI.setColumns(10);
-		info.add(TF_DNI);
+		info.add(TF_DNI);		//0
 		contentPane.add(TF_DNI, "2, 6, fill, default");
 		
 		JLabel lb_Nombre = new JLabel("Nombre");
@@ -548,49 +593,76 @@ public class JF_AñadirCliente extends JFrame {
 		
 		TF_Nombre = new JTextField();
 		TF_Nombre.setColumns(10);
-		info.add(TF_Nombre);
+		info.add(TF_Nombre);		//1
 		contentPane.add(TF_Nombre, "2, 12, fill, default");
 		
-		JLabel lb_Primer_Apellido = new JLabel("Primer apellido");
+		JLabel lb_Primer_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Primer_Apellido = new JLabel("Primer apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Primer_Apellido = new JLabel("Rol");
+		}else if(tipoUsuario.equals("Proveedor")) {
+			lb_Primer_Apellido = new JLabel("Direccion");
+		}
 		contentPane.add(lb_Primer_Apellido, "2, 16");
 		
 		TF_Primer_Apellido = new JTextField();
 		TF_Primer_Apellido.setColumns(10);
-		info.add(TF_Primer_Apellido);
+		info.add(TF_Primer_Apellido);		//2
 		contentPane.add(TF_Primer_Apellido, "2, 18, fill, default");
 		
-		JLabel lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		JLabel lb_Segundo_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Segundo_Apellido = new JLabel("Estado alta");
+		}else if (tipoUsuario.equals("Proveedor")) {
+			lb_Segundo_Apellido = new JLabel("Estado");
+		}
+
 		contentPane.add(lb_Segundo_Apellido, "2, 22");
 		
 		TF_Segundo_Apellido = new JTextField();
 		TF_Segundo_Apellido.setColumns(10);
-		info.add(TF_Segundo_Apellido);
+		info.add(TF_Segundo_Apellido);		//3
 		contentPane.add(TF_Segundo_Apellido, "2, 24, fill, default");
 		
-		JLabel lb_Telefono = new JLabel("Telefono");
-		contentPane.add(lb_Telefono, "2, 28");
-		
-		TF_Telefono = new JTextField();
-		TF_Telefono.setColumns(10);
-		info.add(TF_Telefono);
-		contentPane.add(TF_Telefono, "2, 30, fill, default");
+		JLabel lb_Telefono = null;
+		if(!tipoUsuario.equals("Proveedor")) {
+			lb_Telefono = new JLabel("Telefono");
+			contentPane.add(lb_Telefono, "2, 28");
+			
+			TF_Telefono = new JTextField();
+			TF_Telefono.setColumns(10);
+			info.add(TF_Telefono);	//4
+			contentPane.add(TF_Telefono, "2, 30, fill, default");
+		}
 		
 		JLabel lb_Correo = new JLabel("Correo electrónico");
 		contentPane.add(lb_Correo, "2, 34");
 		
 		TF_Correo = new JTextField();
 		TF_Correo.setColumns(10);
-		info.add(TF_Correo);
+		info.add(TF_Correo);		//5 (4 en proveedor)
 		contentPane.add(TF_Correo, "2, 36, fill, default");
 		
-		JLabel lb_Ciudad = new JLabel("Ciudad");
-		contentPane.add(lb_Ciudad, "2, 40");
+		JLabel lb_Ciudad = null;
 		
-		TF_Ciudad = new JTextField();
-		TF_Ciudad.setColumns(10);
-		info.add(TF_Ciudad);
-		contentPane.add(TF_Ciudad, "2, 42, fill, default");
+		if(!tipoUsuario.equals("Proveedor")) {
+			if(tipoUsuario.equals("Cliente")) {
+				lb_Ciudad = new JLabel("Segundo apellido");
+			}else if (tipoUsuario.equals("Usuario")) {
+				lb_Ciudad = new JLabel("Especialidad");
+			}
+			contentPane.add(lb_Ciudad, "2, 40");
+			
+			TF_Ciudad = new JTextField();
+			TF_Ciudad.setColumns(10);
+			info.add(TF_Ciudad);
+			contentPane.add(TF_Ciudad, "2, 42, fill, default");
+		}
 		
+		if(tipoUsuario.equals("Cliente")) {
 		JLabel lb_Codigo = new JLabel("Código postal");
 		contentPane.add(lb_Codigo, "2, 46");
 		
@@ -598,8 +670,17 @@ public class JF_AñadirCliente extends JFrame {
 		TF_codigo.setColumns(10);
 		info.add(TF_codigo);
 		contentPane.add(TF_codigo, "2, 48, fill, default");
+		}
 		
-		System.out.println(info);
+		if(tipoUsuario.equals("Usuario")) {
+			JLabel lb_Contraseña = new JLabel("Contraseña");
+			contentPane.add(lb_Contraseña, "2, 46");
+			
+			TF_codigo = new JTextField();
+			TF_codigo.setColumns(10);
+			info.add(TF_codigo);
+			contentPane.add(TF_codigo, "2, 48, fill, default");
+			}
 		
 		JButton AñadirCliente = new JButton("Añadir");
 		AñadirCliente.addActionListener(new ActionListener() {
@@ -618,8 +699,10 @@ public class JF_AñadirCliente extends JFrame {
 				//Si todo sale bien, insertar datos en la base de datos y actualizar la tabla de Clientes_Admin
 				System.out.println(success);
 				if(success) {
-					login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[2]+"', '"+datos[3]+"', '"+datos[4]+"', '"+datos[5]+"', '"+datos[6]+"', '"+datos[7]+"')");
-					frame.ActualizarTabla("tabla");
+					if(tipoUsuario.equals("Cliente")) login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[2]+"', '"+datos[3]+"', '"+datos[4]+"', '"+datos[5]+"', '"+datos[6]+"', '"+datos[7]+"')");
+					else if(tipoUsuario.equals("Usuario")) login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[7]+"' , '"+datos[1]+"', '"+datos[5]+"', '"+datos[4]+"', '"+datos[6]+"', '"+datos[3]+"', '"+datos[2]+"')");
+					else if (tipoUsuario.equals("Proveedor")) login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[4]+"', '"+datos[2]+"' , '"+datos[3]+"')");
+					frame.ActualizarTabla(tabla);
 					dispose();
 				}
 			}

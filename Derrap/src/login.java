@@ -49,9 +49,6 @@ public class login extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public login() {
 		//imagen del fondo
 		fondoLogin = new ImageIcon("../imagenes/fondo2.png").getImage();

@@ -105,10 +105,6 @@ public class Clientes_Admin extends JFrame {
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
 		
-		
-		
-		
-		
 		CB_TipoUsuario = new JComboBox();
 		CB_TipoUsuario.addItemListener(new ItemListener() {		//Cuando cambia el comboBox
 			public void itemStateChanged(ItemEvent e) {
@@ -119,9 +115,9 @@ public class Clientes_Admin extends JFrame {
 		});
 		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Proveedor", "Usuario"}));
 		contentPane.add(CB_TipoUsuario, "5, 3, 2, 1, fill, default");
-		tipoUsuario = "Cliente";
+		tipoUsuario = "Cliente"; //por defecto
 		
-JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir clientes
+		JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir clientes
 		
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,6 +146,7 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 		System.out.println(tabla);
 		int numUsers = 0;
 		ResultSet consulta = null;
+		//Pone los clientes, usuarios o proveedores en la tabla (no admins)
 		if(tabla.equals("Usuario")) {
 			numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap."+tabla+" Where id_rol_usuario = 2");
 			consulta = login.conexion.consulta("SELECT * FROM "+tabla+" Where id_rol_usuario = 2");
@@ -158,12 +155,13 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 			numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap."+tabla+"");
 			consulta = login.conexion.consulta("SELECT * FROM "+tabla+"");
 		}
-		Object[][] clientes = new Object[numUsers][5];
+		Object[][] clientes = new Object[0][0];
 		
 		
 		int row = 0; //Para que se inserte en cada fila
 		try {
 			if(tabla.equals("Cliente")) {
+				clientes = new Object[numUsers][5]; //Numero de campos, los clientes no muestran el mismo número de campos que los clientes
 				while(consulta.next()) {
 					clientes[row][0]= consulta.getString("nombre_cliente")+" "+consulta.getString("primer_apellido_cliente")+" "+consulta.getString("segundo_apellido_cliente");//nombre con apellidos
 					clientes[row][1] = consulta.getString("dni_cliente");
@@ -173,15 +171,30 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 				}
 			}
 			if(tabla.equals("Usuario")) {
-				System.out.println("Ha llegado a empezar a leer usuarios");
+				clientes = new Object[numUsers][7];
 				while(consulta.next()) {
 					clientes[row][0]= consulta.getString("nombre_usuario");//nombre con apellidos
 					clientes[row][1] = consulta.getString("dni_usuario");
 					clientes[row][2] = consulta.getString("correo_electronico_usuario");
 					clientes[row][3] = consulta.getString("telefono_usuario");
+					clientes[row][4] = consulta.getString("especialidad_usuario");
+					clientes[row][5] = consulta.getString("estado_alta_usuario");
+					
 					row++;					
 				}
 			}
+			if(tabla.equals("Proveedor")) {
+				clientes = new Object[numUsers][6];
+				while(consulta.next()) {
+					clientes[row][0]= consulta.getString("nombre_proveedor");//nombre con apellidos
+					clientes[row][1] = consulta.getString("cif_proveedor");
+					clientes[row][2] = consulta.getString("correo_electronico_proveedor");
+					clientes[row][3] = consulta.getString("direccion_proveedor");
+					clientes[row][4] = consulta.getString("estado_proveedor");
+					row++;					
+				}
+			}
+			
 		}catch(Exception e) {  System.out.println(e.getLocalizedMessage());}
 		
 	
@@ -194,9 +207,16 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 			));
 		}else if(tabla.equals("Usuario")) {
 			table.setModel(new DefaultTableModel(
-					clientes, //Al pasarle clientes automáticamente guarda los datos en la tabla
+					clientes,
 					new String[] {
-						"Nombre", "DNI", "Correo", "Telefono", "Editar"
+						"Nombre", "DNI", "Correo", "Telefono", "Especialidad","Estado","Editar"
+					}
+				));
+		}else if(tabla.equals("Proveedor")) {
+			table.setModel(new DefaultTableModel(
+					clientes, 
+					new String[] {
+						"Nombre", "CIF", "Correo", "Dirección", "Estado","Editar"
 					}
 				));
 		}
@@ -214,7 +234,7 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,		//mi idea de que hace esto
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,		//ni idea de que hace esto 
 				int row, int column) {
 			setText((value == null) ? "Editor": value.toString());
 			return this;
@@ -240,6 +260,7 @@ JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir cliente
 			Object value = table.getValueAt(selectedRow, 1);
 			System.out.println(value.toString());
 			
+			System.out.println(tipoUsuario);
 			JF_AñadirCliente frame_añadir_clientes = new JF_AñadirCliente(selfFrame,value.toString(),tipoUsuario);
 			frame_añadir_clientes.setVisible(true);
 			clicked = false;
