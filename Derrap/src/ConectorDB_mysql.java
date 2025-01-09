@@ -4,27 +4,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
 public class ConectorDB_mysql {
-	
+
 	private static final String CONTROLADOR ="com.mysql.jdbc.Driver";
 	private static final String URL ="jdbc:mysql://localhost:3306/derrap";
 	private static final String USUARIO ="root";
 	private static final String CLAVE ="1234";
-	
+
 	static Connection cn = null;
 	Statement stm = null;
 	ResultSet resultado = null;
-	
+
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static Connection conectar() {
 		try {
 			cn = DriverManager.getConnection(URL,USUARIO,CLAVE);
@@ -35,10 +34,10 @@ public class ConectorDB_mysql {
 		}
 		return cn;
 	}
-	
+
 	public String InicioSesion(String user, String password, JLabel lbl_error) {
 		String dato="";
-		this.conectar();
+		ConectorDB_mysql.conectar();
 		try {
 			/*if(user.equals("") && password.equals("")) {
 				lbl_error.setText("Introduzca usuario y contraseña");
@@ -65,9 +64,9 @@ public class ConectorDB_mysql {
 		}
 		return dato;
 	}
-	
+
 	public String consultaCampo(String campo, String tabla, String where) {
-		this.conectar();
+		ConectorDB_mysql.conectar();
 		String consulta="";
 		try {
 			stm=cn.createStatement();
@@ -83,7 +82,7 @@ public class ConectorDB_mysql {
 	}
 
 	public ResultSet consulta(String sentencia) {
-		this.conectar();
+		ConectorDB_mysql.conectar();
 		try {
 			stm=cn.createStatement();
 			resultado = stm.executeQuery(sentencia);
@@ -93,12 +92,12 @@ public class ConectorDB_mysql {
 		}
 		return resultado;
 	}
-	
+
 	public int consulta_Numero_Registros(String sentencia) {		//Pensado para hacer selects con Count()
-		this.conectar();
+		ConectorDB_mysql.conectar();
 		try {
 			stm=cn.createStatement();
-			resultado = stm.executeQuery(sentencia);			
+			resultado = stm.executeQuery(sentencia);
 			resultado.next();
 			return Integer.parseInt(resultado.getObject(1).toString());
 			//return Integer.parseInt(resultado.getString("Count(*)"));
@@ -108,9 +107,9 @@ public class ConectorDB_mysql {
 		}
 		return 10;
 	}
-	
+
 	public void DML(String sentencia) {
-		this.conectar();
+		ConectorDB_mysql.conectar();
 		PreparedStatement stm;
 		try {
 			stm = cn.prepareStatement(sentencia);
@@ -121,7 +120,7 @@ public class ConectorDB_mysql {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 }

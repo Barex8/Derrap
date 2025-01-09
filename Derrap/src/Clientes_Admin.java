@@ -1,45 +1,32 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.CellEditorListener;
-
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.AbstractCellEditor;
-import javax.swing.AbstractListModel;
-import java.awt.BorderLayout;
-import javax.swing.Box;
 import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
-import java.util.EventObject;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+
+import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import java.awt.event.ItemListener;
+
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class Clientes_Admin extends JFrame {
 
@@ -47,13 +34,13 @@ public class Clientes_Admin extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
-	
+
 	public static Clientes_Admin selfFrame;
-	
+
 	private static Clientes_Admin frame;
-	
+
 	private JComboBox CB_TipoUsuario;
-	
+
 	public static String tipoUsuario = "";
 
 	/**
@@ -61,9 +48,10 @@ public class Clientes_Admin extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
-					
+
 					frame = new Clientes_Admin();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -77,7 +65,7 @@ public class Clientes_Admin extends JFrame {
 	 */
 	public Clientes_Admin() {
 		selfFrame = this;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 974, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,13 +88,14 @@ public class Clientes_Admin extends JFrame {
 				RowSpec.decode("40px"),
 				RowSpec.decode("311px:grow"),
 				RowSpec.decode("200px"),}));
-		
+
 		JLabel JLabel_Titulo = new JLabel("Clientes");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
-		
+
 		CB_TipoUsuario = new JComboBox();
 		CB_TipoUsuario.addItemListener(new ItemListener() {		//Cuando cambia el comboBox
+			@Override
 			public void itemStateChanged(ItemEvent e) {
 			System.out.println(CB_TipoUsuario.getSelectedItem().toString()+" ComboBox ha sido cambiado");
 			tipoUsuario = CB_TipoUsuario.getSelectedItem().toString();
@@ -116,32 +105,33 @@ public class Clientes_Admin extends JFrame {
 		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Proveedor", "Usuario"}));
 		contentPane.add(CB_TipoUsuario, "5, 3, 2, 1, fill, default");
 		tipoUsuario = "Cliente"; //por defecto
-		
+
 		JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir clientes
-		
+
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JF_AñadirCliente frame_añadir_clientes = new JF_AñadirCliente(selfFrame,tipoUsuario);
 				frame_añadir_clientes.setVisible(true);
 			}
 		});
 		contentPane.add(Btn_AñadirCliente, "2, 3");
-		
-		
+
+
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
 		textField.setColumns(10);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "2, 4, 6, 2, fill, fill");
-		
+
 		table = new JTable();
 
 		ActualizarTabla(tipoUsuario);
 		scrollPane.setViewportView(table);
-		
-	}	
-	
+
+	}
+
 	public void ActualizarTabla(String tabla) {
 		System.out.println(tabla);
 		int numUsers = 0;
@@ -156,8 +146,8 @@ public class Clientes_Admin extends JFrame {
 			consulta = login.conexion.consulta("SELECT * FROM "+tabla+"");
 		}
 		Object[][] clientes = new Object[0][0];
-		
-		
+
+
 		int row = 0; //Para que se inserte en cada fila
 		try {
 			if(tabla.equals("Cliente")) {
@@ -167,7 +157,7 @@ public class Clientes_Admin extends JFrame {
 					clientes[row][1] = consulta.getString("dni_cliente");
 					clientes[row][2] = consulta.getString("correo_electronico_cliente");
 					clientes[row][3] = consulta.getString("telefono_cliente");
-					row++;					
+					row++;
 				}
 			}
 			if(tabla.equals("Usuario")) {
@@ -179,8 +169,8 @@ public class Clientes_Admin extends JFrame {
 					clientes[row][3] = consulta.getString("telefono_usuario");
 					clientes[row][4] = consulta.getString("especialidad_usuario");
 					clientes[row][5] = consulta.getString("estado_alta_usuario");
-					
-					row++;					
+
+					row++;
 				}
 			}
 			if(tabla.equals("Proveedor")) {
@@ -191,13 +181,13 @@ public class Clientes_Admin extends JFrame {
 					clientes[row][2] = consulta.getString("correo_electronico_proveedor");
 					clientes[row][3] = consulta.getString("direccion_proveedor");
 					clientes[row][4] = consulta.getString("estado_proveedor");
-					row++;					
+					row++;
 				}
 			}
-			
+
 		}catch(Exception e) {  System.out.println(e.getLocalizedMessage());}
-		
-	
+
+
 		if(tabla.equals("Cliente")) {
 			table.setModel(new DefaultTableModel(
 				clientes, //Al pasarle clientes automáticamente guarda los datos en la tabla
@@ -214,19 +204,19 @@ public class Clientes_Admin extends JFrame {
 				));
 		}else if(tabla.equals("Proveedor")) {
 			table.setModel(new DefaultTableModel(
-					clientes, 
+					clientes,
 					new String[] {
 						"Nombre", "CIF", "Correo", "Dirección", "Estado","Editar"
 					}
 				));
 		}
-		
+
 		table.getColumn("Editar").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Editar").setCellEditor(new ButtonEditor(table));
-		
+
 	}
 	//Clase para renderizar el botón
-	
+
 	public static class ButtonRenderer extends JButton implements TableCellRenderer {
 
 		public ButtonRenderer() {
@@ -234,39 +224,39 @@ public class Clientes_Admin extends JFrame {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,		//ni idea de que hace esto 
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,		//ni idea de que hace esto
 				int row, int column) {
 			setText((value == null) ? "Editor": value.toString());
 			return this;
 		}
 	}
-	
+
 	public static class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener{
 		private JButton button;
 		private String label;
 		private boolean clicked;
 		private int selectedRow;
 		private JTable table;
-		
+
 		public ButtonEditor(JTable table) {
 			button = new JButton();
 			button.setOpaque(true);
 			button.addActionListener(this);
 			this.table = table;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object value = table.getValueAt(selectedRow, 1);
 			System.out.println(value.toString());
-			
+
 			System.out.println(tipoUsuario);
 			JF_AñadirCliente frame_añadir_clientes = new JF_AñadirCliente(selfFrame,value.toString(),tipoUsuario);
 			frame_añadir_clientes.setVisible(true);
 			clicked = false;
 			fireEditingStopped();
-			
-			
+
+
 		}
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
@@ -282,11 +272,11 @@ public class Clientes_Admin extends JFrame {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 	}
-	
+
 }
-	
+
 
 
 
