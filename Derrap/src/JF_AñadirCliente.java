@@ -160,6 +160,7 @@ public class JF_AñadirCliente extends JFrame {
 		
 		TF_DNI = new JTextField();
 		TF_DNI.setColumns(10);
+		TF_DNI.setEditable(false);
 		TF_DNI.setText(DNI);
 		info.add(TF_DNI);
 		contentPane.add(TF_DNI, "2, 6, fill, default");
