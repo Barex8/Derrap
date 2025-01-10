@@ -65,7 +65,7 @@ public class ConectorDB_mysql {
 		return dato;
 	}
 	
-	public String InfoCliente() {
+	public String InfoCliente(String user,String password) {
 		String dato="";
 		this.conectar();
 		try {
