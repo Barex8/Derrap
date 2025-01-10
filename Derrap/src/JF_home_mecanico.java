@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JF_home_mecanico extends JFrame {
 
@@ -60,6 +62,7 @@ public class JF_home_mecanico extends JFrame {
 		lblNewLabel_1.setBounds(10, 25, 147, 38);
 		contentPane.add(lblNewLabel_1);
 		
+		//if(rs) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panel.setBackground(azulFondo);
@@ -131,6 +134,7 @@ public class JF_home_mecanico extends JFrame {
 		btnHistorialOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnHistorialOrden1.setBounds(230, 235, 160, 23);
 		panel.add(btnHistorialOrden1);
+		//}
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -275,5 +279,13 @@ public class JF_home_mecanico extends JFrame {
 		btnHistorialOrden1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnHistorialOrden1_1_1.setBounds(230, 235, 160, 23);
 		panel_1_1.add(btnHistorialOrden1_1_1);
+		
+		JButton btnAñadirOrden = new JButton("Añadir orden");
+		btnAñadirOrden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAñadirOrden.setBounds(443, 25, 147, 23);
+		contentPane.add(btnAñadirOrden);
 	}
 }
