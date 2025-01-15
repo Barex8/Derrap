@@ -25,9 +25,9 @@ public class Orden {
 			descripcion=rs.getString("descripcion_orden_trabajo");
 			pieza_sustituida=rs.getString("sustitucion_pieza_orden_trabajo");
 			matricula=rs.getString("id_matricula_orden_trabajo");
-			dni_usuario=rs.getString("dni_usuario");
-			marca_coche=login.conexion.consultaCampo("marca_vehiculo","vehiculo","WHERE matricula_vehiculo="+matricula);
-			modelo_coche=login.conexion.consultaCampo("modelo_vehiculo","vehiculo","WHERE matricula_vehiculo="+matricula);
+			dni_usuario=rs.getString("dni_usuario_orden_trabajo");
+			marca_coche=login.conexion.consultaCampo("marca_vehiculo","vehiculo","WHERE matricula_vehiculo='"+matricula+"'");
+			modelo_coche=login.conexion.consultaCampo("modelo_vehiculo","vehiculo","WHERE matricula_vehiculo='"+matricula+"'");
 			servicio=login.conexion.consultaCampo("nombre_servicio","servicio","WHERE id_servicio="+rs.getString("id_servicio_orden_trabajo"));
 			estado_asignacion=login.conexion.consultaCampo("nombre_estado_asignacion","estado_asignacion","WHERE id_estado_asignacion="+rs.getString("id_estado_asignacion_orden_trabajo"));
 			estado_reparacion=login.conexion.consultaCampo("nombre_estado_reparacion","estado_reparacion","WHERE id_estado_reparacion="+rs.getString("id_estado_reparacion_orden_trabajo"));
@@ -35,5 +35,50 @@ public class Orden {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	//getters
+	public String getDescripcion() {
+		return descripcion;
+	}
+	
+	public String getDni_usuario() {
+		return dni_usuario;
+	}
+	public String getEstado_asignacion() {
+		return estado_asignacion;
+	}
+	
+	public String getEstado_reparacion() {
+		return estado_reparacion;
+	}
+	
+	public String getFecha_entrada() {
+		return fecha_entrada;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getMarca_coche() {
+		return marca_coche;
+	}
+	
+	public String getMatricula() {
+		return matricula;
+	}
+	
+	public String getModelo_coche() {
+		return modelo_coche;
+	}
+	
+	public String getPieza_sustituida() {
+		return pieza_sustituida;
+	}
+	
+	public String getServicio() {
+		return servicio;
 	}
 }

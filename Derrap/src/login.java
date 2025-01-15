@@ -38,7 +38,7 @@ public class login extends JFrame {
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logito.png");
 	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	private Image fondoLogin;
-	private static String dniusuario;
+	public static String dniusuario;
 	/**
 	 * Launch the application.
 	 */
@@ -217,10 +217,12 @@ public class login extends JFrame {
 						//abre ventana mecanico
 						case 2:
 							System.out.println("Ventana mecanico Lo ha modificado Ale");
-							dispose();
-							JF_home_mecanico frame_mecanico = new JF_home_mecanico();
-							frame_mecanico.setVisible(true);
 							dniusuario=tf_login_user.getText();
+							JF_home_mecanico frame_mecanico = new JF_home_mecanico();
+							dispose();
+							frame_mecanico.setVisible(true);
+							
+							
 						break;
 						default:
 							lbl_error.setText("Usuario y contraseña no válidos");
