@@ -102,7 +102,7 @@ public class Clientes_Admin extends JFrame {
 				ActualizarTabla(CB_TipoUsuario.getSelectedItem().toString());
 			}
 		});
-		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Proveedor", "Usuario"}));
+		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Vehiculo", "Usuario"}));
 		contentPane.add(CB_TipoUsuario, "5, 3, 2, 1, fill, default");
 		tipoUsuario = "Cliente"; //por defecto
 
@@ -136,7 +136,7 @@ public class Clientes_Admin extends JFrame {
 		System.out.println(tabla);
 		int numUsers = 0;
 		ResultSet consulta = null;
-		//Pone los clientes, usuarios o proveedores en la tabla (no admins)
+		//Pone los clientes, usuarios o vehiculos en la tabla (no admins)
 		if(tabla.equals("Usuario")) {
 			numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap."+tabla+" Where id_rol_usuario = 2");
 			consulta = login.conexion.consulta("SELECT * FROM "+tabla+" Where id_rol_usuario = 2");
@@ -151,7 +151,7 @@ public class Clientes_Admin extends JFrame {
 		int row = 0; //Para que se inserte en cada fila
 		try {
 			if(tabla.equals("Cliente")) {
-				clientes = new Object[numUsers][5]; //Numero de campos, los clientes no muestran el mismo número de campos que los clientes
+				clientes = new Object[numUsers][5]; //Numero de campos, los clientes no muestran el mismo número de campos que los usuarios o vehículos
 				while(consulta.next()) {
 					clientes[row][0]= consulta.getString("nombre_cliente")+" "+consulta.getString("primer_apellido_cliente")+" "+consulta.getString("segundo_apellido_cliente");//nombre con apellidos
 					clientes[row][1] = consulta.getString("dni_cliente");
@@ -173,14 +173,15 @@ public class Clientes_Admin extends JFrame {
 					row++;
 				}
 			}
-			if(tabla.equals("Proveedor")) {
+			if(tabla.equals("Vehiculo")) {
 				clientes = new Object[numUsers][6];
 				while(consulta.next()) {
-					clientes[row][0]= consulta.getString("nombre_proveedor");//nombre con apellidos
-					clientes[row][1] = consulta.getString("cif_proveedor");
-					clientes[row][2] = consulta.getString("correo_electronico_proveedor");
-					clientes[row][3] = consulta.getString("direccion_proveedor");
-					clientes[row][4] = consulta.getString("estado_proveedor");
+					clientes[row][0]= consulta.getString("matricula_vehiculo");//nombre con apellidos
+					clientes[row][1] = consulta.getString("marca_vehiculo");
+					clientes[row][2] = consulta.getString("modelo_vehiculo");
+					clientes[row][3] = consulta.getString("año_vehiculo");
+					clientes[row][4] = consulta.getString("color_vehiculo");
+					clientes[row][5] = consulta.getString("dni_cliente_vehiculo");
 					row++;
 				}
 			}
@@ -202,11 +203,11 @@ public class Clientes_Admin extends JFrame {
 						"Nombre", "DNI", "Correo", "Telefono", "Especialidad","Estado","Editar"
 					}
 				));
-		}else if(tabla.equals("Proveedor")) {
+		}else if(tabla.equals("Vehiculo")) {
 			table.setModel(new DefaultTableModel(
 					clientes,
 					new String[] {
-						"Nombre", "CIF", "Correo", "Dirección", "Estado","Editar"
+						"Matricula", "Marca", "Modelo", "Año", "Color","DNI Cliente","Editar"
 					}
 				));
 		}
@@ -247,7 +248,13 @@ public class Clientes_Admin extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Object value = table.getValueAt(selectedRow, 1);
+			Object value = null;
+			if(!tipoUsuario.equals("Vehiculo")) {
+				value = table.getValueAt(selectedRow, 1);
+			}else {
+				value = table.getValueAt(selectedRow, 0);
+			}
+			
 			System.out.println(value.toString());
 
 			System.out.println(tipoUsuario);
