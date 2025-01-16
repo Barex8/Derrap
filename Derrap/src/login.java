@@ -36,7 +36,7 @@ public class login extends JFrame {
 	private Color azulSecundario = Color.decode("#DEF2F7");
 	private Color colorPlaceHolder = Color.decode("#A1A29F");
 	private ImageIcon logoOriginal = new ImageIcon("../imagenes/logito.png");
-	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
+	public static ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	private Image fondoLogin;
 	public static String dniusuario;
 	/**

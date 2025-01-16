@@ -88,9 +88,11 @@ public class ConectorDB_mysql {
 		String consulta="";
 		try {
 			stm=cn.createStatement();
-			resultado = stm.executeQuery("SELECT " +campo +"FROM "+tabla +where+";");
+			
+			resultado = stm.executeQuery("SELECT " +campo +" FROM "+tabla +" "+where+";");
+			
 			while(resultado.next()) {
-				consulta = resultado.getString("id_rol_usuario");
+				consulta = resultado.getString(campo);
 			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block

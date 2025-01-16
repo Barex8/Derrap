@@ -23,7 +23,6 @@ public class JF_home_mecanico extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private ImageIcon logoBarra = new ImageIcon("../imagenes/logoDblanco.png");
 	public static Color azulFondo = Color.decode("#dff3f8");
 	
 
@@ -50,12 +49,16 @@ public class JF_home_mecanico extends JFrame {
 		
 		
 		ArrayList<Orden> ordenes_usuario = new ArrayList<Orden>();
-		for (int i = 1; i <= login.conexion.consulta_Numero_Registros("SELECT COUNT(*) from orden_trabajo;"); i++) {
-			Orden orden = new Orden(Integer.parseInt(login.conexion.consultaCampo("id_orden_trabajo","orden_trabajo", "WHERE dni_usuario_orden_trabajo='"+login.dniusuario+"' AND id_estado_reparacion_orden_trabajo!=4")));
-			ordenes_usuario.add(orden);
+		for (int i = 1; i <= login.conexion.consulta_Numero_Registros("SELECT COUNT(*) from orden_trabajo WHERE dni_usuario_orden_trabajo='"+login.dniusuario+"' AND id_estado_reparacion_orden_trabajo!=4;"); i++) {
+			if(login.conexion.consultaCampo("id_orden_trabajo","orden_trabajo", "WHERE dni_usuario_orden_trabajo='"+login.dniusuario+"' AND id_estado_reparacion_orden_trabajo!=4")!="") {
+				int id=Integer.parseInt(login.conexion.consultaCampo("id_orden_trabajo","orden_trabajo", "WHERE dni_usuario_orden_trabajo='"+login.dniusuario+"' AND id_estado_reparacion_orden_trabajo!=4"));
+				Orden orden = new Orden(id);
+				ordenes_usuario.add(orden);
+			}
+			
 		}
 		
-		setIconImage(logoBarra.getImage());
+		setIconImage(login.logoBarra.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1001, 949);
 		contentPane = new JPanel();
@@ -300,6 +303,9 @@ public class JF_home_mecanico extends JFrame {
 		JButton btnAñadirOrden = new JButton("Añadir orden");
 		btnAñadirOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JF_ordenes frame_ordenes = new JF_ordenes();
+				dispose();
+				frame_ordenes.setVisible(true);
 			}
 		});
 		btnAñadirOrden.setBounds(443, 25, 147, 23);
