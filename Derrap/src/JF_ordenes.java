@@ -1,6 +1,9 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -22,15 +25,15 @@ public class JF_ordenes extends JFrame {
 
         // Crear un JPanel para contener todo el contenido
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS)); 
-        ArrayList<Orden> ordenes = new ArrayList<Orden>();// Layout vertical
-        for (int i = 1; i <= login.conexion.consulta_Numero_Registros("SELECT COUNT(*) from orden_trabajo;"); i++) {
+        contentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        ArrayList<Orden> ordenes = new ArrayList<Orden>(); 
+        for (int i = 1; i <= login.conexion.consulta_Numero_Registros("SELECT COUNT(*) from orden_trabajo WHERE id_estado_asignacion_orden_trabajo=1 AND id_estado_reparacion_orden_trabajo!=4;"); i++) {
 			Orden orden = new Orden(i);
 			ordenes.add(orden);
+			System.out.println(orden.getMatricula());
 		}
         
         JScrollPane scrollPane = new JScrollPane(contentPanel);
-
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -39,8 +42,9 @@ public class JF_ordenes extends JFrame {
         	JPanel panel = new JPanel();
     		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
     		panel.setBackground(JF_home_mecanico.azulFondo);
-    		panel.setSize(1000, 269);
-    		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    		panel.setPreferredSize(new Dimension(580, 269));
+    		panel.setMaximumSize(new Dimension(580, 100));
+    		panel.setLayout(null);
     		
     		JLabel lbTítuloOrden1 = new JLabel("Orden 1: " +ordenes.get(i).getMarca_coche()+" "+ ordenes.get(i).getModelo_coche()+", " + ordenes.get(i).getMatricula());
     		lbTítuloOrden1.setVerticalAlignment(SwingConstants.TOP);
@@ -109,6 +113,7 @@ public class JF_ordenes extends JFrame {
             contentPanel.add(panel);
             
         }
+        
 
         // Agregar el JPanel a un JScrollPane
         

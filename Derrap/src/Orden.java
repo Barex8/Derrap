@@ -17,10 +17,10 @@ public class Orden {
 	
 	public Orden(int id){
 		this.id=id;
-		ResultSet rs=login.conexion.consulta("SELECT * FROM orden_trabajo");
+		ResultSet rs=login.conexion.consulta("SELECT * FROM orden_trabajo WHERE id_orden_trabajo="+id+";");
 		try {
 			rs.next();
-			id=Integer.parseInt(rs.getString("id_orden_trabajo"));
+			
 			fecha_entrada=rs.getString("fecha_entrada_orden_trabajo");
 			descripcion=rs.getString("descripcion_orden_trabajo");
 			pieza_sustituida=rs.getString("sustitucion_pieza_orden_trabajo");
@@ -80,5 +80,10 @@ public class Orden {
 	
 	public String getServicio() {
 		return servicio;
+		
+	}@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 }
