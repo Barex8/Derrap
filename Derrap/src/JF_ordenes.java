@@ -43,7 +43,7 @@ public class JF_ordenes extends JFrame {
     		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
     		panel.setBackground(JF_home_mecanico.azulFondo);
     		panel.setPreferredSize(new Dimension(580, 269));
-    		panel.setMaximumSize(new Dimension(580, 100));
+    		panel.setMaximumSize(new Dimension(580, 269));
     		panel.setLayout(null);
     		
     		JLabel lbTítuloOrden1 = new JLabel("Orden 1: " +ordenes.get(i).getMarca_coche()+" "+ ordenes.get(i).getModelo_coche()+", " + ordenes.get(i).getMatricula());
