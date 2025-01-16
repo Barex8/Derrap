@@ -57,10 +57,10 @@ public class JF_AñadirCliente extends JFrame {
 	public JF_AñadirCliente(Clientes_Admin frame,String DNI,String tabla) {										//Para modificar o eliminar
 		String campo1 = "", campo2= "", campo3= "", campo4= "", campo5= "", campo6= "", campo7= "", campo8="";
 		ResultSet result = null;
-		if(!tabla.equals("Proveedor")) {
+		if(!tabla.equals("Vehiculo")) {
 			result = login.conexion.consulta("Select * From "+tabla+" WHERE dni_"+tabla+" = " + "'"+DNI+"'");
 		} else {
-			result = login.conexion.consulta("Select * From "+tabla+" WHERE cif_"+tabla+" = " + "'"+DNI+"'");
+			result = login.conexion.consulta("Select * From "+tabla+" WHERE matricula_"+tabla+" = " + "'"+DNI+"'");
 		}
 
 		try {
@@ -74,21 +74,23 @@ public class JF_AñadirCliente extends JFrame {
 				campo5 = result.getString("telefono_"+tabla.toLowerCase());
 				campo6 = result.getString("ciudad_"+tabla.toLowerCase());
 				campo7 = result.getString("codigo_postal_"+tabla.toLowerCase());
+				
 			} else if(tabla.equals("Usuario")) {
 				tipoUsuario = "Usuario";
-
 				campo1 = result.getString("nombre_"+tabla.toLowerCase());
 				campo2 = result.getString("id_rol_"+tabla.toLowerCase());
 				campo3 = result.getString("estado_alta_"+tabla.toLowerCase());
 				campo4 = result.getString("correo_electronico_"+tabla.toLowerCase());
 				campo5 = result.getString("telefono_"+tabla.toLowerCase());
 				campo6 = result.getString("especialidad_"+tabla.toLowerCase());
-			}else if(tabla.equals("Proveedor")) {
-				tipoUsuario = "Proveedor";
-				campo1 = result.getString("nombre_"+tabla.toLowerCase());
-				campo2 = result.getString("direccion_"+tabla.toLowerCase());
-				campo3 = result.getString("estado_"+tabla.toLowerCase());
-				campo4 = result.getString("correo_electronico_"+tabla.toLowerCase());
+				
+			}else if(tabla.equals("Vehiculo")) {
+				tipoUsuario = "Vehiculo";
+				campo1 = result.getString("marca_"+tabla.toLowerCase());
+				campo2 = result.getString("modelo_"+tabla.toLowerCase());
+				campo3 = result.getString("año_"+tabla.toLowerCase());
+				campo4 = result.getString("color_"+tabla.toLowerCase());
+				campo5 = result.getString("dni_cliente_"+tabla.toLowerCase());
 			}
 
 
@@ -161,17 +163,29 @@ public class JF_AñadirCliente extends JFrame {
 
 
 
-		JLabel lb_DNI = new JLabel("DNI");
+		JLabel lb_DNI = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_DNI = new JLabel("DNI");
+		}else {
+			lb_DNI = new JLabel("Matricula");
+		}
+		
 		contentPane.add(lb_DNI, "2, 4");
 
 		TF_DNI = new JTextField();
 		TF_DNI.setColumns(10);
 		TF_DNI.setEditable(false);
+		System.out.println(DNI+"            DNIIIIIIII");
 		TF_DNI.setText(DNI);
 		info.add(TF_DNI);
 		contentPane.add(TF_DNI, "2, 6, fill, default");
 
-		JLabel lb_Nombre = new JLabel("Nombre");
+		JLabel lb_Nombre = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Nombre = new JLabel("Nombre");
+		}else {
+			lb_Nombre = new JLabel("Marca");
+		}
 		contentPane.add(lb_Nombre, "2, 10");
 
 		TF_Nombre = new JTextField();
@@ -185,8 +199,8 @@ public class JF_AñadirCliente extends JFrame {
 			lb_Primer_Apellido = new JLabel("Primer apellido");
 		}else if (tipoUsuario.equals("Usuario")) {
 			lb_Primer_Apellido = new JLabel("Rol");
-		}else if(tipoUsuario.equals("Proveedor")) {
-			lb_Primer_Apellido = new JLabel("Direccion");
+		}else if(tipoUsuario.equals("Vehiculo")) {
+			lb_Primer_Apellido = new JLabel("Modelo");
 		}
 
 		contentPane.add(lb_Primer_Apellido, "2, 16");
@@ -202,8 +216,8 @@ public class JF_AñadirCliente extends JFrame {
 			lb_Segundo_Apellido = new JLabel("Segundo apellido");
 		}else if (tipoUsuario.equals("Usuario")) {
 			lb_Segundo_Apellido = new JLabel("Estado alta");
-		}else if (tipoUsuario.equals("Proveedor")) {
-			lb_Segundo_Apellido = new JLabel("Estado");
+		}else if (tipoUsuario.equals("Vehiculo")) {
+			lb_Segundo_Apellido = new JLabel("Año");
 		}
 
 		contentPane.add(lb_Segundo_Apellido, "2, 22");
@@ -216,6 +230,12 @@ public class JF_AñadirCliente extends JFrame {
 
 
 		JLabel lb_Correo = new JLabel("Correo electrónico");
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Correo = new JLabel("Correo");
+		}else {
+			lb_Correo = new JLabel("Color");
+		}
+		
 		contentPane.add(lb_Correo, "2, 34");
 
 		TF_Correo = new JTextField();
@@ -225,20 +245,22 @@ public class JF_AñadirCliente extends JFrame {
 		contentPane.add(TF_Correo, "2, 36, fill, default");
 
 		JLabel lb_Telefono = null;
-		if(!tipoUsuario.equals("Proveedor")) {
+		if(!tipoUsuario.equals("Vehiculo")) {
 			lb_Telefono = new JLabel("Telefono");
-			contentPane.add(lb_Telefono, "2, 28");
-
-			TF_Telefono = new JTextField();
-			TF_Telefono.setColumns(10);
-			TF_Telefono.setText(campo5);
-			info.add(TF_Telefono);
-			contentPane.add(TF_Telefono, "2, 30, fill, default");
+		}else {
+			lb_Telefono = new JLabel("dni_cliente_vehiculo");
 		}
+		contentPane.add(lb_Telefono, "2, 28");
+
+		TF_Telefono = new JTextField();
+		TF_Telefono.setColumns(10);
+		TF_Telefono.setText(campo5);
+		info.add(TF_Telefono);
+		contentPane.add(TF_Telefono, "2, 30, fill, default");
 
 		JLabel lb_Ciudad = null;
 
-		if(!tipoUsuario.equals("Proveedor")) {
+		if(!tipoUsuario.equals("Vehiculo")) {
 			if(tipoUsuario.equals("Cliente")) {
 				lb_Ciudad = new JLabel("Segundo apellido");
 			}else if (tipoUsuario.equals("Usuario")) {
@@ -265,32 +287,46 @@ public class JF_AñadirCliente extends JFrame {
 		}
 
 
-		JButton EliminarCliente = new JButton("Eliminar");			//ELIMINAR
-		EliminarCliente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean success = true;
-				if(info.get(0).getText().equals("")) {
-					System.out.println("El campo DNI no puede estar vacio");
-					success = false;
-				}
-				//Si todo sale bien, borrar datos en la base de datos y actualizar la tabla de Clientes_Admin
-
-				if(success) {
-					if(!tipoUsuario.equals("Proveedor")) {
-						login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".dni_"+tabla+" = "+"'"+info.get(0).getText()+"'");//Hay que mirar que los usuarios tienen coches asociados y por eso no se pueden borrar
-					} else { //Hay que mirar que los usuarios tienen coches asociados y por eso no se pueden borrar
-						login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".cif_"+tabla+" = "+"'"+info.get(0).getText()+"'");
+		if(!tipoUsuario.equals("Cliente")) {
+			JButton EliminarCliente = new JButton("Eliminar");			//ELIMINAR
+			EliminarCliente.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean success = true;
+					if(info.get(0).getText().equals("")) {
+						System.out.println("El campo DNI no puede estar vacio");
+						success = false;
 					}
-					frame.ActualizarTabla(tabla);
-					dispose();
+					//Si todo sale bien, borrar datos en la base de datos y actualizar la tabla de Clientes_Admin
+	
+					if(success) {
+						if(!tipoUsuario.equals("Vehiculo")) {
+							String id_orden = login.conexion.consultaCampo("id_orden_trabajo", "orden_trabajo", " Where dni_usuario_orden_trabajo = '"+info.get(0).getText()+"'");
+							
+							login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo ="+"'"+ id_orden+"'");
+							login.conexion.DML("DELETE From derrap.orden_trabajo WHERE dni_usuario_orden_trabajo ="+"'"+info.get(0).getText()+"'");
+							login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".dni_"+tabla+" = "+"'"+info.get(0).getText()+"'");//Hay que mirar que los usuarios tienen coches asociados y por eso no se pueden borrar
+						} else { 
+							System.out.println("Borrado cita");
+							login.conexion.DML("DELETE From derrap.cita WHERE matricula_vehiculo_cita ="+"'"+info.get(0).getText()+"'");
+							System.out.println("Consulta id_orden_trabajo");
+							String id_orden = login.conexion.consultaCampo("id_orden_trabajo", "orden_trabajo", " Where id_matricula_orden_trabajo = '"+info.get(0).getText()+"'");
+							System.out.println("Borrado orden");
+							login.conexion.DML("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo ="+"'"+info.get(0).getText()+"'");
+							System.out.println("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo ="+"'"+info.get(0).getText()+"'");
+							
+							login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo ="+"'"+ id_orden+"'");
+							login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".matricula_"+tabla+" = "+"'"+info.get(0).getText()+"'");
+						}
+						frame.ActualizarTabla(tabla);
+						dispose();
+					}
 				}
-			}
-		});
+			});
+		
 		contentPane.add(EliminarCliente, "3, 46");
 
-		System.out.println(info);
-
+		}
 		JButton Cancelar = new JButton("Cancelar");
 		Cancelar.addActionListener(new ActionListener() {
 			@Override
@@ -315,22 +351,18 @@ public class JF_AñadirCliente extends JFrame {
 					index++;
 				}
 				//Si todo sale bien, insertar datos en la base de datos y actualizar la tabla de Clientes_Admin
-				System.out.println(success);
 				if(success) {
-					System.out.println(datos[0]);
 					if(tabla.equals("Cliente")) {
 						login.conexion.DML("UPDATE "+tabla+" SET nombre_cliente = '"+datos[1]+"', primer_apellido_cliente = '"+datos[2]+"' , segundo_apellido_cliente = '"+datos[3]+"', correo_electronico_cliente = '"+datos[4]+
 								"', telefono_cliente = '"+datos[5]+"',ciudad_cliente = '"+datos[6]+"',codigo_postal_cliente = '"+datos[7]+"' WHERE dni_cliente = '"+datos[0]+"'");
-
 					}else if(tabla.equals("Usuario")) {
 						login.conexion.DML("UPDATE "+tabla+" SET nombre_usuario = '"+datos[1]+"', id_rol_usuario = '"+datos[2]+"' , estado_alta_usuario = '"+datos[3]+"', correo_electronico_usuario = '"+datos[4]+
 								"', telefono_usuario = '"+datos[5]+"',especialidad_usuario = '"+datos[6]+"' WHERE dni_usuario = '"+datos[0]+"'");
-					}else if(tabla.equals("Proveedor")) {
-						System.out.println("UPDATE "+tabla+" SET nombre_proveedor = '"+datos[1]+"', direccion_proveedor = '"+datos[2]+"' , estado_proveedor = '"+datos[3]+"', correo_electronico_proveedor = '"+datos[4]+ "'  WHERE cif_proveedor = '"+datos[0]+"'");
-						login.conexion.DML("UPDATE "+tabla+" SET nombre_proveedor = '"+datos[1]+"', direccion_proveedor = '"+datos[2]+"' , estado_proveedor = '"+datos[3]+"', correo_electronico_proveedor = '"+datos[4]+ "' WHERE cif_proveedor = '"+datos[0]+"'");
-					}
+					}else if(tabla.equals("Vehiculo")) {
+						login.conexion.DML("UPDATE "+tabla+" SET marca_vehiculo = '"+datos[1]+"', modelo_vehiculo = '"+datos[2]+"' , año_vehiculo = "+datos[3]+", color_vehiculo = '"+datos[4]+"', dni_cliente_vehiculo = '"+datos[5]+ "'  WHERE matricula_vehiculo = '"+datos[0]+"'");
 					dispose();
 					frame.ActualizarTabla(tabla);
+					}
 				}
 			}
 		});
@@ -409,7 +441,12 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_DNI);
 		contentPane.add(TF_DNI, "2, 6, fill, default");
 
-		JLabel lb_Nombre = new JLabel("Nombre");
+		JLabel lb_Nombre = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Nombre = new JLabel("Nombre");
+		}else {
+			lb_Nombre = new JLabel("Marca");
+		}
 		contentPane.add(lb_Nombre, "2, 10");
 
 		TF_Nombre = new JTextField();
@@ -417,7 +454,15 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_Nombre);
 		contentPane.add(TF_Nombre, "2, 12, fill, default");
 
-		JLabel lb_Primer_Apellido = new JLabel("Primer apellido");
+		JLabel lb_Primer_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Primer_Apellido = new JLabel("Primer apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Primer_Apellido = new JLabel("Rol");
+		}else if(tipoUsuario.equals("Vehiculo")) {
+			lb_Primer_Apellido = new JLabel("Modelo");
+		}
+		
 		contentPane.add(lb_Primer_Apellido, "2, 16");
 
 		TF_Primer_Apellido = new JTextField();
@@ -425,29 +470,49 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_Primer_Apellido);
 		contentPane.add(TF_Primer_Apellido, "2, 18, fill, default");
 
-		JLabel lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		JLabel lb_Segundo_Apellido = null;
+		if(tipoUsuario.equals("Cliente")) {
+			lb_Segundo_Apellido = new JLabel("Segundo apellido");
+		}else if (tipoUsuario.equals("Usuario")) {
+			lb_Segundo_Apellido = new JLabel("Estado alta");
+		}else if (tipoUsuario.equals("Vehiculo")) {
+			lb_Segundo_Apellido = new JLabel("Año");
+		}
+		
 		contentPane.add(lb_Segundo_Apellido, "2, 22");
 
 		TF_Segundo_Apellido = new JTextField();
 		TF_Segundo_Apellido.setColumns(10);
 		info.add(TF_Segundo_Apellido);
 		contentPane.add(TF_Segundo_Apellido, "2, 24, fill, default");
+		
+		JLabel lb_Correo = new JLabel("Correo electrónico");
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Correo = new JLabel("Correo");
+		}else {
+			lb_Correo = new JLabel("Color ");
+		}
+		contentPane.add(lb_Correo, "2, 34");
+		
+		TF_Correo = new JTextField();
+		TF_Correo.setColumns(10);
+		info.add(TF_Correo);
+		contentPane.add(TF_Correo, "2, 36, fill, default");
+		
 
-		JLabel lb_Telefono = new JLabel("Telefono");
+		JLabel lb_Telefono = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Telefono = new JLabel("Telefono");
+		}else {
+			lb_Telefono = new JLabel("dni_cliente_vehiculo");
+		}
 		contentPane.add(lb_Telefono, "2, 28");
 
 		TF_Telefono = new JTextField();
 		TF_Telefono.setColumns(10);
 		info.add(TF_Telefono);
 		contentPane.add(TF_Telefono, "2, 30, fill, default");
-
-		JLabel lb_Correo = new JLabel("Correo electrónico");
-		contentPane.add(lb_Correo, "2, 34");
-
-		TF_Correo = new JTextField();
-		TF_Correo.setColumns(10);
-		info.add(TF_Correo);
-		contentPane.add(TF_Correo, "2, 36, fill, default");
+		
 
 		JLabel lb_Ciudad = new JLabel("Ciudad");
 		contentPane.add(lb_Ciudad, "2, 40");
@@ -597,7 +662,13 @@ public class JF_AñadirCliente extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 
-		JLabel lb_DNI = new JLabel("DNI");
+		JLabel lb_DNI = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_DNI = new JLabel("DNI");
+		}else {
+			lb_DNI = new JLabel("Matricula");
+		}
+		
 		contentPane.add(lb_DNI, "2, 4");
 
 		TF_DNI = new JTextField();
@@ -605,7 +676,12 @@ public class JF_AñadirCliente extends JFrame {
 		info.add(TF_DNI);		//0
 		contentPane.add(TF_DNI, "2, 6, fill, default");
 
-		JLabel lb_Nombre = new JLabel("Nombre");
+		JLabel lb_Nombre = null;
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Nombre = new JLabel("Nombre");
+		}else {
+			lb_Nombre = new JLabel("Marca");
+		}
 		contentPane.add(lb_Nombre, "2, 10");
 
 		TF_Nombre = new JTextField();
@@ -618,8 +694,8 @@ public class JF_AñadirCliente extends JFrame {
 			lb_Primer_Apellido = new JLabel("Primer apellido");
 		}else if (tipoUsuario.equals("Usuario")) {
 			lb_Primer_Apellido = new JLabel("Rol");
-		}else if(tipoUsuario.equals("Proveedor")) {
-			lb_Primer_Apellido = new JLabel("Direccion");
+		}else if(tipoUsuario.equals("Vehiculo")) {
+			lb_Primer_Apellido = new JLabel("Modelo");
 		}
 		contentPane.add(lb_Primer_Apellido, "2, 16");
 
@@ -633,10 +709,9 @@ public class JF_AñadirCliente extends JFrame {
 			lb_Segundo_Apellido = new JLabel("Segundo apellido");
 		}else if (tipoUsuario.equals("Usuario")) {
 			lb_Segundo_Apellido = new JLabel("Estado alta");
-		}else if (tipoUsuario.equals("Proveedor")) {
-			lb_Segundo_Apellido = new JLabel("Estado");
+		}else if (tipoUsuario.equals("Vehiculo")) {
+			lb_Segundo_Apellido = new JLabel("Año");
 		}
-
 		contentPane.add(lb_Segundo_Apellido, "2, 22");
 
 		TF_Segundo_Apellido = new JTextField();
@@ -645,17 +720,24 @@ public class JF_AñadirCliente extends JFrame {
 		contentPane.add(TF_Segundo_Apellido, "2, 24, fill, default");
 
 		JLabel lb_Telefono = null;
-		if(!tipoUsuario.equals("Proveedor")) {
+		if(!tipoUsuario.equals("Vehiculo")) {
 			lb_Telefono = new JLabel("Telefono");
+		}else {
+			lb_Telefono = new JLabel("Dni del cliente");
+		}
 			contentPane.add(lb_Telefono, "2, 28");
 
 			TF_Telefono = new JTextField();
 			TF_Telefono.setColumns(10);
 			info.add(TF_Telefono);	//4
 			contentPane.add(TF_Telefono, "2, 30, fill, default");
-		}
 
 		JLabel lb_Correo = new JLabel("Correo electrónico");
+		if(!tipoUsuario.equals("Vehiculo")) {
+			lb_Correo = new JLabel("Correo");
+		}else {
+			lb_Correo = new JLabel("Color");
+		}
 		contentPane.add(lb_Correo, "2, 34");
 
 		TF_Correo = new JTextField();
@@ -665,7 +747,7 @@ public class JF_AñadirCliente extends JFrame {
 
 		JLabel lb_Ciudad = null;
 
-		if(!tipoUsuario.equals("Proveedor")) {
+		if(!tipoUsuario.equals("Vehiculo")) {
 			if(tipoUsuario.equals("Cliente")) {
 				lb_Ciudad = new JLabel("Segundo apellido");
 			}else if (tipoUsuario.equals("Usuario")) {
@@ -721,8 +803,9 @@ public class JF_AñadirCliente extends JFrame {
 						login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[2]+"', '"+datos[3]+"', '"+datos[4]+"', '"+datos[5]+"', '"+datos[6]+"', '"+datos[7]+"')");
 					} else if(tipoUsuario.equals("Usuario")) {
 						login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[7]+"' , '"+datos[1]+"', '"+datos[5]+"', '"+datos[4]+"', '"+datos[6]+"', '"+datos[3]+"', '"+datos[2]+"')");
-					} else if (tipoUsuario.equals("Proveedor")) {
-						login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[4]+"', '"+datos[2]+"' , '"+datos[3]+"')");
+					} else if (tipoUsuario.equals("Vehiculo")) {
+						System.out.println("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[2]+"', '"+datos[3]+"' , '"+datos[5]+"', '"+datos[4]+"')");
+						login.conexion.DML("INSERT INTO derrap."+tabla+" VALUES('"+datos[0]+"', '"+datos[1]+"' , '"+datos[2]+"', "+datos[3]+" , '"+datos[5]+"', '"+datos[4]+"')");
 					}
 					frame.ActualizarTabla(tabla);
 					dispose();

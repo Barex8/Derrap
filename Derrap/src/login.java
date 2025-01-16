@@ -143,7 +143,6 @@ public class login extends JFrame {
 			 }
 		});
 
-
 		tf_login_password = new JPasswordField("CONTRASEÑA");
 		tf_login_password.setForeground(colorPlaceHolder);
 		tf_login_password.setBounds(133, 158, 130, 20);
