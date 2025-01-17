@@ -311,11 +311,12 @@ public class JF_AñadirCliente extends JFrame {
 							login.conexion.DML("DELETE From derrap.cita WHERE matricula_vehiculo_cita ="+"'"+info.get(0).getText()+"'");
 							System.out.println("Consulta id_orden_trabajo");
 							String id_orden = login.conexion.consultaCampo("id_orden_trabajo", "orden_trabajo", " Where id_matricula_orden_trabajo = '"+info.get(0).getText()+"'");
+							login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo ="+"'"+ id_orden+"'");
 							System.out.println("Borrado orden");
 							login.conexion.DML("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo ="+"'"+info.get(0).getText()+"'");
 							System.out.println("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo ="+"'"+info.get(0).getText()+"'");
 							
-							login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo ="+"'"+ id_orden+"'");
+							//login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo ="+"'"+ id_orden+"'");
 							login.conexion.DML("DELETE From derrap."+tabla+" where derrap."+tabla+".matricula_"+tabla+" = "+"'"+info.get(0).getText()+"'");
 						}
 						frame.ActualizarTabla(tabla);
