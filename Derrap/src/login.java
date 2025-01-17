@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -229,7 +231,60 @@ public class login extends JFrame {
 					}
 				}
 			}
+			
 		});
+		
+		tf_login_password.addKeyListener(new KeyListener(){
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	             
+	        }
+
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	
+	            int code = e.getKeyCode();
+	            if (code==KeyEvent.VK_ENTER){
+	            	String rol1 = conexion.InicioSesion(tf_login_user.getText(), tf_login_password.getText(),lbl_error);
+					if(rol1.equals("")) {
+						lbl_error.setText("Usuario y contraseña equivocados");
+						lbl_error.setVisible(true);
+					}else {
+						int rol = Integer.parseInt(rol1);
+						switch(rol) {
+							//abre ventana admin
+							case 1:
+								System.out.println("Ventana admin");
+								dispose();
+								JF_home_admin frame_admin = new JF_home_admin();
+								frame_admin.setVisible(true);
+								dniusuario=tf_login_user.getText();
+							break;
+							//abre ventana mecanico
+							case 2:
+								System.out.println("Ventana mecanico Lo ha modificado Ale");
+								dniusuario=tf_login_user.getText();
+								JF_home_mecanico frame_mecanico = new JF_home_mecanico();
+								dispose();
+								frame_mecanico.setVisible(true);
+								
+								
+							break;
+							default:
+								lbl_error.setText("Usuario y contraseña no válidos");
+								lbl_error.setVisible(true);
+						}
+					}
+	            }
+	            
+	            
+	        }
+
+	        @Override
+	        public void keyReleased(KeyEvent e) {
+	        }
+
+	      });
 	
 	}
 }
