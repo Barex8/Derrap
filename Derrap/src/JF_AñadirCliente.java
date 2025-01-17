@@ -361,9 +361,9 @@ public class JF_AñadirCliente extends JFrame {
 								"', telefono_usuario = '"+datos[5]+"',especialidad_usuario = '"+datos[6]+"' WHERE dni_usuario = '"+datos[0]+"'");
 					}else if(tabla.equals("Vehiculo")) {
 						login.conexion.DML("UPDATE "+tabla+" SET marca_vehiculo = '"+datos[1]+"', modelo_vehiculo = '"+datos[2]+"' , año_vehiculo = "+datos[3]+", color_vehiculo = '"+datos[4]+"', dni_cliente_vehiculo = '"+datos[5]+ "'  WHERE matricula_vehiculo = '"+datos[0]+"'");
+					}
 					dispose();
 					frame.ActualizarTabla(tabla);
-					}
 				}
 			}
 		});
