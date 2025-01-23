@@ -18,7 +18,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class JF_AñadirCliente extends JFrame {
+public class JF_Añadir_Cliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -46,7 +46,7 @@ public class JF_AñadirCliente extends JFrame {
 			@Override
 			public void run() {
 				try {
-					JF_AñadirCliente frame = new JF_AñadirCliente();
+					JF_Añadir_Cliente frame = new JF_Añadir_Cliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +54,7 @@ public class JF_AñadirCliente extends JFrame {
 			}
 		});
 	}
-	public JF_AñadirCliente(Clientes_Admin frame,String DNI,String tabla) {										//Para modificar o eliminar
+	public JF_Añadir_Cliente(JF_Cliente_Admin frame,String DNI,String tabla) {										//Para modificar o eliminar
 		String campo1 = "", campo2= "", campo3= "", campo4= "", campo5= "", campo6= "", campo7= "", campo8="";
 		ResultSet result = null;
 		if(!tabla.equals("Vehiculo")) {
@@ -371,7 +371,7 @@ public class JF_AñadirCliente extends JFrame {
 
 	}
 
-	public JF_AñadirCliente() {				//Para poder ver el frame en Design
+	public JF_Añadir_Cliente() {				//Para poder ver el frame en Design
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 667);
 		contentPane = new JPanel();
@@ -599,7 +599,7 @@ public class JF_AñadirCliente extends JFrame {
 
 
 
-	public JF_AñadirCliente(Clientes_Admin frame,String tabla) {			//Se usa solo para Añadir
+	public JF_Añadir_Cliente(JF_Cliente_Admin frame,String tabla) {			//Se usa solo para Añadir
 		tipoUsuario = tabla;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 667);

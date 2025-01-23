@@ -50,17 +50,30 @@ public class JF_home_admin extends JFrame {
 		lblNewLabel.setBounds(10, 72, 138, 14);
 		contentPane.add(lblNewLabel);
 
-		JButton Btn_AdministrarUsuarios = new JButton("Administrar usuarios");
-		Btn_AdministrarUsuarios.addActionListener(new ActionListener() {
+		JButton Btn_AdministrarClientes = new JButton("Administrar usuarios");
+		Btn_AdministrarClientes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Clientes_Admin frame_clientes = new Clientes_Admin();
+				JF_Cliente_Admin frame_clientes = new JF_Cliente_Admin();
 				frame_clientes.setVisible(true);
 				dispose();
 			}
 		});
-		Btn_AdministrarUsuarios.setBounds(10, 11, 212, 23);
-		contentPane.add(Btn_AdministrarUsuarios);
+		Btn_AdministrarClientes.setBounds(10, 11, 212, 23);
+		contentPane.add(Btn_AdministrarClientes);
+		
+		JButton Btn_AdministrarVehiculos = new JButton("Administrar Vehiculos");
+		Btn_AdministrarVehiculos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JF_Vehiculo_Admin frame_vehiculos = new JF_Vehiculo_Admin();
+				frame_vehiculos.setVisible(true);
+				dispose();
+			}
+		});
+		Btn_AdministrarVehiculos.setBounds(232, 11, 212, 23);
+		contentPane.add(Btn_AdministrarVehiculos);
 	}
 }

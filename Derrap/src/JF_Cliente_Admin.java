@@ -28,18 +28,16 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class Clientes_Admin extends JFrame {
+public class JF_Cliente_Admin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
 
-	public static Clientes_Admin selfFrame;
+	public static JF_Cliente_Admin selfFrame;
 
-	private static Clientes_Admin frame;
-
-	private JComboBox CB_TipoUsuario;
+	private static JF_Cliente_Admin frame;
 
 	public static String tipoUsuario = "";
 
@@ -52,7 +50,7 @@ public class Clientes_Admin extends JFrame {
 			public void run() {
 				try {
 
-					frame = new Clientes_Admin();
+					frame = new JF_Cliente_Admin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +61,7 @@ public class Clientes_Admin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Clientes_Admin() {
+	public JF_Cliente_Admin() {
 		selfFrame = this;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 974, 645);
@@ -89,21 +87,9 @@ public class Clientes_Admin extends JFrame {
 				RowSpec.decode("311px:grow"),
 				RowSpec.decode("200px"),}));
 
-		JLabel JLabel_Titulo = new JLabel("Clientes");
+		JLabel JLabel_Titulo = new JLabel("Vehiculos");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
-
-		CB_TipoUsuario = new JComboBox();
-		CB_TipoUsuario.addItemListener(new ItemListener() {		//Cuando cambia el comboBox
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-			System.out.println(CB_TipoUsuario.getSelectedItem().toString()+" ComboBox ha sido cambiado");
-			tipoUsuario = CB_TipoUsuario.getSelectedItem().toString();
-				ActualizarTabla(CB_TipoUsuario.getSelectedItem().toString());
-			}
-		});
-		CB_TipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Vehiculo", "Usuario"}));
-		contentPane.add(CB_TipoUsuario, "5, 3, 2, 1, fill, default");
 		tipoUsuario = "Cliente"; //por defecto
 
 		JButton Btn_AñadirCliente = new JButton("Añadir");		//Boton de añadir clientes
@@ -111,7 +97,7 @@ public class Clientes_Admin extends JFrame {
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JF_AñadirCliente frame_añadir_clientes = new JF_AñadirCliente(selfFrame,tipoUsuario);
+				JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame,tipoUsuario);
 				frame_añadir_clientes.setVisible(true);
 			}
 		});
@@ -258,7 +244,7 @@ public class Clientes_Admin extends JFrame {
 			System.out.println(value.toString());
 
 			System.out.println(tipoUsuario);
-			JF_AñadirCliente frame_añadir_clientes = new JF_AñadirCliente(selfFrame,value.toString(),tipoUsuario);
+			JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame,value.toString(),tipoUsuario);
 			frame_añadir_clientes.setVisible(true);
 			clicked = false;
 			fireEditingStopped();
