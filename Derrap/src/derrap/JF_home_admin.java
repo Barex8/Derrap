@@ -35,7 +35,6 @@ public class JF_home_admin extends JFrame {
 	}
 
 	public JF_home_admin() {
-		System.out.println(this + "  Construct");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 691, 571);
 		contentPane = new JPanel();
@@ -49,7 +48,7 @@ public class JF_home_admin extends JFrame {
 		lblNewLabel.setBounds(10, 72, 138, 14);
 		contentPane.add(lblNewLabel);
 
-		JButton Btn_AdministrarClientes = new JButton("Administrar usuarios");
+		JButton Btn_AdministrarClientes = new JButton("Administrar Clientes");
 		Btn_AdministrarClientes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -74,6 +73,19 @@ public class JF_home_admin extends JFrame {
 		});
 		Btn_AdministrarVehiculos.setBounds(232, 11, 212, 23);
 		contentPane.add(Btn_AdministrarVehiculos);
+		
+		JButton Btn_AdministrarUsuario = new JButton("Administrar Usuarios");
+		Btn_AdministrarUsuario.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JF_Usuario_Admin frame_Usuario = new JF_Usuario_Admin();
+				frame_Usuario.setVisible(true);
+				dispose();
+			}
+		});
+		Btn_AdministrarUsuario.setBounds(10, 38, 212, 23);
+		contentPane.add(Btn_AdministrarUsuario);
 		
 		JButton Btn_AdministrarStock = new JButton("Administrar Stock");
 		Btn_AdministrarStock.addActionListener(new ActionListener() {

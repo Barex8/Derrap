@@ -30,24 +30,45 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class JF_Vehiculo_Admin extends JFrame {
+public class JF_Usuario_Admin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
 
-	public static JF_Vehiculo_Admin selfFrame;
+	public static JF_Usuario_Admin selfFrame;
 
-	private static JF_Vehiculo_Admin frame;
+	private static JF_Usuario_Admin frame;
 
-	public JF_Vehiculo_Admin() {
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					frame = new JF_Usuario_Admin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JF_Usuario_Admin() {
 		selfFrame = this;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 974, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// ActualizarTabla("Clientes");
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(
@@ -58,20 +79,20 @@ public class JF_Vehiculo_Admin extends JFrame {
 				new RowSpec[] { FormSpecs.LINE_GAP_ROWSPEC, RowSpec.decode("40px"), RowSpec.decode("40px"),
 						RowSpec.decode("311px:grow"), RowSpec.decode("200px"), }));
 
-		JLabel JLabel_Titulo = new JLabel("Vehiculos");
+		JLabel JLabel_Titulo = new JLabel("Usuario");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
 
-		JButton Btn_AñadirVehiculo = new JButton("Añadir"); // Boton de añadir vehiculos
+		JButton Btn_AñadirUsuario = new JButton("Añadir Usuario"); // Boton de añadir Usuarios
 
-		Btn_AñadirVehiculo.addActionListener(new ActionListener() {
+		Btn_AñadirUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JF_Añadir_Vehiculo frame_vehiculo_clientes = new JF_Añadir_Vehiculo(selfFrame, "vehiculo");
-				frame_vehiculo_clientes.setVisible(true);
+				JF_Añadir_Usuario frame_añadir_usuario = new JF_Añadir_Usuario(selfFrame);
+				frame_añadir_usuario.setVisible(true);
 			}
 		});
-		contentPane.add(Btn_AñadirVehiculo, "2, 3");
+		contentPane.add(Btn_AñadirUsuario, "2, 3");
 
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
@@ -91,30 +112,30 @@ public class JF_Vehiculo_Admin extends JFrame {
 		int numUsers = 0;
 		ResultSet consulta = null;
 		// Pone los clientes, usuarios o vehiculos en la tabla (no admins)
-
-		numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap.vehiculo");
-		consulta = login.conexion.consulta("SELECT * FROM derrap.vehiculo");
-
-		Object[][] vehiculos = new Object[0][0];
+		
+			numUsers = login.conexion
+					.consulta_Numero_Registros("SELECT Count(*) FROM derrap.usuario Where id_rol_usuario = 2");
+			consulta = login.conexion.consulta("SELECT * FROM usuario Where id_rol_usuario = 2");
+		Object[][] clientes = new Object[0][0];
 
 		int row = 0; // Para que se inserte en cada fila
-
-		vehiculos = new Object[numUsers][6];
 		try {
+			clientes = new Object[numUsers][7];
 			while (consulta.next()) {
-				vehiculos[row][0] = consulta.getString("matricula_vehiculo");
-				vehiculos[row][1] = consulta.getString("marca_vehiculo");
-				vehiculos[row][2] = consulta.getString("modelo_vehiculo");
-				vehiculos[row][3] = consulta.getString("año_vehiculo");
-				vehiculos[row][4] = consulta.getString("color_vehiculo");
-				vehiculos[row][5] = consulta.getString("dni_cliente_vehiculo");
+				clientes[row][0] = consulta.getString("nombre_usuario");// nombre con apellidos
+				clientes[row][1] = consulta.getString("dni_usuario");
+				clientes[row][2] = consulta.getString("correo_electronico_usuario");
+				clientes[row][3] = consulta.getString("telefono_usuario");
+				clientes[row][4] = consulta.getString("especialidad_usuario");
+				clientes[row][5] = consulta.getString("estado_alta_usuario");
+
 				row++;
 			}
 		} catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
 		}
-
-		table.setModel(new DefaultTableModel(vehiculos,
-				new String[] { "Matricula", "Marca", "Modelo", "Año", "Color", "DNI Cliente", "Editar" }));
+		table.setModel(new DefaultTableModel(clientes,
+				new String[] { "Nombre", "DNI", "Correo", "Telefono", "Especialidad", "Estado", "Editar" }));
 
 		table.getColumn("Editar").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Editar").setCellEditor(new ButtonEditor(table));
@@ -129,7 +150,13 @@ public class JF_Vehiculo_Admin extends JFrame {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {	//Mo se que hace esto
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, // ni
+																															// idea
+																															// de
+																															// que
+																															// hace
+																															// esto
+				int row, int column) {
 			setText((value == null) ? "Editor" : value.toString());
 			return this;
 		}
@@ -151,10 +178,12 @@ public class JF_Vehiculo_Admin extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Object value = table.getValueAt(selectedRow, 0);
-
-			JF_Añadir_Vehiculo frame_añadir_vehiculo = new JF_Añadir_Vehiculo(selfFrame, value.toString(), "vehiculo");
-			frame_añadir_vehiculo.setVisible(true);
+			Object value = null;
+			
+			value = table.getValueAt(selectedRow, 0);	
+			
+			JF_Añadir_Usuario frame_añadir_usuario = new JF_Añadir_Usuario(selfFrame, value.toString());
+			frame_añadir_usuario.setVisible(true);
 			clicked = false;
 			fireEditingStopped();
 

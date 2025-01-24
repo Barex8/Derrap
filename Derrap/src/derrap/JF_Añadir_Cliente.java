@@ -227,7 +227,7 @@ public class JF_Añadir_Cliente extends JFrame {
 
 		if (!tipoUsuario.equals("Vehiculo")) {
 			if (tipoUsuario.equals("Cliente")) {
-				lb_Ciudad = new JLabel("Segundo apellido");
+				lb_Ciudad = new JLabel("Ciudad");
 			} else if (tipoUsuario.equals("Usuario")) {
 				lb_Ciudad = new JLabel("Especialidad");
 			}
@@ -667,7 +667,7 @@ public class JF_Añadir_Cliente extends JFrame {
 
 		if (!tipoUsuario.equals("Vehiculo")) {
 			if (tipoUsuario.equals("Cliente")) {
-				lb_Ciudad = new JLabel("Segundo apellido");
+				lb_Ciudad = new JLabel("Ciudad");
 			} else if (tipoUsuario.equals("Usuario")) {
 				lb_Ciudad = new JLabel("Especialidad");
 			}

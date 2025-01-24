@@ -41,26 +41,6 @@ public class JF_Cliente_Admin extends JFrame {
 
 	private static JF_Cliente_Admin frame;
 
-	public static String tipoUsuario = "";
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-
-					frame = new JF_Cliente_Admin();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -70,7 +50,6 @@ public class JF_Cliente_Admin extends JFrame {
 		setBounds(100, 100, 974, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// ActualizarTabla("Clientes");
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(
@@ -81,17 +60,16 @@ public class JF_Cliente_Admin extends JFrame {
 				new RowSpec[] { FormSpecs.LINE_GAP_ROWSPEC, RowSpec.decode("40px"), RowSpec.decode("40px"),
 						RowSpec.decode("311px:grow"), RowSpec.decode("200px"), }));
 
-		JLabel JLabel_Titulo = new JLabel("Vehiculos");
+		JLabel JLabel_Titulo = new JLabel("Clientes");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
-		tipoUsuario = "Cliente"; // por defecto
-
+		
 		JButton Btn_AñadirCliente = new JButton("Añadir"); // Boton de añadir clientes
 
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, tipoUsuario);
+				JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, "Cliente");
 				frame_añadir_clientes.setVisible(true);
 			}
 		});
@@ -106,7 +84,7 @@ public class JF_Cliente_Admin extends JFrame {
 
 		table = new JTable();
 
-		ActualizarTabla(tipoUsuario);
+		ActualizarTabla("Cliente");
 		scrollPane.setViewportView(table);
 
 	}
@@ -225,7 +203,7 @@ public class JF_Cliente_Admin extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object value = null;
-			if (!tipoUsuario.equals("Vehiculo")) {
+			if (!"Cliente".equals("Vehiculo")) {
 				value = table.getValueAt(selectedRow, 1);
 			} else {
 				value = table.getValueAt(selectedRow, 0);
@@ -233,8 +211,8 @@ public class JF_Cliente_Admin extends JFrame {
 
 			System.out.println(value.toString());
 
-			System.out.println(tipoUsuario);
-			JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, value.toString(), tipoUsuario);
+			System.out.println("Cliente");
+			JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, value.toString(), "Cliente");
 			frame_añadir_clientes.setVisible(true);
 			clicked = false;
 			fireEditingStopped();
