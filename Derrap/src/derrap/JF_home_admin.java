@@ -1,4 +1,5 @@
 package derrap;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,6 @@ public class JF_home_admin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -26,7 +26,6 @@ public class JF_home_admin extends JFrame {
 
 					frame.setVisible(true);
 
-
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println(e.getLocalizedMessage());
@@ -35,9 +34,8 @@ public class JF_home_admin extends JFrame {
 		});
 	}
 
-
 	public JF_home_admin() {
-		System.out.println(this +"  Construct");
+		System.out.println(this + "  Construct");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 691, 571);
 		contentPane = new JPanel();
@@ -63,7 +61,7 @@ public class JF_home_admin extends JFrame {
 		});
 		Btn_AdministrarClientes.setBounds(10, 11, 212, 23);
 		contentPane.add(Btn_AdministrarClientes);
-		
+
 		JButton Btn_AdministrarVehiculos = new JButton("Administrar Vehiculos");
 		Btn_AdministrarVehiculos.addActionListener(new ActionListener() {
 			@Override
