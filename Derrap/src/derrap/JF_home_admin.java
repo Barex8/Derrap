@@ -74,5 +74,19 @@ public class JF_home_admin extends JFrame {
 		});
 		Btn_AdministrarVehiculos.setBounds(232, 11, 212, 23);
 		contentPane.add(Btn_AdministrarVehiculos);
+		
+		JButton Btn_AdministrarStock = new JButton("Administrar Stock");
+		Btn_AdministrarStock.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JF_Stock_Admin frame_stock = new JF_Stock_Admin();
+				frame_stock.setVisible(true);
+				dispose();
+			}
+		});
+		Btn_AdministrarStock.setBounds(453, 11, 212, 23);
+		contentPane.add(Btn_AdministrarStock);
 	}
 }
+

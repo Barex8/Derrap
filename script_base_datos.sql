@@ -1,6 +1,3 @@
-create database derrap;
-use derrap;
-
 /*
 DROP TABLE stock_proveedor;
 DROP TABLE orden_pieza;
@@ -19,6 +16,7 @@ DROP TABLE cliente;
 DROP TABLE usuario;
 DROP TABLE rol;
 */
+
 /*
 SELECT* FROM stock_proveedor;
 SELECT* FROM orden_pieza;
@@ -158,13 +156,23 @@ FOREIGN KEY (id_metodo_pago_factura) REFERENCES metodo_pago (id_metodo_pago),
 FOREIGN KEY (id_orden_trabajo) REFERENCES orden_trabajo (id_orden_trabajo)
 );
 
-CREATE TABLE orden_pieza (
-id_orden_pieza INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-cantidad_orden_pieza INT NOT NULL,
-id_orden_trabajo_orden_pieza INT NOT NULL,
-oem_pieza_stock_orden_pieza VARCHAR(5) NOT NULL,
-FOREIGN KEY (id_orden_trabajo_orden_pieza) REFERENCES orden_trabajo (id_orden_trabajo),
-FOREIGN KEY (oem_pieza_stock_orden_pieza) REFERENCES stock (oem_pieza_stock)
+CREATE TABLE orden_pieza_utilizada (
+id_orden_pieza_utilizada INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+cantidad_orden_pieza_utilizada INT NOT NULL,
+precio_orden_pieza_utilizada INT NOT NULL,
+id_orden_trabajo_orden_pieza_utilizada INT NOT NULL,
+oem_pieza_stock_orden_pieza_utilizada VARCHAR(5) NOT NULL,
+FOREIGN KEY (id_orden_trabajo_orden_pieza_utilizada) REFERENCES orden_trabajo (id_orden_trabajo),
+FOREIGN KEY (oem_pieza_stock_orden_pieza_utilizada) REFERENCES stock (oem_pieza_stock)
+);
+
+CREATE TABLE orden_pieza_faltante (
+id_orden_pieza_faltante INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+cantidad_orden_pieza_faltante INT NOT NULL,
+id_orden_trabajo_orden_pieza_faltante INT NOT NULL,
+oem_pieza_stock_orden_pieza_faltante VARCHAR(5) NOT NULL,
+FOREIGN KEY (id_orden_trabajo_orden_pieza_faltante) REFERENCES orden_trabajo (id_orden_trabajo),
+FOREIGN KEY (oem_pieza_stock_orden_pieza_faltante) REFERENCES stock (oem_pieza_stock)
 );
 
 CREATE TABLE stock_proveedor (
