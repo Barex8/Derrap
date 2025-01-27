@@ -69,7 +69,7 @@ public class JF_Cliente_Admin extends JFrame {
 		Btn_AñadirCliente.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, "Cliente");
+				JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame);
 				frame_añadir_clientes.setVisible(true);
 			}
 		});
@@ -84,83 +84,40 @@ public class JF_Cliente_Admin extends JFrame {
 
 		table = new JTable();
 
-		ActualizarTabla("Cliente");
+		ActualizarTabla();
 		scrollPane.setViewportView(table);
 
 	}
 
-	public void ActualizarTabla(String tabla) {
-		System.out.println(tabla);
+	public void ActualizarTabla() {
+		String tabla = "cliente";
 		int numUsers = 0;
 		ResultSet consulta = null;
 		// Pone los clientes, usuarios o vehiculos en la tabla (no admins)
-		if (tabla.equals("Usuario")) {
-			numUsers = login.conexion
-					.consulta_Numero_Registros("SELECT Count(*) FROM derrap." + tabla + " Where id_rol_usuario = 2");
-			consulta = login.conexion.consulta("SELECT * FROM " + tabla + " Where id_rol_usuario = 2");
-		} else {
-			numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap." + tabla + "");
-			consulta = login.conexion.consulta("SELECT * FROM " + tabla + "");
-		}
+		numUsers = login.conexion.consulta_Numero_Registros("SELECT Count(*) FROM derrap." + tabla + "");
+		consulta = login.conexion.consulta("SELECT * FROM " + tabla + "");
 		Object[][] clientes = new Object[0][0];
 
 		int row = 0; // Para que se inserte en cada fila
 		try {
-			if (tabla.equals("Cliente")) {
-				clientes = new Object[numUsers][5]; // Numero de campos, los clientes no muestran el mismo número de
-													// campos que los usuarios o vehículos
-				while (consulta.next()) {
-					clientes[row][0] = consulta.getString("nombre_cliente") + " "
-							+ consulta.getString("primer_apellido_cliente") + " "
-							+ consulta.getString("segundo_apellido_cliente");// nombre con apellidos
-					clientes[row][1] = consulta.getString("dni_cliente");
-					clientes[row][2] = consulta.getString("correo_electronico_cliente");
-					clientes[row][3] = consulta.getString("telefono_cliente");
-					row++;
-				}
-			}
-			if (tabla.equals("Usuario")) {
-				clientes = new Object[numUsers][7];
-				while (consulta.next()) {
-					clientes[row][0] = consulta.getString("nombre_usuario");// nombre con apellidos
-					clientes[row][1] = consulta.getString("dni_usuario");
-					clientes[row][2] = consulta.getString("correo_electronico_usuario");
-					clientes[row][3] = consulta.getString("telefono_usuario");
-					clientes[row][4] = consulta.getString("especialidad_usuario");
-					clientes[row][5] = consulta.getString("estado_alta_usuario");
-
-					row++;
-				}
-			}
-			if (tabla.equals("Vehiculo")) {
-				clientes = new Object[numUsers][6];
-				while (consulta.next()) {
-					clientes[row][0] = consulta.getString("matricula_vehiculo");// nombre con apellidos
-					clientes[row][1] = consulta.getString("marca_vehiculo");
-					clientes[row][2] = consulta.getString("modelo_vehiculo");
-					clientes[row][3] = consulta.getString("año_vehiculo");
-					clientes[row][4] = consulta.getString("color_vehiculo");
-					clientes[row][5] = consulta.getString("dni_cliente_vehiculo");
-					row++;
-				}
+			
+			clientes = new Object[numUsers][5]; // Numero de campos, los clientes no muestran el mismo número de
+												// campos que los usuarios o vehículos
+			while (consulta.next()) {
+				clientes[row][0] = consulta.getString("nombre_cliente") + " "
+						+ consulta.getString("primer_apellido_cliente") + " "
+						+ consulta.getString("segundo_apellido_cliente");// nombre con apellidos
+				clientes[row][1] = consulta.getString("dni_cliente");
+				clientes[row][2] = consulta.getString("correo_electronico_cliente");
+				clientes[row][3] = consulta.getString("telefono_cliente");
+				row++;
 			}
 
 		} catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
 		}
-
-		if (tabla.equals("Cliente")) {
-			table.setModel(new DefaultTableModel(clientes, // Al pasarle clientes automáticamente guarda los datos en la
-															// tabla
-					new String[] { "Nombre", "DNI", "Correo", "Telefono", "Editar" }));
-		} else if (tabla.equals("Usuario")) {
-			table.setModel(new DefaultTableModel(clientes,
-					new String[] { "Nombre", "DNI", "Correo", "Telefono", "Especialidad", "Estado", "Editar" }));
-		} else if (tabla.equals("Vehiculo")) {
-			table.setModel(new DefaultTableModel(clientes,
-					new String[] { "Matricula", "Marca", "Modelo", "Año", "Color", "DNI Cliente", "Editar" }));
-		}
-
+		table.setModel(new DefaultTableModel(clientes, new String[] { "Nombre", "DNI", "Correo", "Telefono", "Editar" }));
+		
 		table.getColumn("Editar").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Editar").setCellEditor(new ButtonEditor(table));
 
@@ -174,12 +131,7 @@ public class JF_Cliente_Admin extends JFrame {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, // ni
-																															// idea
-																															// de
-																															// que
-																															// hace
-																															// esto
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			setText((value == null) ? "Editor" : value.toString());
 			return this;
@@ -202,17 +154,11 @@ public class JF_Cliente_Admin extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Object value = null;
-			if (!"Cliente".equals("Vehiculo")) {
-				value = table.getValueAt(selectedRow, 1);
-			} else {
-				value = table.getValueAt(selectedRow, 0);
-			}
+			Object value = null;	
+			value = table.getValueAt(selectedRow, 1);
 
 			System.out.println(value.toString());
-
-			System.out.println("Cliente");
-			JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, value.toString(), "Cliente");
+			JF_Añadir_Cliente frame_añadir_clientes = new JF_Añadir_Cliente(selfFrame, value.toString());
 			frame_añadir_clientes.setVisible(true);
 			clicked = false;
 			fireEditingStopped();

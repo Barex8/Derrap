@@ -151,11 +151,7 @@ public class JF_Usuario_Admin extends JFrame {
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, // ni
-																															// idea
-																															// de
-																															// que
-																															// hace
-																															// esto
+																																// esto
 				int row, int column) {
 			setText((value == null) ? "Editor" : value.toString());
 			return this;

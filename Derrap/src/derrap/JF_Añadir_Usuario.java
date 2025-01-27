@@ -42,8 +42,10 @@ public class JF_Añadir_Usuario extends JFrame {
 		String campo1 = "", campo2 = "", campo3 = "", campo4 = "", campo5 = "", campo6 = "", campo7 = "", campo8 = "";
 		ResultSet result = null;
 		result = login.conexion.consulta("Select * From " + tabla + " WHERE dni_" + tabla + " = " + "'" + DNI + "'");
+		System.out.println("Select * From " + tabla + " WHERE dni_" + tabla + " = " + "'" + DNI + "'");
 		
 		try {
+			result.next();
 				campo1 = result.getString("nombre_" + tabla.toLowerCase());
 				campo2 = result.getString("id_rol_" + tabla.toLowerCase());
 				campo3 = result.getString("estado_alta_" + tabla.toLowerCase());
@@ -106,7 +108,6 @@ public class JF_Añadir_Usuario extends JFrame {
 
 		JLabel lb_Rol = null;
 		lb_Rol = new JLabel("Rol");
-
 		contentPane.add(lb_Rol, "2, 16");
 
 		TF_Rol = new JTextField();
@@ -136,7 +137,6 @@ public class JF_Añadir_Usuario extends JFrame {
 
 		JLabel lb_Telefono = null;
 		lb_Telefono = new JLabel("Telefono");
-		
 		contentPane.add(lb_Telefono, "2, 28");
 
 		TF_Telefono = new JTextField();
@@ -160,10 +160,12 @@ public class JF_Añadir_Usuario extends JFrame {
 		EliminarCliente.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Intentando eliminar usuario");
 				boolean success = true;
 				if (info.get(0).getText().equals("")) {
 					System.out.println("El campo DNI no puede estar vacio");
 					success = false;
+				}
 				
 					// Si todo sale bien, borrar datos en la base de datos y actualizar la tabla de Usuario
 					if (success) {
@@ -179,7 +181,7 @@ public class JF_Añadir_Usuario extends JFrame {
 						dispose();
 					}
 				}
-			}});
+			});
 		contentPane.add(EliminarCliente, "3, 46");
 
 		JButton Cancelar = new JButton("Cancelar");
@@ -296,6 +298,7 @@ public class JF_Añadir_Usuario extends JFrame {
 
 		JLabel lb_Telefono = null;
 		lb_Telefono = new JLabel("Telefono");
+		contentPane.add(lb_Telefono, "2, 28");
 
 		TF_Correo = new JTextField();
 		TF_Correo.setColumns(10);
@@ -341,8 +344,9 @@ public class JF_Añadir_Usuario extends JFrame {
 				// de Clientes_Admin
 				System.out.println(success);
 				if (success) {
-						login.conexion.DML("INSERT INTO derrap." + tabla + " VALUES('" + datos[0] + "', '" + datos[7]
-						+ "' , '" + datos[1] + "', '" + datos[5] + "', '" + datos[4] + "', '" + datos[6]);
+					login.conexion.DML("INSERT INTO derrap." + tabla + " VALUES('" + datos[0] + "', '" + datos[7]
+						+ "' , '" + datos[1] + "', '" + datos[5] + "', '" + datos[4] + "', '" + datos[6]
+						+ "', '" + datos[3] + "', '" + datos[2] + "')");
 					frame.ActualizarTabla();
 					dispose();
 				}
