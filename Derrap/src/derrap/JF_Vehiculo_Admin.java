@@ -47,20 +47,39 @@ public class JF_Vehiculo_Admin extends JFrame {
 		setBounds(100, 100, 974, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// ActualizarTabla("Clientes");
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new FormLayout(
-				new ColumnSpec[] { FormSpecs.LABEL_COMPONENT_GAP_COLSPEC, ColumnSpec.decode("100px:grow"),
-						ColumnSpec.decode("100px"), ColumnSpec.decode("100px"), ColumnSpec.decode("100px"),
-						ColumnSpec.decode("100px"), ColumnSpec.decode("100px"), ColumnSpec.decode("100px"),
-						ColumnSpec.decode("100px"), },
-				new RowSpec[] { FormSpecs.LINE_GAP_ROWSPEC, RowSpec.decode("40px"), RowSpec.decode("40px"),
-						RowSpec.decode("311px:grow"), RowSpec.decode("200px"), }));
+		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
+				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("50dlu"),
+				ColumnSpec.decode("100px:grow"),
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("100px"),},
+			new RowSpec[] {
+				RowSpec.decode("25px"),
+				RowSpec.decode("40px"),
+				RowSpec.decode("40px"),
+				RowSpec.decode("40px"),
+				RowSpec.decode("311px:grow"),
+				RowSpec.decode("3px"),}));
+		
+		JButton Bt_volver = new JButton("Volver");
+		Bt_volver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JF_home_admin frame_home_admin = new JF_home_admin();
+				frame_home_admin.setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(Bt_volver, "2, 1");
 
 		JLabel JLabel_Titulo = new JLabel("Vehiculos");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		contentPane.add(JLabel_Titulo, "2, 2");
+		contentPane.add(JLabel_Titulo, "2, 2, 2, 1");
 
 		JButton Btn_AñadirVehiculo = new JButton("Añadir"); // Boton de añadir vehiculos
 
@@ -71,7 +90,7 @@ public class JF_Vehiculo_Admin extends JFrame {
 				frame_vehiculo_clientes.setVisible(true);
 			}
 		});
-		contentPane.add(Btn_AñadirVehiculo, "2, 3");
+		contentPane.add(Btn_AñadirVehiculo, "2, 3, 2, 1");
 
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
