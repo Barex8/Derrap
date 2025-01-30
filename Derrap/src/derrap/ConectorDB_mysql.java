@@ -1,5 +1,6 @@
 package derrap;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ConectorDB_mysql {
 
@@ -156,5 +158,13 @@ public class ConectorDB_mysql {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public void MostrarWarningPanel(Component parent, String message) {
+		JOptionPane.showMessageDialog( parent,message,"Aviso",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public void MostrarInformationPanel(Component parent, String message) {
+		JOptionPane.showMessageDialog( parent,message,"Aviso",JOptionPane.INFORMATION_MESSAGE);
 	}
 }

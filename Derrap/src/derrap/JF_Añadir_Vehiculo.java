@@ -202,15 +202,16 @@ public class JF_Añadir_Vehiculo extends JFrame {
 				for (JTextField dato : info) {
 					if (dato.getText().equals("")) {
 						System.out.println("Se necesita insertar todos los datos para poder realizar la operación");
+						login.conexion.MostrarWarningPanel(contentPane, "Se necesita insertar todos los datos para poder realizar la operación");
 						success = false;
-						break;
+						//break;
 					}
 					datos[index] = dato.getText();
 					index++;
 				}
 				if(!login.conexion.ComprobarExistenciaCliente(datos[5])) {
 					success = false;
-					System.out.println("El DNI del usuario no existe");
+					login.conexion.MostrarWarningPanel(contentPane,"El DNI del usuario no existe");
 				}
 				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
 				// de Clientes_Admin
@@ -221,6 +222,7 @@ public class JF_Añadir_Vehiculo extends JFrame {
 							+ "'  WHERE matricula_vehiculo = '" + datos[0] + "'");
 					dispose();
 					frame.ActualizarTabla();
+					//login.conexion.MostrarInformationPanel(contentPane,"El DNI del usuario no existe");
 				}
 			}
 		});
@@ -329,11 +331,6 @@ public class JF_Añadir_Vehiculo extends JFrame {
 				}
 				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
 				// de Clientes_Admin
-				
-				if(!login.conexion.ComprobarExistenciaCliente(datos[5])) {
-					success = false;
-					System.out.println("El DNI del usuario no existe");
-				}
 				System.out.println(success);
 				if (success) {
 					try {
