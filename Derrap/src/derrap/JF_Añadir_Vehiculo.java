@@ -37,7 +37,7 @@ public class JF_Añadir_Vehiculo extends JFrame {
 
 	private ArrayList<JTextField> info = new ArrayList<>();
 
-	public JF_Añadir_Vehiculo(JF_Vehiculo_Admin frame, String Matricula, String tabla) { // Para modificar o eliminar
+	public JF_Añadir_Vehiculo(JF_Vehiculo_Admin frame, String Matricula, String tabla) {			 // Para modificar o eliminar
 		String campo1 = "", campo2 = "", campo3 = "", campo4 = "", campo5 = "", campo6 = "", campo7 = "", campo8 = "";
 		ResultSet result = null;
 		result = login.conexion.consulta(
@@ -148,7 +148,7 @@ public class JF_Añadir_Vehiculo extends JFrame {
 		info.add(TF_DNI_Cliente);
 		contentPane.add(TF_DNI_Cliente, "2, 36, fill, default");
 
-		JButton EliminarVehiculo = new JButton("Eliminar"); // ELIMINAR
+		JButton EliminarVehiculo = new JButton("Eliminar"); 			// ELIMINAR
 		EliminarVehiculo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -207,6 +207,10 @@ public class JF_Añadir_Vehiculo extends JFrame {
 					}
 					datos[index] = dato.getText();
 					index++;
+				}
+				if(!login.conexion.ComprobarExistenciaCliente(datos[5])) {
+					success = false;
+					System.out.println("El DNI del usuario no existe");
 				}
 				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
 				// de Clientes_Admin
@@ -325,11 +329,21 @@ public class JF_Añadir_Vehiculo extends JFrame {
 				}
 				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
 				// de Clientes_Admin
+				
+				if(!login.conexion.ComprobarExistenciaCliente(datos[5])) {
+					success = false;
+					System.out.println("El DNI del usuario no existe");
+				}
 				System.out.println(success);
 				if (success) {
-					login.conexion.DML("INSERT INTO derrap." + tabla + " VALUES('" + datos[0] + "', '" + datos[1]
-							+ "' , '" + datos[2] + "', " + datos[3] + " , '" + datos[4] + "', '" + datos[5] + "')");
-					frame.ActualizarTabla();
+					try {
+						login.conexion.DML("INSERT INTO derrap." + tabla + " VALUES('" + datos[0] + "', '" + datos[1]
+								+ "' , '" + datos[2] + "', " + datos[3] + " , '" + datos[4] + "', '" + datos[5] + "')");
+						frame.ActualizarTabla();
+					}catch(Exception exc) {
+						System.out.println(exc.getLocalizedMessage());
+					}
+					
 					dispose();
 				}
 			}

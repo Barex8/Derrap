@@ -14,7 +14,7 @@ public class ConectorDB_mysql {
 	private static final String CONTROLADOR = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/derrap";
 	private static final String USUARIO = "root";
-	private static final String CLAVE = "MEDAC";
+	private static final String CLAVE = "1234";
 
 	static Connection cn = null;
 	Statement stm = null;
@@ -141,5 +141,20 @@ public class ConectorDB_mysql {
 			System.out.println(sentencia);
 		}
 
+	}
+	public boolean ComprobarExistenciaCliente(String DNI) {
+		this.conectar();
+		try {
+			stm = cn.createStatement();
+			resultado = stm.executeQuery("SELECT * FROM cliente WHERE dni_cliente='" + DNI+"';");
+			if (!resultado.next()) {
+				return false;
+			}
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
