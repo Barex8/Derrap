@@ -1,5 +1,6 @@
 package derrap;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -7,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 
 import javax.swing.AbstractCellEditor;
@@ -19,8 +22,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -36,6 +41,9 @@ public class JF_Usuario_Admin extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
+	private Color azulPrincipal = Color.decode("#96C2CD");
+	private Color azulCancelar = Color.decode("#5C94A2");
+	private Color azulSecundario = Color.decode("#DEF2F7");
 
 	public static JF_Usuario_Admin selfFrame;
 
@@ -69,6 +77,7 @@ public class JF_Usuario_Admin extends JFrame {
 		setBounds(100, 100, 974, 645);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(azulSecundario);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
@@ -89,30 +98,70 @@ public class JF_Usuario_Admin extends JFrame {
 				RowSpec.decode("311px:grow"),
 				RowSpec.decode("3px"),}));
 		
-		JButton Bt_volver = new JButton("Volver");
-		Bt_volver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JF_home_admin frame_home_admin = new JF_home_admin();
-				frame_home_admin.setVisible(true);
-				dispose();
-			}
-		});
-		contentPane.add(Bt_volver, "2, 1");
+		JLabel lbl_Volver = new JLabel("Volver");
+		lbl_Volver.setOpaque(true);
+		lbl_Volver.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lbl_Volver.setBackground(azulSecundario);
+		lbl_Volver.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl_Volver.setBounds(453, 11, 212, 23);
+		contentPane.add(lbl_Volver, "2, 1");
+		
+				lbl_Volver.addMouseListener(new MouseAdapter() {
+					// cambia el color cuando el ratón se coloca encima de entrar
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						lbl_Volver.setBackground(azulCancelar);
+					}
+		
+					// cambia el color cuando el ratón se quita de encima de entrar
+					@Override
+					public void mouseExited(MouseEvent e) {
+						lbl_Volver.setBackground(azulSecundario);
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JF_home_admin frame_home_admin = new JF_home_admin();
+						frame_home_admin.setVisible(true);
+						dispose();
+					}
+		
+				});
 
 		JLabel JLabel_Titulo = new JLabel("Usuario");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2, 2, 1");
 
-		JButton Btn_AñadirUsuario = new JButton("Añadir Usuario"); // Boton de añadir Usuarios
-
-		Btn_AñadirUsuario.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JF_Añadir_Usuario frame_añadir_usuario = new JF_Añadir_Usuario(selfFrame);
-				frame_añadir_usuario.setVisible(true);
-			}
-		});
-		contentPane.add(Btn_AñadirUsuario, "2, 3, 2, 1");
+		JLabel lbl_AñadirUsuario = new JLabel("Añadir usuario");
+		lbl_AñadirUsuario.setOpaque(true);
+		lbl_AñadirUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_AñadirUsuario.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lbl_AñadirUsuario.setBackground(azulSecundario);
+		lbl_AñadirUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl_AñadirUsuario.setBounds(453, 11, 212, 23);
+		contentPane.add(lbl_AñadirUsuario, "2, 3, 2, 1");
+		
+			lbl_AñadirUsuario.addMouseListener(new MouseAdapter() {
+					// cambia el color cuando el ratón se coloca encima de entrar
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						lbl_AñadirUsuario.setBackground(azulCancelar);
+					}
+		
+					// cambia el color cuando el ratón se quita de encima de entrar
+					@Override
+					public void mouseExited(MouseEvent e) {
+						lbl_AñadirUsuario.setBackground(azulSecundario);
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JF_Añadir_Usuario frame_añadir_usuario = new JF_Añadir_Usuario(selfFrame);
+						frame_añadir_usuario.setVisible(true);
+					}
+		
+				});
+		
+		
 
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
@@ -122,6 +171,7 @@ public class JF_Usuario_Admin extends JFrame {
 		contentPane.add(scrollPane, "2, 4, 6, 2, fill, fill");
 
 		table = new JTable();
+		table.setBackground(azulPrincipal);
 
 		ActualizarTabla();
 		scrollPane.setViewportView(table);

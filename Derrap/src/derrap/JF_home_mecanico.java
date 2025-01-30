@@ -135,6 +135,36 @@ public class JF_home_mecanico extends JFrame {
 				jf_ordenes.setVisible(true);
 			}
 		});
+		
+		JLabel lbl_VerStock = new JLabel("Ver Stock");
+		lbl_VerStock.setOpaque(true);
+		lbl_VerStock.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_VerStock.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lbl_VerStock.setBackground(azulSecundario);
+		lbl_VerStock.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbl_VerStock.setBounds(500, 21, 110, 28);
+		contentPane.add(lbl_VerStock);
+
+		lbl_VerStock.addMouseListener(new MouseAdapter() {
+			// cambia el color cuando el ratón se coloca encima de entrar
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lbl_VerStock.setBackground(azulCancelar);
+			}
+
+			// cambia el color cuando el ratón se quita de encima de entrar
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lbl_VerStock.setBackground(azulSecundario);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JF_Stock_Mecanico frame_stock = new JF_Stock_Mecanico();
+				frame_stock.setVisible(true);
+				dispose();
+			}
+		});
 
 		if (ordenes_usuario.size() > 0) {
 			JPanel panel = new JPanel();
@@ -1088,6 +1118,10 @@ public class JF_home_mecanico extends JFrame {
 					lbl_historial3.setBackground(azulSecundario);
 				}
 			});
+			
+			
+		}
+		
 		}
 		/*
 		 * barra lateral // Crear el menú lateral (barra de navegación) JPanel
@@ -1133,4 +1167,4 @@ public class JF_home_mecanico extends JFrame {
 		 * 
 		 */
 	}
-}
+

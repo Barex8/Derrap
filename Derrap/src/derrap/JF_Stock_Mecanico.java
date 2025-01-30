@@ -35,7 +35,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class JF_Stock_Admin extends JFrame {
+public class JF_Stock_Mecanico extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -45,11 +45,11 @@ public class JF_Stock_Admin extends JFrame {
 	private Color azulCancelar = Color.decode("#5C94A2");
 	private Color azulSecundario = Color.decode("#DEF2F7");
 
-	public static JF_Stock_Admin selfFrame;
+	public static JF_Stock_Mecanico selfFrame;
 
-	private static JF_Stock_Admin frame;
+	private static JF_Stock_Mecanico frame;
 
-	public JF_Stock_Admin() {
+	public JF_Stock_Mecanico() {
 		selfFrame = this;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 974, 645);
@@ -59,23 +59,14 @@ public class JF_Stock_Admin extends JFrame {
 		// ActualizarTabla("Clientes");
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("50dlu"),
-				ColumnSpec.decode("100px:grow"),
-				ColumnSpec.decode("100px"),
-				ColumnSpec.decode("100px"),
-				ColumnSpec.decode("100px"),
-				ColumnSpec.decode("100px"),
-				ColumnSpec.decode("100px"),
-				ColumnSpec.decode("100px"),},
-			new RowSpec[] {
-				RowSpec.decode("25px"),
-				RowSpec.decode("40px"),
-				RowSpec.decode("40px"),
-				RowSpec.decode("40px"),
-				RowSpec.decode("311px:grow"),
-				RowSpec.decode("3px"),}));
+		contentPane.setLayout(new FormLayout(
+				new ColumnSpec[] { FormSpecs.LABEL_COMPONENT_GAP_COLSPEC, ColumnSpec.decode("100px:grow"),
+						ColumnSpec.decode("100px"), ColumnSpec.decode("100px"), ColumnSpec.decode("100px"),
+						ColumnSpec.decode("100px"), ColumnSpec.decode("100px"), ColumnSpec.decode("100px"),
+						ColumnSpec.decode("100px"), },
+				new RowSpec[] { FormSpecs.LINE_GAP_ROWSPEC, RowSpec.decode("40px"), RowSpec.decode("40px"),
+						RowSpec.decode("311px:grow"), RowSpec.decode("200px"), }));
+
 		
 		JLabel lbl_Volver = new JLabel("Volver");
 		lbl_Volver.setOpaque(true);
@@ -106,38 +97,14 @@ public class JF_Stock_Admin extends JFrame {
 					}
 		
 				});
-
+				
+				
+		
 		JLabel JLabel_Titulo = new JLabel("Stock");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
 		
-		JLabel lbl_AñadirPieza = new JLabel("Añadir pieza");
-		lbl_AñadirPieza.setOpaque(true);
-		lbl_AñadirPieza.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_AñadirPieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lbl_AñadirPieza.setBackground(azulSecundario);
-		lbl_AñadirPieza.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbl_AñadirPieza.setBounds(453, 11, 212, 23);
-		contentPane.add(lbl_AñadirPieza, "2, 3, 2, 1");
 		
-		lbl_AñadirPieza.addMouseListener(new MouseAdapter() {
-					// cambia el color cuando el ratón se coloca encima de entrar
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						lbl_AñadirPieza.setBackground(azulCancelar);
-					}
-		
-					// cambia el color cuando el ratón se quita de encima de entrar
-					@Override
-					public void mouseExited(MouseEvent e) {
-						lbl_AñadirPieza.setBackground(azulSecundario);
-					}
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						
-					}
-		
-				});
 
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
@@ -148,6 +115,7 @@ public class JF_Stock_Admin extends JFrame {
 
 		table = new JTable();
 		table.setBackground(azulPrincipal);
+
 		ActualizarTabla();
 		scrollPane.setViewportView(table);
 
@@ -180,74 +148,12 @@ public class JF_Stock_Admin extends JFrame {
 		}
 
 		table.setModel(new DefaultTableModel(stock,
-				new String[] { "Código OEM", "Nombre", "Marca", "Cantidad", "Precio", "Estado", "Editar precio" }));
-
-		table.getColumn("Editar precio").setCellRenderer(new ButtonRenderer());
-		table.getColumn("Editar precio").setCellEditor(new ButtonEditor(table));
-
+				new String[] { "Código OEM", "Nombre", "Marca", "Cantidad", "Precio", "Estado"}));
 	}
-	// Clase para renderizar el botón
+	
 
-	public static class ButtonRenderer extends JButton implements TableCellRenderer {
+	
 
-		public ButtonRenderer() {
-			setOpaque(true);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, // ni
-																															// idea
-																															// de
-																															// que
-																															// hace
-																															// esto
-				int row, int column) {
-			setText((value == null) ? "Editar" : value.toString());
-			return this;
-		}
-	}
-
-	public static class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
-		private JButton button;
-		private String label;
-		private boolean clicked;
-		private int selectedRow;
-		private JTable table;
-
-		public ButtonEditor(JTable table) {
-			button = new JButton();
-			button.setOpaque(true);
-			button.addActionListener(this);
-			this.table = table;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Object value = table.getValueAt(selectedRow, 0);
-
-	/*		JF_Añadir_Vehiculo frame_añadir_vehiculo = new JF_Añadir_Vehiculo(selfFrame, value.toString(), "vehiculo");
-			frame_añadir_vehiculo.setVisible(true);
-			clicked = false;
-			fireEditingStopped();
-*/
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			label = (value == null) ? "Editar" : value.toString();
-			button.setText(label);
-			clicked = true;
-			selectedRow = row;
-			return button;
-		}
-
-		@Override
-		public Object getCellEditorValue() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-	}
+	
 
 }
