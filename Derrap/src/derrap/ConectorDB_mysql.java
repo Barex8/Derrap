@@ -30,7 +30,7 @@ public class ConectorDB_mysql {
 	public static Connection conectar() {
 		try {
 			cn = DriverManager.getConnection(URL, USUARIO, CLAVE);
-			System.out.println("Conexion realizada correctamente");
+			//System.out.println("Conexion realizada correctamente");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Conexion no realizada correctamente");
@@ -89,6 +89,7 @@ public class ConectorDB_mysql {
 		String consulta = "";
 		try {
 			stm = cn.createStatement();
+			
 
 			resultado = stm.executeQuery("SELECT " + campo + " FROM " + tabla + " " + where + ";");
 
@@ -98,6 +99,7 @@ public class ConectorDB_mysql {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("SELECT " + campo + " FROM " + tabla + " " + where + ";");
 		}
 		return consulta;
 	}

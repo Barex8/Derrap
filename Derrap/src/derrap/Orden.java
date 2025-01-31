@@ -16,6 +16,8 @@ public class Orden {
 	String estado_asignacion;
 	String estado_reparacion;
 	String dni_usuario;
+	
+	float precioTotal;
 
 	public Orden(int id) {
 		this.id = id;
@@ -88,6 +90,10 @@ public class Orden {
 	public String getServicio() {
 		return servicio;
 
+	}
+	
+	public float getPrecioTotal() {
+		return precioTotal;
 	}
 
 	@Override

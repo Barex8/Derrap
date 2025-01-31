@@ -194,6 +194,36 @@ public class JF_home_admin extends JFrame {
 				// borderlayout
 				JLabel labelLogo = new JLabel(logoOriginal);
 				panelLogo.add(labelLogo, BorderLayout.CENTER);
+				
+				JLabel lbl_AdministrarOrdenes = new JLabel("Administrar Ordenes");
+				lbl_AdministrarOrdenes.setOpaque(true);
+				lbl_AdministrarOrdenes.setHorizontalAlignment(SwingConstants.CENTER);
+				lbl_AdministrarOrdenes.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbl_AdministrarOrdenes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+				lbl_AdministrarOrdenes.setBackground(new Color(222, 242, 247));
+				lbl_AdministrarOrdenes.setBounds(232, 38, 212, 23);
+				contentPane.add(lbl_AdministrarOrdenes);
+				
+				lbl_AdministrarOrdenes.addMouseListener(new MouseAdapter() {
+					// cambia el color cuando el ratón se coloca encima de entrar
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						lbl_AdministrarOrdenes.setBackground(azulCancelar);
+					}
+
+					// cambia el color cuando el ratón se quita de encima de entrar
+					@Override
+					public void mouseExited(MouseEvent e) {
+						lbl_AdministrarOrdenes.setBackground(azulSecundario);
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JF_Ordenes_Admin frame_stock = new JF_Ordenes_Admin();
+						frame_stock.setVisible(true);
+						dispose();
+					}
+
+				});
 
 				// listener que se activa cuando hay cambios de tamaño de componentes del panel
 				// asi conseguimos que la imagen se adapte al tamaño del label

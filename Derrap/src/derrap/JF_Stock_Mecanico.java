@@ -91,8 +91,8 @@ public class JF_Stock_Mecanico extends JFrame {
 					}
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						JF_home_admin frame_home_admin = new JF_home_admin();
-						frame_home_admin.setVisible(true);
+						JF_home_mecanico frame_home_mecanico = new JF_home_mecanico();
+						frame_home_mecanico.setVisible(true);
 						dispose();
 					}
 		
