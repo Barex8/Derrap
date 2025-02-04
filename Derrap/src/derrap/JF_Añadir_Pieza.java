@@ -1,6 +1,5 @@
 package derrap;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -38,9 +37,9 @@ public class JF_Añadir_Pieza extends JFrame {
 		String campo1 = "", campo2 = "", campo3 = "", campo4 = "", campo5 = "", campo6 = "", campo7 = "", campo8 = "";
 		ResultSet result = null;
 		result = login.conexion.consulta(
-				"Select * From Derrap." + tabla + " WHERE matricula_" + tabla + " = " + "'" + Matricula + "'");
+				"Select * From Derrap." + tabla + " WHERE oem_pieza_" + tabla + " = " + "'" + OEM + "'");
 		System.out
-				.println("Select * From Derrap." + tabla + " WHERE matricula_" + tabla + " = " + "'" + Matricula + "'");
+				.println("Select * From Derrap." + tabla + " WHERE oem_pieza_" + tabla + " = " + "'" + OEM + "'");
 		try {
 			result.next();
 			campo1 = result.getString("nombre_pieza_" + tabla.toLowerCase());
@@ -89,98 +88,63 @@ public class JF_Añadir_Pieza extends JFrame {
 		TF_Oem.setColumns(10);
 		TF_Oem.setEditable(false);
 		System.out.println(OEM);
-		TF_oem.setText(OEM);
+		TF_Oem.setText(OEM);
 		info.add(TF_Oem);
 		contentPane.add(TF_Oem, "2, 6, fill, default");
 
 		JLabel lb_Nombre = null;
-		lb_Marca = new JLabel("Marca");
-		contentPane.add(lb_Marca, "2, 10");
+		lb_Nombre = new JLabel("Nombre");
+		contentPane.add(lb_Nombre, "2, 10");
 
-		TF_nombre = new JTextField();
-		TF_nombre.setColumns(10);
-		TF_nombre.setText(campo1);
-		info.add(TF_nombre);
-		contentPane.add(TF_nombre, "2, 12, fill, default");
+		TF_Nombre = new JTextField();
+		TF_Nombre.setColumns(10);
+		TF_Nombre.setText(campo1);
+		info.add(TF_Nombre);
+		contentPane.add(TF_Nombre, "2, 12, fill, default");
 
-		JLabel lb_Modelo = null;
-		lb_Modelo = new JLabel("Modelo");
+		JLabel lb_Marca = null;
+		lb_Marca = new JLabel("Modelo");
 
-		contentPane.add(lb_Modelo, "2, 16");
+		contentPane.add(lb_Marca, "2, 16");
 
-		TF_Modelo = new JTextField();
-		TF_Modelo.setColumns(10);
-		TF_Modelo.setText(campo2);
-		info.add(TF_Modelo);
-		contentPane.add(TF_Modelo, "2, 18, fill, default");
+		TF_Marca = new JTextField();
+		TF_Marca.setColumns(10);
+		TF_Marca.setText(campo2);
+		info.add(TF_Marca);
+		contentPane.add(TF_Marca, "2, 18, fill, default");
 
-		JLabel lb_Año = null;
-		lb_Año = new JLabel("Año");
+		JLabel lb_Cantidad = null;
+		lb_Cantidad = new JLabel("Cantidad");
 
-		contentPane.add(lb_Año, "2, 22");
+		contentPane.add(lb_Cantidad, "2, 22");
 
-		TF_Año = new JTextField();
-		TF_Año.setColumns(10);
-		TF_Año.setText(campo3);
-		info.add(TF_Año);
-		contentPane.add(TF_Año, "2, 24, fill, default");
+		TF_Cantidad = new JTextField();
+		TF_Cantidad.setColumns(10);
+		TF_Cantidad.setText(campo3);
+		info.add(TF_Cantidad);
+		contentPane.add(TF_Cantidad, "2, 24, fill, default");
 
-		JLabel lb_Color = new JLabel("Correo electrónico");
-		lb_Color = new JLabel("Color");
-		contentPane.add(lb_Color, "2, 28");
+		JLabel lb_Precio = null;
+		lb_Precio = new JLabel("Precio");
+		
+		contentPane.add(lb_Precio, "2, 28");
 
-		TF_Color = new JTextField();
-		TF_Color.setColumns(10);
-		TF_Color.setText(campo4);
-		info.add(TF_Color);
-		contentPane.add(TF_Color, "2, 30, fill, default");
+		TF_Precio = new JTextField();
+		TF_Precio.setColumns(10);
+		TF_Precio.setText(campo4);
+		info.add(TF_Precio);
+		contentPane.add(TF_Precio, "2, 30, fill, default");
 
-		JLabel lb_DNI_Cliente = null;
-		lb_DNI_Cliente = new JLabel("DNI del cliente del vehiculo");
-		contentPane.add(lb_DNI_Cliente, "2, 34");
+		JLabel lb_Estado = null;
+		lb_Estado = new JLabel("Estado");
+		contentPane.add(lb_Estado, "2, 34");
 
-		TF_DNI_Cliente = new JTextField();
-		TF_DNI_Cliente.setColumns(10);
-		TF_DNI_Cliente.setText(campo5);
-		info.add(TF_DNI_Cliente);
-		contentPane.add(TF_DNI_Cliente, "2, 36, fill, default");
+		TF_Estado = new JTextField();
+		TF_Estado.setColumns(10);
+		TF_Estado.setText(campo5);
+		info.add(TF_Estado);
+		contentPane.add(TF_Estado, "2, 36, fill, default");
 
-		JButton EliminarVehiculo = new JButton("Eliminar"); // ELIMINAR
-		EliminarVehiculo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean success = true;
-				if (info.get(0).getText().equals("")) {
-					System.out.println("El campo Matricula no puede estar vacio");
-					success = false;
-				}
-				// Si todo sale bien, borrar datos en la base de datos y actualizar la tabla de
-				// Clientes_Admin
-
-				if (success) {
-					System.out.println("Borrado cita");
-					login.conexion.DML("DELETE From derrap.cita WHERE matricula_vehiculo_cita =" + "'"
-							+ info.get(0).getText() + "'");
-					System.out.println("Consulta id_orden_trabajo");
-					String id_orden = login.conexion.consultaCampo("id_orden_trabajo", "orden_trabajo",
-							" Where id_matricula_orden_trabajo = '" + info.get(0).getText() + "'");
-					login.conexion.DML("DELETE From derrap.factura WHERE id_orden_trabajo =" + "'" + id_orden + "'");
-					System.out.println("Borrado orden");
-					login.conexion.DML("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo =" + "'"
-							+ info.get(0).getText() + "'");
-					System.out.println("DELETE From derrap.orden_trabajo WHERE id_matricula_orden_trabajo =" + "'"
-							+ info.get(0).getText() + "'");
-
-					login.conexion.DML("DELETE From derrap." + tabla + " where derrap." + tabla + ".matricula_" + tabla
-							+ " = " + "'" + info.get(0).getText() + "'");
-
-					frame.ActualizarTabla();
-					dispose();
-				}
-			}
-		});
-
-		contentPane.add(EliminarVehiculo, "3, 46");
 
 		JButton Cancelar = new JButton("Cancelar");
 		Cancelar.addActionListener(new ActionListener() {
@@ -208,10 +172,10 @@ public class JF_Añadir_Pieza extends JFrame {
 				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
 				// de Clientes_Admin
 				if (success) {
-					login.conexion.DML("UPDATE " + tabla + " SET marca_vehiculo = '" + datos[1]
-							+ "', modelo_vehiculo = '" + datos[2] + "' , año_vehiculo = " + datos[3]
-							+ ", color_vehiculo = '" + datos[4] + "', dni_cliente_vehiculo = '" + datos[5]
-							+ "'  WHERE matricula_vehiculo = '" + datos[0] + "'");
+					login.conexion.DML("UPDATE " + tabla + " SET nombre_pieza_stock = '" + datos[1]
+							+ "', marca_pieza_stock = '" + datos[2] + "' , cantidad_pieza_stock = " + datos[3]
+							+ ", precio_pieza_stock = '" + datos[4] + "', estado_pieza_stock = '" + datos[5]
+							+ "'  WHERE oem_pieza_stock = '" + datos[0] + "'");
 					dispose();
 					frame.ActualizarTabla();
 				}
@@ -221,7 +185,7 @@ public class JF_Añadir_Pieza extends JFrame {
 
 	}
 
-	public JF_Añadir_Pieza(JF_Vehiculo_Admin frame, String tabla) { // Se usa solo para Añadir
+	public JF_Añadir_Pieza(JF_Stock_Admin frame, String tabla) { // Se usa solo para Añadir
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 667);
 		contentPane = new JPanel();
@@ -248,62 +212,63 @@ public class JF_Añadir_Pieza extends JFrame {
 						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
 						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
 						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
+		
+		JLabel lb_Oem = null;
+		lb_Oem = new JLabel("Oem");
+		contentPane.add(lb_Oem, "2, 4");
 
-		JLabel lb_Matricula = null;
-		lb_Matricula = new JLabel("Matricula");
+		TF_Oem = new JTextField();
+		TF_Oem.setColumns(10);
+		info.add(TF_Oem);
+		contentPane.add(TF_Oem, "2, 6, fill, default");
 
-		contentPane.add(lb_Matricula, "2, 4");
+		JLabel lb_Nombre = null;
+		lb_Nombre = new JLabel("Nombre");
+		contentPane.add(lb_Nombre, "2, 10");
 
-		TF_oem = new JTextField();
-		TF_oem.setColumns(10);
-		info.add(TF_oem); // 0
-		contentPane.add(TF_oem, "2, 6, fill, default");
+		TF_Nombre = new JTextField();
+		TF_Nombre.setColumns(10);
+		info.add(TF_Nombre);
+		contentPane.add(TF_Nombre, "2, 12, fill, default");
 
 		JLabel lb_Marca = null;
-		lb_Marca = new JLabel("Marca");
-		contentPane.add(lb_Marca, "2, 10");
+		lb_Marca = new JLabel("Modelo");
+		contentPane.add(lb_Marca, "2, 16");
 
-		TF_nombre = new JTextField();
-		TF_nombre.setColumns(10);
-		info.add(TF_nombre); // 1
-		contentPane.add(TF_nombre, "2, 12, fill, default");
+		TF_Marca = new JTextField();
+		TF_Marca.setColumns(10);
+		info.add(TF_Marca);
+		contentPane.add(TF_Marca, "2, 18, fill, default");
 
-		JLabel lb_Modelo = null;
-		lb_Modelo = new JLabel("Modelo");
+		JLabel lb_Cantidad = null;
+		lb_Cantidad = new JLabel("Cantidad");
+		contentPane.add(lb_Cantidad, "2, 22");
 
-		contentPane.add(lb_Modelo, "2, 16");
+		TF_Cantidad = new JTextField();
+		TF_Cantidad.setColumns(10);
+		info.add(TF_Cantidad);
+		contentPane.add(TF_Cantidad, "2, 24, fill, default");
 
-		TF_Modelo = new JTextField();
-		TF_Modelo.setColumns(10);
-		info.add(TF_Modelo); // 2
-		contentPane.add(TF_Modelo, "2, 18, fill, default");
+		JLabel lb_Precio = null;
+		lb_Precio = new JLabel("Precio");
+		
+		contentPane.add(lb_Precio, "2, 28");
 
-		JLabel lb_Año = null;
-		lb_Año = new JLabel("Año");
+		TF_Precio = new JTextField();
+		TF_Precio.setColumns(10);
+		info.add(TF_Precio);
+		contentPane.add(TF_Precio, "2, 30, fill, default");
 
-		contentPane.add(lb_Año, "2, 22");
-		TF_Año = new JTextField();
-		TF_Año.setColumns(10);
-		info.add(TF_Año); // 3
-		contentPane.add(TF_Año, "2, 24, fill, default");
+		JLabel lb_Estado = null;
+		lb_Estado = new JLabel("Estado");
+		contentPane.add(lb_Estado, "2, 34");
 
-		JLabel lb_Color = new JLabel("Correo electrónico");
-		lb_Color = new JLabel("Color");
-		contentPane.add(lb_Color, "2, 28");
-
-		TF_Color = new JTextField();
-		TF_Color.setColumns(10);
-		info.add(TF_Color); // 5 (4 en proveedor)
-		contentPane.add(TF_Color, "2, 30, fill, default");
-
-		JLabel lb_DNI_Cliente = null;
-		lb_DNI_Cliente = new JLabel("DNI del cliente del vehiculo");
-		contentPane.add(lb_DNI_Cliente, "2, 34");
-
-		TF_DNI_Cliente = new JTextField();
-		TF_DNI_Cliente.setColumns(10);
-		info.add(TF_DNI_Cliente); // 4
-		contentPane.add(TF_DNI_Cliente, "2, 36, fill, default");
+		TF_Estado = new JTextField();
+		TF_Estado.setColumns(10);
+		info.add(TF_Estado);
+		contentPane.add(TF_Estado, "2, 36, fill, default");
+		
+		
 
 		JButton AñadirCliente = new JButton("Añadir");
 		AñadirCliente.addActionListener(new ActionListener() {

@@ -1,21 +1,11 @@
 package derrap;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 
-import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,8 +17,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -66,45 +54,45 @@ public class JF_Stock_Mecanico extends JFrame {
 						ColumnSpec.decode("100px"), },
 				new RowSpec[] { FormSpecs.LINE_GAP_ROWSPEC, RowSpec.decode("40px"), RowSpec.decode("40px"),
 						RowSpec.decode("311px:grow"), RowSpec.decode("200px"), }));
-
-		
-		JLabel lbl_Volver = new JLabel("Volver");
-		lbl_Volver.setOpaque(true);
-		lbl_Volver.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lbl_Volver.setBackground(azulSecundario);
-		lbl_Volver.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbl_Volver.setBounds(453, 11, 212, 23);
-		contentPane.add(lbl_Volver, "2, 1");
-		
-				lbl_Volver.addMouseListener(new MouseAdapter() {
-					// cambia el color cuando el ratón se coloca encima de entrar
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						lbl_Volver.setBackground(azulCancelar);
-					}
-		
-					// cambia el color cuando el ratón se quita de encima de entrar
-					@Override
-					public void mouseExited(MouseEvent e) {
+				
+				
+						JLabel lbl_Volver = new JLabel("Volver");
+						lbl_Volver.setOpaque(true);
+						lbl_Volver.setHorizontalAlignment(SwingConstants.CENTER);
+						lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 						lbl_Volver.setBackground(azulSecundario);
-					}
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						JF_home_mecanico frame_home_mecanico = new JF_home_mecanico();
-						frame_home_mecanico.setVisible(true);
-						dispose();
-					}
+						lbl_Volver.setFont(new Font("Tahoma", Font.BOLD, 11));
+						lbl_Volver.setBounds(453, 11, 212, 23);
+						contentPane.add(lbl_Volver, "2, 2");
+						
+										lbl_Volver.addMouseListener(new MouseAdapter() {
+											// cambia el color cuando el ratón se coloca encima de entrar
+											@Override
+											public void mouseEntered(MouseEvent e) {
+												lbl_Volver.setBackground(azulCancelar);
+											}
+						
+											// cambia el color cuando el ratón se quita de encima de entrar
+											@Override
+											public void mouseExited(MouseEvent e) {
+												lbl_Volver.setBackground(azulSecundario);
+											}
+											@Override
+											public void mouseClicked(MouseEvent e) {
+												JF_home_mecanico frame_home_mecanico = new JF_home_mecanico();
+												frame_home_mecanico.setVisible(true);
+												dispose();
+											}
+						
+										});
 		
-				});
-				
-				
-		
-		JLabel JLabel_Titulo = new JLabel("Stock");
-		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		contentPane.add(JLabel_Titulo, "2, 2");
 		
 		
+				JLabel JLabel_Titulo = new JLabel("Stock");
+				JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				contentPane.add(JLabel_Titulo, "2, 3");
+
+
 
 		textField = new JTextField();
 		contentPane.add(textField, "8, 3, 2, 1, fill, default");
@@ -150,10 +138,10 @@ public class JF_Stock_Mecanico extends JFrame {
 		table.setModel(new DefaultTableModel(stock,
 				new String[] { "Código OEM", "Nombre", "Marca", "Cantidad", "Precio", "Estado"}));
 	}
-	
 
-	
 
-	
+
+
+
 
 }

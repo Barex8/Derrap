@@ -2,20 +2,15 @@ package derrap;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 
 import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -76,23 +71,23 @@ public class JF_Stock_Admin extends JFrame {
 				RowSpec.decode("40px"),
 				RowSpec.decode("311px:grow"),
 				RowSpec.decode("3px"),}));
-		
+
 		JLabel lbl_Volver = new JLabel("Volver");
 		lbl_Volver.setOpaque(true);
 		lbl_Volver.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		lbl_Volver.setBackground(azulSecundario);
 		lbl_Volver.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbl_Volver.setBounds(453, 11, 212, 23);
 		contentPane.add(lbl_Volver, "2, 1");
-		
+
 				lbl_Volver.addMouseListener(new MouseAdapter() {
 					// cambia el color cuando el ratón se coloca encima de entrar
 					@Override
 					public void mouseEntered(MouseEvent e) {
 						lbl_Volver.setBackground(azulCancelar);
 					}
-		
+
 					// cambia el color cuando el ratón se quita de encima de entrar
 					@Override
 					public void mouseExited(MouseEvent e) {
@@ -104,29 +99,29 @@ public class JF_Stock_Admin extends JFrame {
 						frame_home_admin.setVisible(true);
 						dispose();
 					}
-		
+
 				});
 
 		JLabel JLabel_Titulo = new JLabel("Stock");
 		JLabel_Titulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		contentPane.add(JLabel_Titulo, "2, 2");
-		
+
 		JLabel lbl_AñadirPieza = new JLabel("Añadir pieza");
 		lbl_AñadirPieza.setOpaque(true);
 		lbl_AñadirPieza.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_AñadirPieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lbl_AñadirPieza.setBorder(new MatteBorder(1, 1, 1, 1, new Color(0, 0, 0)));
 		lbl_AñadirPieza.setBackground(azulSecundario);
 		lbl_AñadirPieza.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbl_AñadirPieza.setBounds(453, 11, 212, 23);
 		contentPane.add(lbl_AñadirPieza, "2, 3, 2, 1");
-		
+
 		lbl_AñadirPieza.addMouseListener(new MouseAdapter() {
 					// cambia el color cuando el ratón se coloca encima de entrar
 					@Override
 					public void mouseEntered(MouseEvent e) {
 						lbl_AñadirPieza.setBackground(azulCancelar);
 					}
-		
+
 					// cambia el color cuando el ratón se quita de encima de entrar
 					@Override
 					public void mouseExited(MouseEvent e) {
@@ -134,9 +129,10 @@ public class JF_Stock_Admin extends JFrame {
 					}
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						
+						JF_Añadir_Pieza frame_stock = new JF_Añadir_Pieza(selfFrame, "stock");
+						frame_stock.setVisible(true);
 					}
-		
+
 				});
 
 		textField = new JTextField();
@@ -225,11 +221,10 @@ public class JF_Stock_Admin extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Object value = table.getValueAt(selectedRow, 0);
 
-	/*		JF_Añadir_Vehiculo frame_añadir_vehiculo = new JF_Añadir_Vehiculo(selfFrame, value.toString(), "vehiculo");
-			frame_añadir_vehiculo.setVisible(true);
+			JF_Añadir_Pieza frame_stock = new JF_Añadir_Pieza(selfFrame, value.toString(), "stock");
+			frame_stock.setVisible(true);
 			clicked = false;
 			fireEditingStopped();
-*/
 		}
 
 		@Override
