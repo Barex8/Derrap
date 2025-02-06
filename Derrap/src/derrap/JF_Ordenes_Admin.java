@@ -125,10 +125,6 @@ public class JF_Ordenes_Admin extends JFrame {
 			
 			//Botones
 
-
-
-			
-			
 			JLabel btnEditarOrden1 = new JLabel("Editar");
 			btnEditarOrden1.setOpaque(true);
 			btnEditarOrden1.setHorizontalAlignment(SwingConstants.CENTER);
