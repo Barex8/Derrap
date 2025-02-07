@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class JF_Añadir_Orden extends JFrame {
 
@@ -30,23 +31,23 @@ public class JF_Añadir_Orden extends JFrame {
 	private JTextField TF_Id;
 	private JTextField TF_Fecha_Salida;
 	private JTextField TF_Descripcion;
-	private JTextField TF_DNI_Cliente;
+	private JTextField TF_DNI_mecanico;
 	private JTextField TF_Piezas_Utilizadas;
 	private JTextField TF_Ciudad;
 	private JTextField TF_codigo;
 	private JLabel lb_Servicio;
-	private JComboBox comboBox;
 	private JLabel lb_Estado;
 	private JComboBox Combo_Estado;
-	private JLabel lb_DNI_Cliente_1;
-	private JTextField textField;
-	private String[] datos = new String[8];
+	private JComboBox Combo_Sevicio;
+	private JLabel lb_Matricula;
+	private JTextField TF_Matricula;
+	private String[] datos = new String[9];
 
 	private ArrayList<JTextField> info = new ArrayList<>();
 
 	public JF_Añadir_Orden(JF_Ordenes_Admin frame, String ID) {			 // Para modificar o eliminar
-		String fechaEntrada = "", fechaSalida = "", descripcion = "", sustitucionPieza = "", idServicio = "", idEstadoAsignacion = "", idEstadoReparacion = "", matricula = "",dniUsuario = "";
-		String tabla = "derrap.orden_trabajo";
+		String fechaEntrada = "", fechaSalida = "", descripcion = "", sustitucionPieza = "", idServicio = "", idEstadoAsignacion = "", idEstadoReparacion = "", matricula = "",dniMecanico = "";
+		String tabla = "orden_trabajo";
 		ResultSet result = null;
 		result = login.conexion.consulta(
 				"Select * From Derrap." + tabla + " WHERE id_" + tabla + " = " + "'" + ID + "'");
@@ -61,7 +62,7 @@ public class JF_Añadir_Orden extends JFrame {
 			idEstadoAsignacion = result.getString("id_estado_asignacion_" + tabla.toLowerCase());
 			idEstadoReparacion = result.getString("id_estado_reparacion_" + tabla.toLowerCase());
 			matricula = result.getString("id_matricula_" + tabla.toLowerCase());
-			dniUsuario = result.getString("dni_usuario_" + tabla.toLowerCase());
+			dniMecanico = result.getString("dni_usuario_" + tabla.toLowerCase());
 		} catch (SQLException e) {
 			System.out.println("Fallo al leer los datos");
 			System.out.println(e.getLocalizedMessage());
@@ -130,7 +131,7 @@ public class JF_Añadir_Orden extends JFrame {
 		TF_Id.setColumns(10);
 		TF_Id.setEditable(false);
 		TF_Id.setText(ID);
-		info.add(TF_Id);
+		info.add(TF_Id);	//0
 		System.out.println(ID);
 		contentPane.add(TF_Id, "2, 6, fill, default");
 		
@@ -141,22 +142,35 @@ public class JF_Añadir_Orden extends JFrame {
 		TF_Descripcion = new JTextField();
 		TF_Descripcion.setColumns(10);
 		TF_Descripcion.setText(descripcion);
-		info.add(TF_Descripcion);
+		info.add(TF_Descripcion);			//1
 		contentPane.add(TF_Descripcion, "4, 6, 1, 6, fill, default");
 		
 		lb_Estado = new JLabel("Estado de la orden");
 		contentPane.add(lb_Estado, "2, 10");
+		JTextField TF_Estado = new JTextField();
+		//Voy a hacer un TexField invisible para que cambiar la lógica de info.
+		TF_Estado.setText(idEstadoReparacion);
+		TF_Estado.setVisible(false);
 		
 		Combo_Estado = new JComboBox();
-		contentPane.add(Combo_Estado, "2, 12, fill, default");
+		Combo_Estado.setModel(new DefaultComboBoxModel(new String[] {"Sin comenzar","En diagnóstico","En reparación","Finalizada"}));
+		Combo_Estado.setSelectedIndex(Integer.parseInt(idEstadoReparacion)-1);
+		Combo_Estado.addActionListener(new java.awt.event.ActionListener() {
+		    public void actionPerformed(java.awt.event.ActionEvent evt) {
+		    	TF_Estado.setText(String.valueOf(Combo_Estado.getSelectedIndex()+1));
+		    }
+		});
+		
+		contentPane.add(Combo_Estado, "2, 12, fill, default");	
+		info.add(TF_Estado);							//2
 		
 		JLabel lb_Piezas_Utilizadas = new JLabel("Piezas Utilizadas");
 		contentPane.add(lb_Piezas_Utilizadas, "4, 14");
 		
 		TF_Piezas_Utilizadas = new JTextField();
-		TF_Piezas_Utilizadas.setText("<dynamic>");
+		TF_Piezas_Utilizadas.setText("Pendiente");
 		TF_Piezas_Utilizadas.setColumns(10);
-		info.add(TF_Piezas_Utilizadas);
+		info.add(TF_Piezas_Utilizadas);			//3
 		contentPane.add(TF_Piezas_Utilizadas, "4, 16, 1, 8, fill, default");
 
 		JLabel lb_Fecha_Entrada = null;
@@ -165,7 +179,7 @@ public class JF_Añadir_Orden extends JFrame {
 		TF_Fecha_Entrada = new JTextField();
 		TF_Fecha_Entrada.setColumns(10);
 		TF_Fecha_Entrada.setText(fechaEntrada);
-		info.add(TF_Fecha_Entrada);
+		info.add(TF_Fecha_Entrada);					//4
 		contentPane.add(TF_Fecha_Entrada, "2, 18, fill, default");	
 		
 		
@@ -175,78 +189,291 @@ public class JF_Añadir_Orden extends JFrame {
 		TF_Fecha_Salida = new JTextField();
 		TF_Fecha_Salida.setColumns(10);
 		TF_Fecha_Salida.setText(fechaSalida);
-		info.add(TF_Fecha_Salida);
+		info.add(TF_Fecha_Salida);					//5
 		contentPane.add(TF_Fecha_Salida, "2, 24, fill, default");		
 
 		lb_Servicio = new JLabel("Tipo Servicio");
 		contentPane.add(lb_Servicio, "2, 28");
-		comboBox = new JComboBox();
-		contentPane.add(comboBox, "2, 30, fill, default");
+		JTextField TF_Servicio = new JTextField();
+		//Voy a hacer un TexField invisible para que cambiar la lógica de info.
+		TF_Servicio.setText(idServicio);
+		TF_Servicio.setVisible(false);
+		
+		Combo_Sevicio = new JComboBox();
+		Combo_Sevicio.setModel(new DefaultComboBoxModel(new String[] {"Mecánica", "Diagnóstico", "PRE-ITV",
+				"Frenos y ABS","Aceite y Filtros","Neumáticos","Revisión oficial","Matrículas","Chapa y pintura",
+				"Equilibrado y alineación","Climatización","Electricidad"}));
+		Combo_Sevicio.setSelectedIndex(Integer.parseInt(idServicio)-1);
+		
+		Combo_Sevicio.addActionListener(new java.awt.event.ActionListener() {
+		    public void actionPerformed(java.awt.event.ActionEvent evt) {
+		    	TF_Servicio.setText(String.valueOf(Combo_Sevicio.getSelectedIndex()+1));		    	
+		    }
+		});
+		
+		info.add(TF_Servicio);			//6
+		contentPane.add(Combo_Sevicio, "2, 30, fill, default");
 		
 
 		JLabel lb_DNI_Cliente = null;
+		lb_DNI_Cliente = new JLabel("DNI del mecánico");
+		contentPane.add(lb_DNI_Cliente, "4, 28");
+		TF_DNI_mecanico = new JTextField();
+		TF_DNI_mecanico.setColumns(10);
+		TF_DNI_mecanico.setText(dniMecanico);
+		info.add(TF_DNI_mecanico);					//7
+		contentPane.add(TF_DNI_mecanico, "4, 30, fill, default");
 		
-		lb_DNI_Cliente = new JLabel("DNI del cliente del vehiculo");
-		contentPane.add(lb_DNI_Cliente, "4, 26");
 		
+		lb_Matricula = new JLabel("Matrícula del vehículo");
+		contentPane.add(lb_Matricula, "4, 32");
 		
-				TF_DNI_Cliente = new JTextField();
-				TF_DNI_Cliente.setColumns(10);
-				TF_DNI_Cliente.setText(idServicio);
-				info.add(TF_DNI_Cliente);
-				contentPane.add(TF_DNI_Cliente, "4, 28, fill, default");
+		TF_Matricula = new JTextField();
+		TF_Matricula.setText(matricula);
+		TF_Matricula.setColumns(10);
+		info.add(TF_Matricula);		//8
+		contentPane.add(TF_Matricula, "4, 34, fill, default");
 		
-				JButton Guardar = new JButton("Guardar");
-				Guardar.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) { // Codigo MODIFICAR Update
-						boolean success = true;
-						int index = 0;
-						for (JTextField dato : info) {
-							if (dato.getText().equals("")) {
-								System.out.println("Se necesita insertar todos los datos para poder realizar la operación");
-								login.conexion.MostrarWarningPanel(contentPane, "Se necesita insertar todos los datos para poder realizar la operación");
-								success = false;
-								//break;
-							}
-							datos[index] = dato.getText();
-							index++;
-						}
-						if(!login.conexion.ComprobarExistenciaCliente(datos[5])) {
-							success = false;
-							login.conexion.MostrarWarningPanel(contentPane,"El DNI del usuario no existe");
-						}
-						// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
-						// de Clientes_Admin
-						if (success) {
-							login.conexion.DML("UPDATE " + tabla + " SET marca_vehiculo = '" + datos[1]
-									+ "', modelo_vehiculo = '" + datos[2] + "' , año_vehiculo = " + datos[3]
-									+ ", color_vehiculo = '" + datos[4] + "', dni_cliente_vehiculo = '" + datos[5]
-									+ "'  WHERE matricula_vehiculo = '" + datos[0] + "'");
-							dispose();
-							//login.conexion.MostrarInformationPanel(contentPane,"El DNI del usuario no existe");
-						}
+		JButton Guardar = new JButton("Guardar");
+		Guardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { // Codigo MODIFICAR Update
+				boolean success = true;
+				int index = 0;
+				for (JTextField dato : info) {
+					if (dato.getText().equals("")) {
+						login.conexion.MostrarWarningPanel(contentPane, "Se necesita insertar todos los datos para poder realizar la operación");
+						success = false;
 					}
-				});
+					datos[index] = dato.getText();
+					index++;
+				}
 				
-				lb_DNI_Cliente_1 = new JLabel("Matrícula del vehículo");
-				contentPane.add(lb_DNI_Cliente_1, "4, 32");
-				
-				textField = new JTextField();
-				textField.setText("<dynamic>");
-				textField.setColumns(10);
-				contentPane.add(textField, "4, 34, fill, default");
-				contentPane.add(Guardar, "4, 38");
-				
-						JButton Cancelar = new JButton("Cancelar");
-						Cancelar.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								dispose();
-							}
-						});
-						contentPane.add(Cancelar, "4, 40");
+				if (success) {
+					//Se actualiza la tabla orden_trabajo
+					login.conexion.DML("UPDATE " + tabla + " SET descripcion_orden_trabajo = '" + datos[1]
+							+ "', id_estado_reparacion_orden_trabajo = '" + datos[2]
+							+ "', fecha_entrada_orden_trabajo = '" + datos[4] + "', fecha_salida_orden_trabajo = '" + datos[5]
+							+ "', id_servicio_orden_trabajo = '" + datos[6]+ "', dni_usuario_orden_trabajo = '" + datos[7]
+							+ "', id_matricula_orden_trabajo = '" + datos[8] + "'  WHERE id_orden_trabajo = '" + datos[0] + "'");
+					//Hay que atualizar tambien la tabla orden_pieza
+					dispose();	
+					}
+			}
+		});
+		contentPane.add(Guardar, "4, 38");
+		
+		JButton Cancelar = new JButton("Cancelar");
+		Cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		contentPane.add(Cancelar, "4, 40");
+	}
+	
+	public JF_Añadir_Orden(JF_Ordenes_Admin frame) {			 // Para modificar o eliminar
+		String fechaEntrada = "", fechaSalida = "", descripcion = "", sustitucionPieza = "", idServicio = "", idEstadoAsignacion = "", idEstadoReparacion = "", matricula = "",dniMecanico = "";
+		String tabla = "orden_trabajo";
+		int ID = login.conexion.consulta_Numero_Registros(
+				"SELECT COUNT(*) from orden_trabajo")+1;
 
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 698, 542);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("max(20px;min)"),
+				ColumnSpec.decode("300px:grow"),
+				ColumnSpec.decode("15px"),
+				ColumnSpec.decode("300px:grow"),
+				ColumnSpec.decode("20px"),},
+			new RowSpec[] {
+				FormSpecs.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,}));
+
+		JLabel lb_Id = null;
+		lb_Id = new JLabel("Id Orden");
+		contentPane.add(lb_Id, "2, 4");
+
+		TF_Id = new JTextField();
+		TF_Id.setColumns(10);
+		TF_Id.setEditable(false);
+		TF_Id.setText(String.valueOf(ID));
+		info.add(TF_Id);	//0
+		contentPane.add(TF_Id, "2, 6, fill, default");
+		
+		JLabel lb_descripcion = null;
+		lb_descripcion = new JLabel("Descripción");
+		contentPane.add(lb_descripcion, "4, 4");
+		
+		TF_Descripcion = new JTextField();
+		TF_Descripcion.setColumns(10);
+		info.add(TF_Descripcion);			//1
+		contentPane.add(TF_Descripcion, "4, 6, 1, 6, fill, default");
+		
+		lb_Estado = new JLabel("Estado de la orden");
+		contentPane.add(lb_Estado, "2, 10");
+		JTextField TF_Estado = new JTextField();
+		//Voy a hacer un TexField invisible para que cambiar la lógica de info.
+		TF_Estado.setVisible(false);
+		
+		Combo_Estado = new JComboBox();
+		Combo_Estado.setModel(new DefaultComboBoxModel(new String[] {"Sin comenzar","En diagnóstico","En reparación","Finalizada"}));
+		Combo_Estado.addActionListener(new java.awt.event.ActionListener() {
+		    public void actionPerformed(java.awt.event.ActionEvent evt) {
+		    	TF_Estado.setText(String.valueOf(Combo_Estado.getSelectedIndex()+1));
+		    }
+		});
+		
+		contentPane.add(Combo_Estado, "2, 12, fill, default");	
+		info.add(TF_Estado);							//2
+		
+		JLabel lb_Piezas_Utilizadas = new JLabel("Piezas Utilizadas");
+		contentPane.add(lb_Piezas_Utilizadas, "4, 14");
+		
+		TF_Piezas_Utilizadas = new JTextField();
+		TF_Piezas_Utilizadas.setColumns(10);
+		info.add(TF_Piezas_Utilizadas);			//3
+		contentPane.add(TF_Piezas_Utilizadas, "4, 16, 1, 8, fill, default");
+
+		JLabel lb_Fecha_Entrada = null;
+		lb_Fecha_Entrada = new JLabel("Fecha entrada del vehículo");
+		contentPane.add(lb_Fecha_Entrada, "2, 16");
+		TF_Fecha_Entrada = new JTextField();
+		TF_Fecha_Entrada.setColumns(10);
+		info.add(TF_Fecha_Entrada);					//4
+		contentPane.add(TF_Fecha_Entrada, "2, 18, fill, default");	
+		
+		
+		JLabel lb_Fecha_Salida = null;
+		lb_Fecha_Salida = new JLabel("Fecha salida del vehículo");		
+		contentPane.add(lb_Fecha_Salida, "2, 22");
+		TF_Fecha_Salida = new JTextField();
+		TF_Fecha_Salida.setColumns(10);
+		info.add(TF_Fecha_Salida);					//5
+		contentPane.add(TF_Fecha_Salida, "2, 24, fill, default");		
+
+		lb_Servicio = new JLabel("Tipo Servicio");
+		contentPane.add(lb_Servicio, "2, 28");
+		JTextField TF_Servicio = new JTextField();
+		//Voy a hacer un TexField invisible para que cambiar la lógica de info.
+		TF_Servicio.setVisible(false);
+		
+		Combo_Sevicio = new JComboBox();
+		Combo_Sevicio.setModel(new DefaultComboBoxModel(new String[] {"Mecánica", "Diagnóstico", "PRE-ITV",
+				"Frenos y ABS","Aceite y Filtros","Neumáticos","Revisión oficial","Matrículas","Chapa y pintura",
+				"Equilibrado y alineación","Climatización","Electricidad"}));
+		
+		Combo_Sevicio.addActionListener(new java.awt.event.ActionListener() {
+		    public void actionPerformed(java.awt.event.ActionEvent evt) {
+		    	TF_Servicio.setText(String.valueOf(Combo_Sevicio.getSelectedIndex()+1));		    	
+		    }
+		});
+		
+		info.add(TF_Servicio);			//6
+		contentPane.add(Combo_Sevicio, "2, 30, fill, default");
+		
+
+		JLabel lb_DNI_Cliente = null;
+		lb_DNI_Cliente = new JLabel("DNI del mecánico");
+		contentPane.add(lb_DNI_Cliente, "4, 28");
+		TF_DNI_mecanico = new JTextField();
+		TF_DNI_mecanico.setColumns(10);
+		info.add(TF_DNI_mecanico);					//7
+		contentPane.add(TF_DNI_mecanico, "4, 30, fill, default");
+		
+		
+		lb_Matricula = new JLabel("Matrícula del vehículo");
+		contentPane.add(lb_Matricula, "4, 32");
+		
+		TF_Matricula = new JTextField();
+		TF_Matricula.setColumns(10);
+		info.add(TF_Matricula);		//8
+		contentPane.add(TF_Matricula, "4, 34, fill, default");
+		
+		JButton Guardar = new JButton("Guardar");
+		Guardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) { // Codigo Añadir
+				boolean success = true;
+				int index = 0;
+				for (JTextField dato : info) {
+					if (dato.getText().equals("")) {
+						login.conexion.MostrarWarningPanel(contentPane, "Se necesita insertar todos los datos para poder realizar la operación");
+						success = false;
+					}
+					datos[index] = dato.getText();
+					index++;
+				}
+				
+				if (success) {
+					//Se actualiza la tabla orden_trabajo
+					login.conexion.DML("INSERT INTO derrap." + tabla + " (id_orden_trabajo, descripcion_orden_trabajo, id_estado_reparacion_orden_trabajo,"
+							+ "fecha_entrada_orden_trabajo, fecha_salida_orden_trabajo, id_servicio_orden_trabajo, "
+							+ "dni_usuario_orden_trabajo, id_matricula_orden_trabajo, sustitucion_pieza_orden_trabajo,id_estado_asignacion_orden_trabajo) VALUES('" + datos[0] + "', '" + datos[1]
+							+ "' , '" + datos[2] + "', '" + datos[4] + "', '" + datos[5] + "', '" + datos[6]
+							+ "', '" + datos[7] + "', '" + datos[8] + "', 'NO',1)");
+					login.conexion.MostrarWarningPanel(frame, "Orden insertada");
+					frame.dispose();
+					JF_Ordenes_Admin frameAd = new JF_Ordenes_Admin();
+					frameAd.setVisible(true);
+					dispose();	
+					}
+			}
+		});
+		contentPane.add(Guardar, "4, 38");
+		
+		JButton Cancelar = new JButton("Cancelar");
+		Cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		contentPane.add(Cancelar, "4, 40");
 	}
 
 }
