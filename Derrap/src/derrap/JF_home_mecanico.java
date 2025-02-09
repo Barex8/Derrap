@@ -46,6 +46,8 @@ public class JF_home_mecanico extends JFrame {
 	private ImageIcon iconoServicios = new ImageIcon("../imagenes/iconoServicios.png");
 	private ImageIcon iconoEstado = new ImageIcon("../imagenes/iconoEstado.png");
 	private ImageIcon iconoDescripcion = new ImageIcon("../imagenes/iconoDescripcion.png");
+	private JF_home_mecanico selfFrame = this;
+	int id;
 
 	public static Color azulFondo = Color.decode("#dff3f8");
 
@@ -157,7 +159,7 @@ public class JF_home_mecanico extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				lbl_VerStock.setBackground(azulSecundario);
 			}
-
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JF_Stock_Mecanico frame_stock = new JF_Stock_Mecanico();
@@ -167,6 +169,7 @@ public class JF_home_mecanico extends JFrame {
 		});
 
 		if (ordenes_usuario.size() > 0) {
+			id = ordenes_usuario.get(0).getId();
 			JPanel panel = new JPanel();
 			panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			panel.setBackground(azulPrincipal);
@@ -422,6 +425,7 @@ public class JF_home_mecanico extends JFrame {
 			panel.add(lbl_editar1);
 
 			lbl_editar1.addMouseListener(new MouseAdapter() {
+				int id_orden = id;
 				// cambia el color cuando el ratón se coloca encima de entrar
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -433,6 +437,16 @@ public class JF_home_mecanico extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					lbl_editar1.setBackground(azulSecundario);
 				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("id de la orden"+id_orden);
+					JF_Añadir_Orden frame_Añadir_Orden = new JF_Añadir_Orden(selfFrame,String.valueOf(id_orden));
+					frame_Añadir_Orden.setVisible(true);
+					
+					
+					//dispose();
+				}
+
 			});
 
 			// boton factura
@@ -486,6 +500,7 @@ public class JF_home_mecanico extends JFrame {
 		}
 
 		if (ordenes_usuario.size() > 1) {
+			id = ordenes_usuario.get(1).getId();
 			JPanel panel_1 = new JPanel();
 			panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			panel_1.setLayout(null);
@@ -741,6 +756,7 @@ public class JF_home_mecanico extends JFrame {
 			panel_1.add(lbl_editar2);
 
 			lbl_editar2.addMouseListener(new MouseAdapter() {
+				int id_orden = id;
 				// cambia el color cuando el ratón se coloca encima de entrar
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -752,6 +768,16 @@ public class JF_home_mecanico extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					lbl_editar2.setBackground(azulSecundario);
 				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("id de la orden"+id_orden);
+					JF_Añadir_Orden frame_Añadir_Orden = new JF_Añadir_Orden(selfFrame,String.valueOf(id_orden));
+					frame_Añadir_Orden.setVisible(true);
+					
+					
+					//dispose();
+				}
+
 			});
 
 			// boton factura
@@ -803,6 +829,7 @@ public class JF_home_mecanico extends JFrame {
 			});
 		}
 		if (ordenes_usuario.size() > 2) {
+			id = ordenes_usuario.get(2).getId();
 			JPanel panel_1_1 = new JPanel();
 			panel_1_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			panel_1_1.setLayout(null);
@@ -1058,6 +1085,7 @@ public class JF_home_mecanico extends JFrame {
 			panel_1_1.add(lbl_editar3);
 
 			lbl_editar3.addMouseListener(new MouseAdapter() {
+				int id_orden = id;
 				// cambia el color cuando el ratón se coloca encima de entrar
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -1069,6 +1097,16 @@ public class JF_home_mecanico extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					lbl_editar3.setBackground(azulSecundario);
 				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("id de la orden"+id_orden);
+					JF_Añadir_Orden frame_Añadir_Orden = new JF_Añadir_Orden(selfFrame,String.valueOf(id_orden));
+					frame_Añadir_Orden.setVisible(true);
+					
+					
+					//dispose();
+				}
+
 			});
 
 			// boton factura

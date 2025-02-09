@@ -308,6 +308,131 @@ public class JF_Añadir_Pieza extends JFrame {
 		contentPane.add(Cancelar, "3, 42");
 
 	}
+	
+	public JF_Añadir_Pieza(JF_Stock_Mecanico frame, String tabla) { // Se usa solo para Añadir
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 575, 667);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new FormLayout(
+				new ColumnSpec[] { ColumnSpec.decode("max(20dlu;min)"), ColumnSpec.decode("86px:grow"),
+						ColumnSpec.decode("217px"), },
+				new RowSpec[] { FormSpecs.UNRELATED_GAP_ROWSPEC, RowSpec.decode("20px"), FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
+		
+		JLabel lb_Oem = null;
+		lb_Oem = new JLabel("Oem");
+		contentPane.add(lb_Oem, "2, 4");
+
+		TF_Oem = new JTextField();
+		TF_Oem.setColumns(10);
+		info.add(TF_Oem);
+		contentPane.add(TF_Oem, "2, 6, fill, default");
+
+		JLabel lb_Nombre = null;
+		lb_Nombre = new JLabel("Nombre");
+		contentPane.add(lb_Nombre, "2, 10");
+
+		TF_Nombre = new JTextField();
+		TF_Nombre.setColumns(10);
+		info.add(TF_Nombre);
+		contentPane.add(TF_Nombre, "2, 12, fill, default");
+
+		JLabel lb_Marca = null;
+		lb_Marca = new JLabel("Modelo");
+		contentPane.add(lb_Marca, "2, 16");
+
+		TF_Marca = new JTextField();
+		TF_Marca.setColumns(10);
+		info.add(TF_Marca);
+		contentPane.add(TF_Marca, "2, 18, fill, default");
+
+		JLabel lb_Cantidad = null;
+		lb_Cantidad = new JLabel("Cantidad");
+		contentPane.add(lb_Cantidad, "2, 22");
+
+		TF_Cantidad = new JTextField();
+		TF_Cantidad.setColumns(10);
+		info.add(TF_Cantidad);
+		contentPane.add(TF_Cantidad, "2, 24, fill, default");
+
+		JLabel lb_Precio = null;
+		lb_Precio = new JLabel("Precio");
+		
+		contentPane.add(lb_Precio, "2, 28");
+
+		TF_Precio = new JTextField();
+		TF_Precio.setColumns(10);
+		info.add(TF_Precio);
+		contentPane.add(TF_Precio, "2, 30, fill, default");
+
+		JLabel lb_Estado = null;
+		lb_Estado = new JLabel("Estado");
+		contentPane.add(lb_Estado, "2, 34");
+
+		TF_Estado = new JTextField();
+		TF_Estado.setColumns(10);
+		info.add(TF_Estado);
+		contentPane.add(TF_Estado, "2, 36, fill, default");
+		
+		
+
+		JButton AñadirCliente = new JButton("Añadir");
+		AñadirCliente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean success = true;
+				int index = 0;
+				for (JTextField dato : info) {
+					if (dato.getText().equals("")) {
+						System.out.println("Se necesita insertar todos los datos para poder realizar la operación");
+						success = false;
+						break;
+					}
+					datos[index] = dato.getText();
+					index++;
+				}
+				// Si todo sale bien, insertar datos en la base de datos y actualizar la tabla
+				// de Clientes_Admin
+				System.out.println(success);
+				if (success) {
+					login.conexion.DML("INSERT INTO derrap." + tabla + " VALUES('" + datos[0] + "', '" + datos[1]
+							+ "' , '" + datos[2] + "', " + datos[3] + " , '" + datos[4] + "', '" + datos[5] + "')");
+					frame.ActualizarTabla();
+					dispose();
+				}
+			}
+		});
+		contentPane.add(AñadirCliente, "3, 50");
+
+		JButton Cancelar = new JButton("Cancelar");
+		Cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		contentPane.add(Cancelar, "3, 42");
+
+	}
+	
 
 }
 

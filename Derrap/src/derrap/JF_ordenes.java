@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -18,32 +21,47 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
 public class JF_ordenes extends JFrame {
+	private Color azulPrincipal = Color.decode("#96C2CD");
+	private Color azulCancelar = Color.decode("#5C94A2");
+	private Color azulSecundario = Color.decode("#DEF2F7");
+	private JF_ordenes selfFrame = this;
+	int id;
 	public JF_ordenes() {
 
 		setIconImage(login.logoBarra.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1001, 949);
-
-		// Crear un JPanel para contener todo el contenido
+		setBounds(100, 100, 786, 800);
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(0, 1, 10, 10));
-		ArrayList<Orden> ordenes = new ArrayList<Orden>();
-		for (int i = 1; i <= login.conexion.consulta_Numero_Registros(
-				"SELECT COUNT(*) from orden_trabajo WHERE id_estado_asignacion_orden_trabajo=1 AND id_estado_reparacion_orden_trabajo!=4;"); i++) {
-			String num_id = login.conexion.consultaCampo("id_orden_trabajo", "orden_trabajo",
-					"WHERE id_estado_asignacion_orden_trabajo=1 AND id_estado_reparacion_orden_trabajo!=4;");
-			Orden orden = new Orden(Integer.parseInt(num_id));
-			ordenes.add(orden);
-			System.out.println(orden.getMatricula());
-		}
 
+		// Crear un JPanel para contener todo el contenido		
+		ResultSet rS = login.conexion.consulta("Select * From derrap.orden_trabajo");
+		ArrayList<Orden> ordenes = new ArrayList<Orden>();
+		try {
+			rS.next();
+			for (int i = 1; i <= login.conexion.consulta_Numero_Registros("SELECT COUNT(*) from orden_trabajo"); i++) {
+				String num_id = rS.getString("id_orden_trabajo");
+				Orden orden = new Orden(Integer.parseInt(num_id));
+				ordenes.add(orden);
+				System.out.println(orden.getMatricula());
+				rS.next();
+			}
+		}catch(Exception e) {
+			
+		}
 		JScrollPane scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
+		
 		// Agregar contenido al JPanel
 		for (int i = 0; i < ordenes.size(); i++) {
+			id = ordenes.get(i).getId();
+			
 			JPanel panel = new JPanel();
 			panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			panel.setBackground(JF_home_mecanico.azulFondo);
@@ -51,11 +69,11 @@ public class JF_ordenes extends JFrame {
 			panel.setMaximumSize(new Dimension(580, 269));
 			panel.setLayout(null);
 
-			JLabel lbTítuloOrden1 = new JLabel("Orden 1: " + ordenes.get(i).getMarca_coche() + " "
+			JLabel lbTítuloOrden1 = new JLabel("Orden "+ordenes.get(i).getId()+": " + ordenes.get(i).getMarca_coche() + " "
 					+ ordenes.get(i).getModelo_coche() + ", " + ordenes.get(i).getMatricula());
 			lbTítuloOrden1.setVerticalAlignment(SwingConstants.TOP);
 			lbTítuloOrden1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lbTítuloOrden1.setBounds(10, 11, 193, 14);
+			lbTítuloOrden1.setBounds(10, 11, 250, 14);
 			panel.add(lbTítuloOrden1);
 
 			JLabel lbDescripcionOrden1 = new JLabel("Descripción de la orden de trabajo");
@@ -99,34 +117,141 @@ public class JF_ordenes extends JFrame {
 			lbPiezasOrden1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lbPiezasOrden1.setBounds(10, 181, 410, 40);
 			panel.add(lbPiezasOrden1);
+			
+			JLabel lbPrecioTotalOrden1 = new JLabel("Precio Total: " + ordenes.get(i).getPieza_sustituida());
+			lbPrecioTotalOrden1.setVerticalAlignment(SwingConstants.TOP);
+			lbPrecioTotalOrden1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lbPrecioTotalOrden1.setBounds(10, 205, 410, 40);
+			panel.add(lbPrecioTotalOrden1);
+			
+			//Botones
 
-			JButton btnEditarOrden1 = new JButton("Editar");
+			JLabel btnEditarOrden1 = new JLabel("Editar");
+			btnEditarOrden1.setOpaque(true);
+			btnEditarOrden1.setHorizontalAlignment(SwingConstants.CENTER);
 			btnEditarOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+			btnEditarOrden1.setBackground(azulSecundario);
 			btnEditarOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			btnEditarOrden1.setBounds(490, 235, 80, 23);
+			btnEditarOrden1.setBounds(100, 235, 80, 23);
 			panel.add(btnEditarOrden1);
+			
+			btnEditarOrden1.addMouseListener(new MouseAdapter() {
+				int id_orden = id;
+				// cambia el color cuando el ratón se coloca encima de entrar
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnEditarOrden1.setBackground(azulCancelar);
+				}
 
-			JButton btnFacturaOrden1 = new JButton("Factura");
+				// cambia el color cuando el ratón se quita de encima de entrar
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnEditarOrden1.setBackground(azulSecundario);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("id de la orden"+id_orden);
+					JF_Añadir_Orden frame_Añadir_Orden = new JF_Añadir_Orden(selfFrame,String.valueOf(id_orden));
+					frame_Añadir_Orden.setVisible(true);
+					
+					
+					//dispose();
+				}
+
+			});
+			
+			JLabel btnAñadir = new JLabel("Añadir");
+			btnAñadir.setOpaque(true);
+			btnAñadir.setHorizontalAlignment(SwingConstants.CENTER);
+			btnAñadir.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+			btnAñadir.setBackground(azulSecundario);
+			btnAñadir.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnAñadir.setBounds(250, 235, 80, 23);
+			panel.add(btnAñadir);
+			
+			btnAñadir.addMouseListener(new MouseAdapter() {
+				int id_orden = id;
+				// cambia el color cuando el ratón se coloca encima de entrar
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnAñadir.setBackground(azulCancelar);
+				}
+
+				// cambia el color cuando el ratón se quita de encima de entrar
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnAñadir.setBackground(azulSecundario);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("id de la orden"+id_orden);
+					login.conexion.DML("UPDATE `derrap`.`orden_trabajo` SET `id_estado_asignacion_orden_trabajo` = '2', `dni_usuario_orden_trabajo` = '"+login.dniusuario+"' WHERE (`id_orden_trabajo` = '"+id_orden+"');");
+					
+					
+					//dispose();
+				}
+
+			});
+
+			/*JButton btnFacturaOrden1 = new JButton("Factura");
 			btnFacturaOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			btnFacturaOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
 			btnFacturaOrden1.setBounds(400, 235, 80, 23);
-			panel.add(btnFacturaOrden1);
+			panel.add(btnFacturaOrden1);*/
 
-			JButton btnHistorialOrden1 = new JButton("Historial del vehículo");
-			btnHistorialOrden1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-			btnHistorialOrden1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			btnHistorialOrden1.setBounds(230, 235, 160, 23);
-			panel.add(btnHistorialOrden1);
+		
 			contentPanel.add(panel);
-
+			
 		}
+		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("10px"),
+				ColumnSpec.decode("150px"),
+				ColumnSpec.decode("150px"),
+				ColumnSpec.decode("600px"),
+				ColumnSpec.decode("10px"),},
+			new RowSpec[] {
+				RowSpec.decode("10px"),
+				RowSpec.decode("50px"),
+				RowSpec.decode("700px"),
+				RowSpec.decode("10px"),}));
+		
+				// Mostrar el JFrame
+		
+				JLabel lbl_Volver = new JLabel("Volver");
+				lbl_Volver.setOpaque(true);
+				lbl_Volver.setHorizontalAlignment(SwingConstants.CENTER);
+				lbl_Volver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+				lbl_Volver.setBackground(azulSecundario);
+				lbl_Volver.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbl_Volver.setBounds(453, 11, 212, 23);
+				getContentPane().add(lbl_Volver, "2, 2");
+				
+				lbl_Volver.addMouseListener(new MouseAdapter() {
+					// cambia el color cuando el ratón se coloca encima de entrar
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						lbl_Volver.setBackground(azulCancelar);
+					}
+
+					// cambia el color cuando el ratón se quita de encima de entrar
+					@Override
+					public void mouseExited(MouseEvent e) {
+						lbl_Volver.setBackground(azulSecundario);
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JF_home_mecanico frame_home_mecanico = new JF_home_mecanico();
+						frame_home_mecanico.setVisible(true);
+						dispose();
+					}
+
+				});
 
 		// Agregar el JPanel a un JScrollPane
 
 		// Agregar el JScrollPane al JFrame
-		getContentPane().add(scrollPane);
-
-		// Mostrar el JFrame
+		getContentPane().add(scrollPane, "2, 3, 3, 1, fill, fill");
+		getContentPane().setBackground(azulSecundario);
 
 	}
 
