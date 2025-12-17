@@ -1,4 +1,4 @@
-# Car Workshop Manager
+# Derrap - Java desktop application
 
 Android application designed to manage daily operations in a car repair workshop.
 
