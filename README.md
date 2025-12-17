@@ -10,7 +10,6 @@ Android application designed to manage daily operations in a car repair workshop
 
 ## Technologies
 - Java
-- Android Studio
 - MySQL / SQL
 
 ## Notes
